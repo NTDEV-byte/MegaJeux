@@ -1,4 +1,4 @@
-package com.mega;
+package com.mega.system;
 
 import java.io.Serializable;
 

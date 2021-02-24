@@ -1,29 +1,27 @@
-package com.mega;
+package com.mega.model;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mega.system.Joueur;
 import com.mega.utils.Utils;
+import com.mega.vues.Connexion;
 
-public class Launch {
-	
+public class MegaJeuModel {
 		
-		private Inscription inscription;
 		private Connexion connexion;
 		private Map<String,Joueur> joueurs;
 			
-			
-				public Launch(Inscription inscription) { 
-					this.inscription = inscription;
-					joueurs = new HashMap<String,Joueur>();
-					ajouteJoueur();
+				public MegaJeuModel() { 
+					chargementBaseDonnee();
+					openConnexion();
 					showPlayers();
-					this.inscription.getFrame().dispose();
 				}
 				
-				private void ajouteJoueur() { 
+				
+				private void chargementBaseDonnee() {
 					File file = new File(Utils.PATH+"/joueurs");
 					if(file.exists()) { 
 						Object o = Utils.deserialize("joueurs");
@@ -31,27 +29,9 @@ public class Launch {
 							joueurs = (HashMap)(o);
 						}
 					}
-					
-					String pseudo;
-					String mdp;
-					pseudo = inscription.getTextField().getText();
-					mdp = inscription.getPasswordField().getText();
-					
-					if(joueurs.containsKey(pseudo)) {
-						  System.out.println("Ce pseudo est déja pris !");
-						  /*
-						   * Affiche les propositions 
-						   */
-						  
-					}
 					else {
-							Joueur nouveau_inscrit = new Joueur(pseudo,mdp);
-							joueurs.put(pseudo, nouveau_inscrit);
-							Utils.serialize("joueurs",joueurs);
+						joueurs = new HashMap<String,Joueur>();
 					}
-					
-					System.out.println("nouveau joueur inscrit ! pseudo: "+pseudo+ "mot de passe : "+mdp);
-					
 				}
 				
 				
@@ -60,7 +40,8 @@ public class Launch {
 					connexion = new Connexion(this);
 					connexion.open();
 				}
-			
+				
+				
 				
 				private void showPlayers() {
 					System.out.println("Liste des joueurs: ");
