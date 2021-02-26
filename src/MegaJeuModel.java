@@ -1,13 +1,7 @@
-package com.mega.model;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.mega.system.Joueur;
-import com.mega.utils.Utils;
-import com.mega.vues.Connexion;
 
 public class MegaJeuModel {
 		
@@ -16,7 +10,7 @@ public class MegaJeuModel {
 			
 				public MegaJeuModel() { 
 					chargementBaseDonnee();
-					openConnexion();
+					connexion = new Connexion(this);
 					showPlayers();
 				}
 				
@@ -35,11 +29,6 @@ public class MegaJeuModel {
 				}
 				
 				
-				
-				public void openConnexion() {
-					connexion = new Connexion(this);
-					connexion.open();
-				}
 				
 				
 				

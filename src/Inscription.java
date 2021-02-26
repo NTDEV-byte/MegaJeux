@@ -1,4 +1,3 @@
-package com.mega.vues;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,10 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import com.mega.model.MegaJeuModel;
-import com.mega.system.Joueur;
-import com.mega.utils.Utils;
 
 public class Inscription {
 
@@ -85,6 +80,7 @@ public class Inscription {
 			public void actionPerformed(ActionEvent e) {
 				        if(ajouteJoueur()) { 
 				        	JOptionPane.showMessageDialog(null,"Vous venez de vous inscrire sur MegaJeux \n\t Bienvenue parmi nous !");
+				        	
 				        	frame.dispose();
 				        }else {
 				        		error_label.setText("Ce Pseudo est déja pris !");

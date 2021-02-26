@@ -1,6 +1,4 @@
-package com.mega.vues;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,8 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.mega.system.Joueur;
 
 public class MainInterface extends JFrame {
 
@@ -70,7 +66,7 @@ public class MainInterface extends JFrame {
 		
 		bt_chess.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) { 
-					 
+					Game.main(null);
 				}
 		} );
 		
@@ -78,6 +74,12 @@ public class MainInterface extends JFrame {
 		JButton bt_tic_tac_toe = new JButton("Tic Tac Toe");
 		bt_tic_tac_toe.setBounds(10, 82, 106, 21);
 		librairie_pan.add(bt_tic_tac_toe);
+		
+		bt_tic_tac_toe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				Main.main(null);
+			}
+		} );
 		
 		JButton bt_lancer = new JButton("Lancer");
 		bt_lancer.addActionListener(new ActionListener() {

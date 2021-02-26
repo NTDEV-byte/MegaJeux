@@ -1,6 +1,4 @@
-package com.mega.system;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Partie {

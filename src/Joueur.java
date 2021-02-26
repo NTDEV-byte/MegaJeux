@@ -1,4 +1,3 @@
-package com.mega.system;
 
 import java.io.Serializable;
 

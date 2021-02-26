@@ -1,4 +1,3 @@
-package com.mega.vues;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,9 +12,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.mega.model.MegaJeuModel;
-import com.mega.system.Joueur;
-
 public class Connexion extends JFrame {
 
 	private JPanel contentPane;
@@ -27,6 +23,7 @@ public class Connexion extends JFrame {
 	 */
 	public Connexion(MegaJeuModel jeu) {
 		this.jeu = jeu;
+		initialize();
 	}
 	
 	private void connexion() { 
@@ -46,14 +43,19 @@ public class Connexion extends JFrame {
 					}
 				else {
 					System.out.println("Mot de passe érronée");
+					
 				}
 			}
 		else {
 			System.out.println("Vous n'êtes pas inscrit !");
 		}
 	}
-	
-	public void open() { 
+	/*
+	 * 
+	 * 
+	 * 
+	 */
+	public void initialize() { 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();

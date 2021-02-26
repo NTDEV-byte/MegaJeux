@@ -1,18 +1,20 @@
-package com.mega.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Utils {
+public class Utils implements Serializable{
 	
 	
 	
-	public static final String PATH = "./data";
+	public static String PATH = "./data";
+	public static boolean SAVE_DIRECTORY_SETTED = false;
 	
 	
 	private Utils() { 
@@ -71,5 +73,9 @@ public class Utils {
 		return null;
 }
 	
+	
+	public static boolean FileExists(String path) { 
+		return new File(path).exists();
+	}
 	
 }
