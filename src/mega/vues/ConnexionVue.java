@@ -1,3 +1,4 @@
+package mega.vues;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -5,45 +6,48 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class Connexion extends JFrame {
+import mega.main.Application;
+import mega.system.Joueur;
+import mega.system.MegaJeuModel;
 
-	private JPanel contentPane;
+public class ConnexionVue extends JPanel {
+
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private MegaJeuModel jeu;
+	private Application application;
+	private MegaJeuModel model;
+	private Joueur jConnecter;
 	/**
 	 * Create the frame.
 	 */
-	public Connexion(MegaJeuModel jeu) {
-		this.jeu = jeu;
+	public ConnexionVue(Application app) {
+		this.model = app.getModel();
+		this.application = app;
 		initialize();
 	}
 	
 	private void connexion() { 
 		String pseudo;
 		String mot_de_passe;
-		HashMap<String,Joueur> joueurs = (HashMap<String, Joueur>) jeu.getJoueurs();
+		HashMap<String,Joueur> joueurs = (HashMap<String, Joueur>) model.getJoueurs();
 		
 		pseudo = textField.getText();
 		mot_de_passe = passwordField.getText();
 		
 		if(joueurs.containsKey(pseudo)) { 
-			Joueur joueur = joueurs.get(pseudo);
-				if(joueur.getMotDePasse().equals(mot_de_passe)) { 
+			jConnecter = joueurs.get(pseudo);
+				if(jConnecter.getMotDePasse().equals(mot_de_passe)) { 
 					 System.out.println("connexion réussi !");
-					 	 new MainInterface(joueur);
-					 	 this.dispose();
+					 	 application.switchToMainPanel();
 					}
 				else {
 					System.out.println("Mot de passe érronée");
-					
 				}
 			}
 		else {
@@ -56,36 +60,34 @@ public class Connexion extends JFrame {
 	 * 
 	 */
 	public void initialize() { 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		//this.setSize(new Dimension(application.getWidth() / 2, application.getHeight() / 2));
+		//this.setBounds(0, 0, 800, 600);
+		this.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Connectez-vous");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblNewLabel.setBounds(201, 30, 208, 33);
-		contentPane.add(lblNewLabel);
+		lblNewLabel.setBounds(284, 45, 208, 33);
+		this.add(lblNewLabel);
 		
 		textField = new JTextField();
-		textField.setBounds(201, 132, 208, 19);
-		contentPane.add(textField);
+		textField.setBounds(267, 217, 208, 19);
+		this.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Pseudonyme");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(201, 98, 119, 24);
-		contentPane.add(lblNewLabel_1);
+		lblNewLabel_1.setBounds(267, 166, 119, 24);
+		this.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Mot de passe");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(201, 161, 109, 33);
-		contentPane.add(lblNewLabel_2);
+		lblNewLabel_2.setBounds(267, 281, 109, 33);
+		this.add(lblNewLabel_2);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(201, 204, 208, 19);
-		contentPane.add(passwordField);
+		passwordField.setBounds(267, 344, 208, 19);
+		this.add(passwordField);
 		
 		JButton btnNewButton = new JButton("Commencer");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -93,22 +95,27 @@ public class Connexion extends JFrame {
 				connexion();
 			}
 		});
-		btnNewButton.setBounds(244, 265, 119, 21);
-		contentPane.add(btnNewButton);
+		btnNewButton.setBounds(300, 424, 119, 21);
+		this.add(btnNewButton);
 
 		JLabel lbl_inscription = new JLabel("Vous n'\u00EAtes pas inscrit ?");
 		lbl_inscription.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lbl_inscription.setBounds(10, 289, 174, 19);
-		contentPane.add(lbl_inscription);
+		lbl_inscription.setBounds(10, 477, 174, 19);
+		this.add(lbl_inscription);
 
 		JButton inscrivez_vous = new JButton("Inscrivez-vous");
-		inscrivez_vous.setBounds(10, 332, 126, 21);
+		inscrivez_vous.setBounds(20, 515, 126, 21);
 		inscrivez_vous.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				 	new Inscription(jeu);
+				  application.switchToInscriptionPanel();
 			}
 		});
-		contentPane.add(inscrivez_vous);
+		this.add(inscrivez_vous);
 		this.setVisible(true);
+	}
+	
+	
+	public Joueur getJoueurConnecter() { 
+			return jConnecter;
 	}
 }

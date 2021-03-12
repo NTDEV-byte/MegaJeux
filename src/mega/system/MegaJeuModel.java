@@ -1,53 +1,51 @@
+package mega.system;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
-public class MegaJeuModel {
+import mega.utils.Utils;
+import mega.vues.ConnexionVue;
+
+public class MegaJeuModel{
 		
-		private Connexion connexion;
-		private Map<String,Joueur> joueurs;
+		public static int TOTAL_JOUEURS = 1;
+	
+		private ConnexionVue connexion;
+		private HashMap<String,Joueur> joueurs;
 			
 				public MegaJeuModel() { 
 					chargementBaseDonnee();
-					connexion = new Connexion(this);
 					showPlayers();
 				}
 				
-				
 				private void chargementBaseDonnee() {
-					File file = new File(Utils.PATH+"/joueurs");
+					File file = new File(Utils.DATA_PATH+"/joueurs");
 					if(file.exists()) { 
 						Object o = Utils.deserialize("joueurs");
 						if(o instanceof HashMap) { 
 							joueurs = (HashMap)(o);
+							TOTAL_JOUEURS = joueurs.size();
 						}
 					}
 					else {
 						joueurs = new HashMap<String,Joueur>();
+						TOTAL_JOUEURS = 1; 
 					}
 				}
-				
-				
-				
-				
 				
 				private void showPlayers() {
 					System.out.println("Liste des joueurs: ");
 					Collection<Joueur> liste = joueurs.values();
-					int numero = 1;
 					for(Joueur j : liste) {  
-						System.out.println("numero: "+numero+" "+j.toString());
-						numero++;
+						System.out.println(j.toString());
 					}
 				}
 				
-				public Map<String, Joueur> getJoueurs() {
+				public HashMap<String, Joueur> getJoueurs() {
 					return joueurs;
 				}
 
-				public void setJoueurs(Map<String, Joueur> joueurs) {
+				public void setJoueurs(HashMap<String, Joueur> joueurs) {
 					this.joueurs = joueurs;
 				}
-
 }
