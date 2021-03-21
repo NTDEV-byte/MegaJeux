@@ -4,10 +4,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import mega.main.Application;
@@ -15,6 +17,8 @@ import mega.system.Joueur;
 import mega.system.MegaJeuModel;
 import mega.system.Partie;
 import mega.system.Partie.Jeu;
+import mega.system.Progression;
+import tictactoe.TicTacToe;
 
 
 
@@ -31,17 +35,19 @@ public class MainVue extends JPanel {
 	 * VOTRE_PROGRESSION_UI
 	 * 
 	 */
-	JLabel lb_progression;
-	JLabel lb_total_score; 
-	JLabel lb_parties_gagnees;
-	JLabel lbl_partie_egalites;
-	JLabel lbl_parties_perdues;
+	private JLabel lb_progression;
+	private JLabel lb_total_score; 
+	private JLabel lb_parties_gagnees;
+	private JLabel lbl_partie_egalites;
+	private JLabel lbl_parties_perdues;
 
 	/**
 	 * Create the Frame.
 	 */
 	public MainVue(Joueur joueur,Application app) {
 		this.joueur1 = joueur;
+		this.model = app.getModel();
+		
 		if(joueur1 == null) { 
 			System.err.println("Joueur 1 nulle !");
 			System.exit(1);
@@ -95,7 +101,6 @@ public class MainVue extends JPanel {
 		} );
 		
 		/*
-		 * 
 		 * Lorsque le joueur clique sur le button lancer c'est en ce moment 
 		 * qu'on lance l'interface qui demande au joueur de choisir un adversaire
 		 */
@@ -142,7 +147,7 @@ public class MainVue extends JPanel {
 		lb_title_jeu_selectionner.setBackground(new Color(0, 20, 255));
 		
 		JPanel derniere_partie_pan = new JPanel();
-		derniere_partie_pan.setBounds(29, 61, 304, 205);
+		derniere_partie_pan.setBounds(29, 61, 335, 216);
 		pan_selected_game.add(derniere_partie_pan);
 		
 		derniere_partie_pan.setBackground(new Color(20, 255, 20));
@@ -154,26 +159,68 @@ public class MainVue extends JPanel {
 		lblNewLabel.setBounds(0, 10, 145, 28);
 		derniere_partie_pan.add(lblNewLabel);
 		
-		JLabel partie_sauvegarder = new JLabel("PartieX");
-		partie_sauvegarder.setBounds(10, 48, 45, 13);
-		derniere_partie_pan.add(partie_sauvegarder);
+		JLabel lbl_partie_sauvegarder1 = new JLabel("Partie 1");
+		lbl_partie_sauvegarder1.setBounds(10, 56, 45, 13);
+		derniere_partie_pan.add(lbl_partie_sauvegarder1);
 		
-		JButton btn_reprendre = new JButton("reprendre");
-		btn_reprendre.setBounds(65, 48, 105, 21);
-		derniere_partie_pan.add(btn_reprendre);
+		JButton btn_reprendre1 = new JButton("reprendre");
+		btn_reprendre1.setBounds(65, 52, 105, 21);
+		btn_reprendre1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+					TicTacToe  x = (TicTacToe)(joueur1.getPartiesSauvegarders().get(0));
+					x.setApp(application);
+				    application.reprendrePartie(x);
+			}
+		} );
+		derniere_partie_pan.add(btn_reprendre1);
 		
-		JButton btn_supprimer = new JButton("supprimer");
-		btn_supprimer.addActionListener(new ActionListener() {
+		JButton btn_supprimer1 = new JButton("supprimer");
+		btn_supprimer1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				
 			}
 		});
-		btn_supprimer.setBounds(180, 48, 115, 21);
-		derniere_partie_pan.add(btn_supprimer);
+		btn_supprimer1.setBounds(180, 52, 115, 21);
+		derniere_partie_pan.add(btn_supprimer1);
+		
+		JLabel lbl_partie_sauvegarder2 = new JLabel("Partie 2");
+		lbl_partie_sauvegarder2.setBounds(10, 99, 45, 13);
+		derniere_partie_pan.add(lbl_partie_sauvegarder2);
+		
+		JButton btn_reprendre2 = new JButton("reprendre");
+		btn_reprendre2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_reprendre2.setBounds(65, 95, 105, 21);
+		derniere_partie_pan.add(btn_reprendre2);
+		
+		JButton btn_supprimer2 = new JButton("supprimer");
+		btn_supprimer2.setBounds(180, 95, 115, 21);
+		derniere_partie_pan.add(btn_supprimer2);
+		
+		JLabel lbl_partie_sauvegarder3 = new JLabel("Partie 3");
+		lbl_partie_sauvegarder3.setBounds(10, 139, 45, 13);
+		derniere_partie_pan.add(lbl_partie_sauvegarder3);
+		
+		JButton btn_reprendre3 = new JButton("reprendre");
+		btn_reprendre3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_reprendre3.setBounds(65, 135, 105, 21);
+		derniere_partie_pan.add(btn_reprendre3);
+		
+		JButton btn_supprimer3 = new JButton("supprimer");
+		btn_supprimer3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_supprimer3.setBounds(180, 135, 115, 21);
+		derniere_partie_pan.add(btn_supprimer3);
 
 		JPanel meilleur_joueur_pan = new JPanel();
-		meilleur_joueur_pan.setBounds(437, 61, 280, 205);
+		meilleur_joueur_pan.setBounds(374, 61, 343, 216);
 		pan_selected_game.add(meilleur_joueur_pan);
 		meilleur_joueur_pan.setBackground(new Color(20, 255, 0));
 		meilleur_joueur_pan.setLayout(null);
@@ -183,20 +230,99 @@ public class MainVue extends JPanel {
 		lblNewLabel_1.setBounds(10, 10, 147, 26);
 		meilleur_joueur_pan.add(lblNewLabel_1);
 		
+		
+		JLabel lbl_j1 = new JLabel("Joueur1");
+		lbl_j1.setBounds(10, 79, 100, 13);
+		meilleur_joueur_pan.add(lbl_j1);
+		
+		JLabel lbl_j2 = new JLabel("Joueur2");
+		lbl_j2.setBounds(10, 102, 100, 13);
+		meilleur_joueur_pan.add(lbl_j2);
+		
+		JLabel lbl_j3 = new JLabel("Joueur3");
+		lbl_j3.setBounds(10, 125, 100, 13);
+		meilleur_joueur_pan.add(lbl_j3);
+		
+		JLabel lbl_j4 = new JLabel("Joueur4");
+		lbl_j4.setBounds(10, 148, 88, 13);
+		meilleur_joueur_pan.add(lbl_j4);
+		
+		JLabel lbl_j5 = new JLabel("Joueur5");
+		lbl_j5.setBounds(10, 171, 100, 13);
+		meilleur_joueur_pan.add(lbl_j5);
+		
+		JLabel lbl_pseudonyme = new JLabel("Pseudonyme");
+		lbl_pseudonyme.setBounds(10, 46, 100, 13);
+		meilleur_joueur_pan.add(lbl_pseudonyme);
+		
+		JLabel lbl_score = new JLabel("Score");
+		lbl_score.setBounds(200, 46, 64, 13);
+		meilleur_joueur_pan.add(lbl_score);
+		
+		JLabel lbl_sc1 = new JLabel("Score 1");
+		lbl_sc1.setBounds(200, 79, 77, 13);
+		meilleur_joueur_pan.add(lbl_sc1);
+		
+		JLabel lbl_sc2 = new JLabel("Score 2");
+		lbl_sc2.setBounds(200, 102, 77, 13);
+		meilleur_joueur_pan.add(lbl_sc2);
+		
+		JLabel lbl_sc3 = new JLabel("Score 3");
+		lbl_sc3.setBounds(200, 125, 77, 13);
+		meilleur_joueur_pan.add(lbl_sc3);
+		
+		JLabel lbl_sc4 = new JLabel("Score 4");
+		lbl_sc4.setBounds(200, 148, 77, 13);
+		meilleur_joueur_pan.add(lbl_sc4);
+		
+		JLabel lbl_sc5 = new JLabel("Score 5");
+		lbl_sc5.setBounds(200, 171, 88, 13);
+		meilleur_joueur_pan.add(lbl_sc5);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 59, 1, 2);
+		meilleur_joueur_pan.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 67, 323, 2);
+		meilleur_joueur_pan.add(separator_1);
+		
+		JSeparator separator_1_1 = new JSeparator(JSeparator.VERTICAL);
+		separator_1_1.setBounds(178, 66, 12, 231);
+		meilleur_joueur_pan.add(separator_1_1);
+		
 		JPanel score_pan = new JPanel();
-		score_pan.setBounds(29, 298, 304, 160);
+		score_pan.setBounds(29, 287, 335, 171);
 		pan_selected_game.add(score_pan);
 		
 		score_pan.setBackground(new Color(10, 200, 100));
 		score_pan.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("Score et R\u00E9sultats");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(0, 10, 141, 13);
-		score_pan.add(lblNewLabel_2);
+		afficheMeilleursJoueurs(lbl_j1,lbl_j2,lbl_j3,lbl_j4,lbl_j5,lbl_sc1,lbl_sc2,lbl_sc3,lbl_sc4,lbl_sc5);
+		
+		
+		JLabel lbl_score_et_resultat = new JLabel("Score et R\u00E9sultats");
+		lbl_score_et_resultat.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lbl_score_et_resultat.setBounds(0, 10, 141, 13);
+		score_pan.add(lbl_score_et_resultat);
+		
+		JLabel lbl_partie1 = new JLabel("Partie 1 indisponible");
+		lbl_partie1.setBounds(0, 47, 335, 13);
+		score_pan.add(lbl_partie1);
+		
+		JLabel lbl_partie2 = new JLabel("Partie 2 indisponible");
+		lbl_partie2.setBounds(0, 88, 335, 13);
+		score_pan.add(lbl_partie2);
+		
+		JLabel lbl_partie3 = new JLabel("Partie 3 indisponible");
+		lbl_partie3.setBounds(0, 125, 335, 13);
+		score_pan.add(lbl_partie3);
+		
+		affichePartie(lbl_partie1,lbl_partie2,lbl_partie3);
+		
 		
 		JPanel progession_pan = new JPanel();
-		progession_pan.setBounds(437, 298, 280, 160);
+		progession_pan.setBounds(374, 287, 343, 171);
 		pan_selected_game.add(progession_pan);
 		
 		progession_pan.setBackground(Color.PINK);
@@ -236,21 +362,103 @@ public class MainVue extends JPanel {
 		
 		this.setVisible(true);
 		updateUIMV();
+		
 	}
 	
-	private void afficheStats() { 
+	private void affichePartie(JLabel lbl1,JLabel lbl2,JLabel lbl3) { 
+		joueur1.chargeProgressionJoueur();
+		Progression p = joueur1.getProgression();
+		if(p != null) { 
+			List<Partie> troisDerniereParties = p.troisDerniereParties();
+			
+			switch(p.getHistorique().size()) { 
+				
+			case 0:
+				return;
+				
+			case 1:
+				
+				lbl1.setText(p.getHistorique().get(0).statPartie());
+				break;
+			case 2: 
+
+				lbl1.setText(p.getHistorique().get(0).statPartie());
+				lbl2.setText(p.getHistorique().get(1).statPartie());
+				break;
+				
+			default:
+				if(troisDerniereParties != null) {
+					lbl1.setText(troisDerniereParties.get(0).statPartie());
+					lbl2.setText(troisDerniereParties.get(1).statPartie());
+					lbl3.setText(troisDerniereParties.get(2).statPartie());
+				}
+				break;
+			}
+		}
+	}
+	
+	private void afficheMeilleursJoueurs(JLabel p1,JLabel p2,JLabel p3,JLabel p4,JLabel p5,
+			JLabel s1,JLabel s2,JLabel s3,JLabel s4,JLabel s5) { 
 		
+		List<Joueur> joueurs = model.topCinqJoueurs();
+		for(Joueur j : joueurs) { 
+			j.chargeProgressionJoueur();
+		}
+		if(joueurs != null) {
+			
+		//if(joueurs.size() >= 5) { 
+			switch(joueurs.size()) { 
+			case 0:
+				return;
+				
+			case 1:
+					
+				p1.setText(joueurs.get(0).getPseudonyme());
+				s1.setText(joueurs.get(0).calculeScore()+"");
+				break;
+			case 2:
+				p1.setText(joueurs.get(0).getPseudonyme());
+				s1.setText(joueurs.get(0).calculeScore()+"");
+				p2.setText(joueurs.get(1).getPseudonyme());
+				s2.setText(joueurs.get(1).calculeScore()+"");
+				
+				break;
+			case 3:
+				p1.setText(joueurs.get(0).getPseudonyme());
+				p2.setText(joueurs.get(1).getPseudonyme());
+				p3.setText(joueurs.get(2).getPseudonyme());
+				break;
+				
+			case 4:
+				p1.setText(joueurs.get(0).getPseudonyme());
+				p2.setText(joueurs.get(1).getPseudonyme());
+				p3.setText(joueurs.get(2).getPseudonyme());
+				p4.setText(joueurs.get(3).getPseudonyme());
+				break;
+
+				default:
+					
+				p1.setText(joueurs.get(0).getPseudonyme());
+				p2.setText(joueurs.get(1).getPseudonyme());
+				p3.setText(joueurs.get(2).getPseudonyme());
+				p4.setText(joueurs.get(3).getPseudonyme());
+				p5.setText(joueurs.get(4).getPseudonyme());
+				break;
+			}
+		//}
 		
+		}
 	}
 	
 	public void updateUIMV() {
-		 joueur1.chargeProgression();
-		 lb_total_score.setText("Votre Score: "+joueur1.getProgression().getScore());
-		 lb_parties_gagnees.setText("Partie Gagn\u00E9es:"+joueur1.getProgression().getNbG());
-		 lbl_partie_egalites.setText("Egalit\u00E9s:"+joueur1.getProgression().getNbE());
-		 lbl_parties_perdues.setText("Perdues: "+joueur1.getProgression().getNbP());
+		 joueur1.chargeProgressionJoueur();
+		 if(joueur1.getProgression() != null) { 
+			 lb_total_score.setText("Votre Score: "+joueur1.getProgression().getScore());
+			 lb_parties_gagnees.setText("Partie Gagn\u00E9es:"+joueur1.getProgression().getNbG());
+			 lbl_partie_egalites.setText("Egalit\u00E9s:"+joueur1.getProgression().getNbE());
+			 lbl_parties_perdues.setText("Perdues: "+joueur1.getProgression().getNbP());
+		 }
 	}
-	
 	
     private void onClickChess() {
 		jeu_selectionner = Partie.Jeu.CHESS;
@@ -280,36 +488,36 @@ public class MainVue extends JPanel {
 		updateUIMV();
 		if(joueur1 != null && joueur2 != null) {
 			
-			joueur1.chargeProgression();
+			joueur1.chargeProgressionJoueur();
 			//System.out.println("Chargement Progression Joueur 1 ");
 			//joueur1.getProgression().afficheHistorique();
 			//System.out.println("Chargement Progression Joueur 2 ");
-			joueur2.chargeProgression();
+			joueur2.chargeProgressionJoueur();
 			
 			System.out.println(joueur1.toString());
 			System.out.println(joueur2.toString());
 			
-			Partie p1 = new Partie(joueur1,joueur2,jeu);
-			Partie p2 = new Partie(joueur2,joueur1,jeu);
+			Partie p1 = new Partie(joueur1.getPseudonyme(),joueur2.getPseudonyme(),jeu);
+			Partie p2 = new Partie(joueur2.getPseudonyme(),joueur1.getPseudonyme(),jeu);
 			
-			joueur1.addPartie(p1);
-			joueur2.addPartie(p2);
+			joueur1.addNouvellePartie(p1);
+			joueur2.addNouvellePartie(p2);
 			
 			if(jeu == Jeu.CHESS) { 
 				chess.Game.main(null);
 			}
 			else {
-				application.switchToTicTacToe(joueur2, joueur1);
+				
+				application.switchToTicTacToe(joueur1, joueur2);
 			}
 		}
 	}
 
 	public void lancerJeu() { 
 			lancerPartie(jeu_selectionner);
-		System.out.println(joueur1.getProgression().afficheHistorique());
+		    System.out.println(joueur1.getProgression().afficheHistorique());
 	}
 	
-
 	public Joueur getJoueur1() {
 		return joueur1;
 	}

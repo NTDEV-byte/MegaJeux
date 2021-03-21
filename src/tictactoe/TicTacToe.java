@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 //***************************************
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -14,10 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mega.main.Application;
+import mega.main.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
+import mega.utils.Utils;
 
-public class TicTacToe extends JPanel implements ActionListener{
+public class TicTacToe extends JPanel implements ActionListener,Serializable,InterfaceJeu{
+	
+	public static int TOTAL_PARTIE_TTT = 0;
+	public static String PartieTTTSaveName = "parties/ttt/partie";
 
 	Random random = new Random();
 //	JFrame frame = new JFrame("TicTacToe");
@@ -26,13 +32,16 @@ public class TicTacToe extends JPanel implements ActionListener{
 	JPanel uiPanel;
 	JLabel textfield = new JLabel();
 	JButton[] buttons = new JButton[9];
-	Application app;
 	boolean player1_turn;
-	Joueur j1,j2;
+	String pseudoj1,pseudoj2;
+	transient Application app;
+	transient Joueur j1,j2;
 
 	public TicTacToe(Application app,Joueur j1,Joueur j2){
 		this.j1 = j1;
 		this.j2 = j2;
+		this.pseudoj1 = j1.getPseudonyme();
+		this.pseudoj2 = j2.getPseudonyme();
 		this.app = app;
 		
 		textfield.setBackground(new Color(25,25,25));
@@ -57,9 +66,6 @@ public class TicTacToe extends JPanel implements ActionListener{
 		}
 		
 		title_panel.add(textfield);
-
-		
-		
 		
 		this.setLayout(new BorderLayout());
 		this.add(title_panel,BorderLayout.NORTH);
@@ -69,10 +75,9 @@ public class TicTacToe extends JPanel implements ActionListener{
 	//	frame.add(title_panel,BorderLayout.NORTH);
 	//	frame.add(button_panel);
 		
-		
-		
-		
 		firstTurn();
+		
+		TOTAL_PARTIE_TTT++;
 	}
 
 	
@@ -86,6 +91,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnNewButton_1.setBounds(42, 327, 118, 21);
@@ -95,6 +101,8 @@ public class TicTacToe extends JPanel implements ActionListener{
 		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				   j1.sauvegardePartieJeuEnCours(TicTacToe.this);
+				   j2.sauvegardePartieJeuEnCours(TicTacToe.this);
 			}
 		});
 		btnNewButton_2.setBounds(42, 286, 118, 21);
@@ -161,6 +169,16 @@ public class TicTacToe extends JPanel implements ActionListener{
 		}
 	}
 	
+	
+	private boolean draw() { 
+		for(int i=0;i<buttons.length;i++) { 
+			 if(buttons[i].getText().equals("")) {
+				 return false;
+			 }
+		}
+		return true;
+	}
+	
 	public void firstTurn() {
 		
 		try {
@@ -173,6 +191,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 	}
 	
 	public void check() {
+		boolean win = false;
 		//check X win conditions
 		if(
 				(buttons[0].getText()=="X") &&
@@ -180,6 +199,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[2].getText()=="X")
 				) {
 			xWins(0,1,2);
+			win = true;
 			
 		}
 		if(
@@ -188,6 +208,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[5].getText()=="X")
 				) {
 			xWins(3,4,5);
+			win = true;
 		}
 		if(
 				(buttons[6].getText()=="X") &&
@@ -195,6 +216,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="X")
 				) {
 			xWins(6,7,8);
+			win = true;
 		}
 		if(
 				(buttons[0].getText()=="X") &&
@@ -202,6 +224,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[6].getText()=="X")
 				) {
 			xWins(0,3,6);
+			win = true;
 		}
 		if(
 				(buttons[1].getText()=="X") &&
@@ -209,6 +232,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[7].getText()=="X")
 				) {
 			xWins(1,4,7);
+			win = true;
 		}
 		if(
 				(buttons[2].getText()=="X") &&
@@ -216,6 +240,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="X")
 				) {
 			xWins(2,5,8);
+			win = true;
 		}
 		if(
 				(buttons[0].getText()=="X") &&
@@ -223,6 +248,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="X")
 				) {
 			xWins(0,4,8);
+			win = true;
 		}
 		if(
 				(buttons[2].getText()=="X") &&
@@ -230,6 +256,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[6].getText()=="X")
 				) {
 			xWins(2,4,6);
+			win = true;
 		}
 		//check O win conditions
 		if(
@@ -238,6 +265,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[2].getText()=="O")
 				) {
 			oWins(0,1,2);
+			win = true;
 		}
 		if(
 				(buttons[3].getText()=="O") &&
@@ -245,6 +273,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[5].getText()=="O")
 				) {
 			oWins(3,4,5);
+			win = true;
 		}
 		if(
 				(buttons[6].getText()=="O") &&
@@ -252,6 +281,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="O")
 				) {
 			oWins(6,7,8);
+			win = true;
 		}
 		if(
 				(buttons[0].getText()=="O") &&
@@ -259,6 +289,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[6].getText()=="O")
 				) {
 			oWins(0,3,6);
+			win = true;
 		}
 		if(
 				(buttons[1].getText()=="O") &&
@@ -266,6 +297,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[7].getText()=="O")
 				) {
 			oWins(1,4,7);
+			win = true;
 		}
 		if(
 				(buttons[2].getText()=="O") &&
@@ -273,6 +305,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="O")
 				) {
 			oWins(2,5,8);
+			win = true;
 		}
 		if(
 				(buttons[0].getText()=="O") &&
@@ -280,6 +313,7 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[8].getText()=="O")
 				) {
 			oWins(0,4,8);
+			win = true;
 		}
 		if(
 				(buttons[2].getText()=="O") &&
@@ -287,6 +321,15 @@ public class TicTacToe extends JPanel implements ActionListener{
 				(buttons[6].getText()=="O")
 				) {
 			oWins(2,4,6);
+			win = true;
+		}
+		else {
+			if(draw() && !win) { 
+				j1.getPartieEncours().setEtat(Etat.EGALITE);
+				j1.enregisterStatPartieCourante();
+				j2.getPartieEncours().setEtat(Etat.EGALITE);
+				j2.enregisterStatPartieCourante();
+			}
 		}
 	}
 	
@@ -300,9 +343,9 @@ public class TicTacToe extends JPanel implements ActionListener{
 		}
 		textfield.setText("X wins");
 		j1.getPartieEncours().setEtat(Etat.GAGNEE);
-		j1.enregistrerPartieCourante();
+		j1.enregisterStatPartieCourante();
 		j2.getPartieEncours().setEtat(Etat.PERDUE);
-		j2.enregistrerPartieCourante();
+		j2.enregisterStatPartieCourante();
 		
 	}
 	public void oWins(int a,int b,int c) {
@@ -314,13 +357,34 @@ public class TicTacToe extends JPanel implements ActionListener{
 			buttons[i].setEnabled(false);
 		}
 		textfield.setText("O wins");
-		j1.getPartieEncours().setEtat(Etat.PERDUE);
-		j1.enregistrerPartieCourante();
 		j2.getPartieEncours().setEtat(Etat.GAGNEE);
-		j2.enregistrerPartieCourante();
+		j2.enregisterStatPartieCourante();
+		j1.getPartieEncours().setEtat(Etat.PERDUE);
+		j1.enregisterStatPartieCourante();
 	}
+
+	
+public String getJoueur1() { 
+	return pseudoj1;
+}
+
+public String getJoueur2() { 
+	return pseudoj2;
+}
+
+
+public Application getApp() {
+	return app;
+}
+
+
+public void setApp(Application app) {
+	this.app = app;
+}
+
 	
 }
+
 
 
 //***************************************

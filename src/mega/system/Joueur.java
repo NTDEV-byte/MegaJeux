@@ -1,56 +1,91 @@
 package mega.system;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import mega.main.InterfaceJeu;
 import mega.utils.Utils;
+import tictactoe.TicTacToe;
 
 public class Joueur implements Serializable{
 
-	public static String progressionSaveName = "progressions/progression_joueurs#ID";
-	
+	public static final String progressionSavePath = "progressions/progression_joueurs#ID";
+	public static final String partiesSauvegarderPathTTT = "parties/ttt/partiesSauvergarderJoueur#ID";
 	private int id;
 	private String pseudonyme;
 	private String motDePasse;
 	private Progression progression;
+	private List<InterfaceJeu> partiesSauvegarders;  
 	
-			public Joueur(String pseudonyme,String motDePasse) { 
+	
+		public Joueur(String pseudonyme,String motDePasse) { 
 				 this.pseudonyme = pseudonyme;
 				 this.motDePasse = motDePasse;
 				 this.id = MegaJeuModel.TOTAL_JOUEURS;
 				 MegaJeuModel.TOTAL_JOUEURS++;
-				 if(!Utils.FileExists(progressionSaveName+id)) { 
-					  progression = new Progression();
-				 }
-				 else {
-					 Object obj =  Utils.deserialize(progressionSaveName+id);
-					 progression = (Progression) obj;
-				 }
+				 progression = new Progression();
+				 partiesSauvegarders = new ArrayList<InterfaceJeu>();
 			}
-
-			public void chargeProgression() {
-				if(Utils.FileExists(progressionSaveName+id)) {
-					Object obj =  Utils.deserialize(progressionSaveName+id);
+		
+		
+		public void addNouvellePartie(Partie p) { 
+			progression.ajoutePartie(p);
+			Utils.serialize(progressionSavePath+id, progression);
+			System.out.println("Progression du joueur: ID: "+id+" pseudonyme: "+pseudonyme+" est sauvegardï¿½ !");
+		}
+		
+		
+		public void enregisterStatPartieCourante() { 
+			if(Utils.FileExists(progressionSavePath+id)) {
+				Utils.serialize(progressionSavePath+id, progression);
+			}
+		}
+		
+		
+		public void sauvegardePartieJeuEnCours(InterfaceJeu game) { 
+				partiesSauvegarders.add(game);
+				Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+		}
+			
+		
+		public void chargePartiesJeuSauvegarder() { 
+			if(Utils.FileExists(partiesSauvegarderPathTTT+id)) { 
+				Object obj = (Utils.deserialize(partiesSauvegarderPathTTT+id));
+				if(obj instanceof List) {
+					partiesSauvegarders = (List<InterfaceJeu>)(obj);
+				}
+				
+				for(int i=0;i<partiesSauvegarders.size();i++) {
+					 TicTacToe x = (TicTacToe) partiesSauvegarders.get(i);
+					 System.out.println("PS"+i+" J1: "+x.getJoueur1()+" J2: "+x.getJoueur2());
+				}
+				
+				
+			}
+			else {
+					System.err.println("Aucune Partie SauvergardÃ© trouvÃ© !");
+				}
+			
+			
+			
+			
+			}
+		
+			public void chargeProgressionJoueur() {
+				if(Utils.FileExists(progressionSavePath+id)) {
+					Object obj =  Utils.deserialize(progressionSavePath+id);
 					progression = (Progression) obj;
 				}
 				else {
-					System.err.println("Id: "+id+" Progression du joueur: "+pseudonyme+" est inéxistante !");
+					System.err.println("Id: "+id+" Progression du joueur: "+pseudonyme+" est inï¿½xistante !");
 				}
+				
+				chargePartiesJeuSauvegarder();
 			}
 			
-			public int getTotalScore() {
+			public int calculeScore() {
 				 return progression.scoreCumule();
-			}
-			
-			public void addPartie(Partie p) { 
-				progression.ajoutePartie(p);
-				Utils.serialize(progressionSaveName+id, progression);
-				System.out.println("Progression du joueur: ID: "+id+" pseudonyme: "+pseudonyme+" est sauvegardé !");
-			}
-			
-			public void enregistrerPartieCourante() { 
-				if(Utils.FileExists(progressionSaveName+id)) {
-					Utils.serialize(progressionSaveName+id, progression);
-				}
 			}
 			
 			
@@ -59,11 +94,10 @@ public class Joueur implements Serializable{
 					return progression.getHistorique().get(progression.getHistorique().size() - 1);
 				}
 				else {
-					System.err.println("Aucune Partie n'a été trouvé !");
+					System.err.println("Aucune Partie n'a ï¿½tï¿½ trouvï¿½ !");
 					return null;
 				}
 			}
-			
 			
 			public Partie getPartie(int index) { 
 				return progression.getHistorique().get(index);
@@ -81,7 +115,6 @@ public class Joueur implements Serializable{
 				return  progression.toString();
 			}
 
-			
 			public String getMotDePasse() {
 				return motDePasse;
 			}
@@ -91,12 +124,28 @@ public class Joueur implements Serializable{
 			}
 	
 			public String toString() { 
-				return "ID: "+id+" pseudo: "+this.pseudonyme+" mot de passe: "+this.motDePasse+ " Score: "+getTotalScore();
+				return "ID: "+id+" pseudo: "+this.pseudonyme+" mot de passe: "+this.motDePasse+ " Score: "+calculeScore();
+			}
+			public Progression getProgression() {
+				return progression;
+			}
+
+			public int getId() {
+				return id;
+			}
+
+			public void setId(int id) {
+				this.id = id;
 			}
 
 
-			public Progression getProgression() {
-				return progression;
+			public List<InterfaceJeu> getPartiesSauvegarders() {
+				return partiesSauvegarders;
+			}
+
+
+			public void setPartiesSauvegarders(List<InterfaceJeu> partiesSauvegarders) {
+				this.partiesSauvegarders = partiesSauvegarders;
 			}
 
 			

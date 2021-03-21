@@ -1,5 +1,6 @@
 package mega.main;
 
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -72,9 +73,16 @@ public class Application extends JFrame{
 	
 		public void switchToMainPanel() { 
 					System.out.println(connexion.getJoueurConnecter().getPseudonyme());
-					vuePrincipale = new MainVue(connexion.getJoueurConnecter(),this);
-					this.setContentPane(vuePrincipale);
-					this.revalidate();
+					if(vuePrincipale == null) { 
+						vuePrincipale = new MainVue(connexion.getJoueurConnecter(),this);
+						this.setContentPane(vuePrincipale);
+						this.revalidate();
+					}
+					else { 
+						this.setContentPane(vuePrincipale);
+						this.revalidate();
+					}
+				
 		}
 		
 		
@@ -82,6 +90,21 @@ public class Application extends JFrame{
 			this.setContentPane(new TicTacToe(this,j1,j2));
 			this.revalidate();
 		}
+		
+		
+		
+		public void reprendrePartie(InterfaceJeu j) { 
+			if(j instanceof TicTacToe) { 
+				TicTacToe partie = (TicTacToe) j;
+			//	partie.setApp(this);
+				this.setContentPane(partie);
+				this.revalidate();
+			}
+			else {
+				// jeu d'echec !
+			}
+		}
+	
 	
 		
 		public void switchToChoisirAdversaire() { 

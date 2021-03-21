@@ -1,8 +1,12 @@
 package mega.system;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
+import mega.utils.TrieuseJoueur;
 import mega.utils.Utils;
 import mega.vues.ConnexionVue;
 
@@ -33,6 +37,22 @@ public class MegaJeuModel{
 					}
 				}
 				
+				public List<Joueur> topCinqJoueurs(){ 
+					 TrieuseJoueur trieuse_joueur = new TrieuseJoueur();
+					 Collection<Joueur> joueursC =  (joueurs.values());
+					 ArrayList<Joueur> liste_joueurs = new ArrayList<>(joueursC);
+					 Collections.sort(liste_joueurs,trieuse_joueur);
+					 showList(liste_joueurs);
+					// System.out.println("Ok !XXXXXXXXXXXXXXXX");
+					 return liste_joueurs;
+				}
+
+				private void showList(List<Joueur> js) { 
+					for(Joueur j : js ) { 
+						System.out.println(j.toString());
+					}
+				}
+				
 				private void showPlayers() {
 					System.out.println("Liste des joueurs: ");
 					Collection<Joueur> liste = joueurs.values();
@@ -40,7 +60,7 @@ public class MegaJeuModel{
 						System.out.println(j.toString());
 					}
 				}
-				
+
 				public HashMap<String, Joueur> getJoueurs() {
 					return joueurs;
 				}
