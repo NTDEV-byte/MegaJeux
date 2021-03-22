@@ -13,11 +13,13 @@ import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
 import mega.main.Application;
+import mega.main.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.MegaJeuModel;
 import mega.system.Partie;
 import mega.system.Partie.Jeu;
 import mega.system.Progression;
+import mega.utils.Utils;
 import tictactoe.TicTacToe;
 
 
@@ -41,6 +43,15 @@ public class MainVue extends JPanel {
 	private JLabel lbl_partie_egalites;
 	private JLabel lbl_parties_perdues;
 
+	
+	/**
+	 * UI_PARTIES_SAUVEGARDEE
+	 * 
+	 * 
+	 */
+	private JLabel lbl_partie_sauvegarder1;
+	private JLabel lbl_partie_sauvegarder2;
+	private JLabel lbl_partie_sauvegarder3;
 	/**
 	 * Create the Frame.
 	 */
@@ -159,17 +170,20 @@ public class MainVue extends JPanel {
 		lblNewLabel.setBounds(0, 10, 145, 28);
 		derniere_partie_pan.add(lblNewLabel);
 		
-		JLabel lbl_partie_sauvegarder1 = new JLabel("Partie 1");
-		lbl_partie_sauvegarder1.setBounds(10, 56, 45, 13);
+	    lbl_partie_sauvegarder1 = new JLabel("Partie 1 vide");
+		lbl_partie_sauvegarder1.setBounds(10, 56, 127, 13);
 		derniere_partie_pan.add(lbl_partie_sauvegarder1);
 		
 		JButton btn_reprendre1 = new JButton("reprendre");
-		btn_reprendre1.setBounds(65, 52, 105, 21);
+		btn_reprendre1.setBounds(141, 52, 92, 21);
 		btn_reprendre1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
-					TicTacToe  x = (TicTacToe)(joueur1.getPartiesSauvegarders().get(0));
-					x.setApp(application);
-				    application.reprendrePartie(x);
+				if(joueur.getPartiesSauvegarders().size() >= 1) { 
+					TicTacToe partie1  = (TicTacToe)(joueur1.getPartiesSauvegarders().get(0));
+					if(partie1 != null) { 
+					    application.reprendrePartie(partie1);
+					}
+				}
 			}
 		} );
 		derniere_partie_pan.add(btn_reprendre1);
@@ -177,48 +191,74 @@ public class MainVue extends JPanel {
 		JButton btn_supprimer1 = new JButton("supprimer");
 		btn_supprimer1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				 joueur1.supprimePartieSauvegardee(0);
+				 lbl_partie_sauvegarder1.setText("Partie 1 Vide");
 			}
 		});
-		btn_supprimer1.setBounds(180, 52, 115, 21);
+		btn_supprimer1.setBounds(243, 52, 92, 21);
 		derniere_partie_pan.add(btn_supprimer1);
 		
-		JLabel lbl_partie_sauvegarder2 = new JLabel("Partie 2");
-		lbl_partie_sauvegarder2.setBounds(10, 99, 45, 13);
+	    lbl_partie_sauvegarder2 = new JLabel("Partie 2 vide");
+		lbl_partie_sauvegarder2.setBounds(10, 99, 127, 13);
+		
 		derniere_partie_pan.add(lbl_partie_sauvegarder2);
 		
 		JButton btn_reprendre2 = new JButton("reprendre");
 		btn_reprendre2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(joueur.getPartiesSauvegarders().size() >= 2) { 
+					TicTacToe  partie2 = (TicTacToe)(joueur1.getPartiesSauvegarders().get(1));
+					if(partie2 != null) { 
+					    application.reprendrePartie(partie2);
+					}
+				}
 			}
 		});
-		btn_reprendre2.setBounds(65, 95, 105, 21);
+		btn_reprendre2.setBounds(141, 95, 92, 21);
 		derniere_partie_pan.add(btn_reprendre2);
 		
 		JButton btn_supprimer2 = new JButton("supprimer");
-		btn_supprimer2.setBounds(180, 95, 115, 21);
+		btn_supprimer2.setBounds(243, 95, 92, 21);
+		btn_supprimer2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 joueur1.supprimePartieSauvegardee(1);
+				 lbl_partie_sauvegarder2.setText("Partie 2 Vide");
+			}
+		});
 		derniere_partie_pan.add(btn_supprimer2);
 		
-		JLabel lbl_partie_sauvegarder3 = new JLabel("Partie 3");
-		lbl_partie_sauvegarder3.setBounds(10, 139, 45, 13);
+	    lbl_partie_sauvegarder3 = new JLabel("Partie 3 vide");
+		lbl_partie_sauvegarder3.setBounds(10, 139, 127, 13);
 		derniere_partie_pan.add(lbl_partie_sauvegarder3);
 		
 		JButton btn_reprendre3 = new JButton("reprendre");
 		btn_reprendre3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(joueur.getPartiesSauvegarders().size() >= 3) { 
+				TicTacToe  partie3 = (TicTacToe)(joueur1.getPartiesSauvegarders().get(2));
+				if(partie3 != null) { 
+				    application.reprendrePartie(partie3);
+				}
 			}
+		}
 		});
-		btn_reprendre3.setBounds(65, 135, 105, 21);
+		btn_reprendre3.setBounds(141, 135, 92, 21);
 		derniere_partie_pan.add(btn_reprendre3);
 		
 		JButton btn_supprimer3 = new JButton("supprimer");
 		btn_supprimer3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				joueur1.supprimePartieSauvegardee(2);
+				lbl_partie_sauvegarder3.setText("Partie 3 Vide");
 			}
 		});
-		btn_supprimer3.setBounds(180, 135, 115, 21);
+		btn_supprimer3.setBounds(243, 135, 92, 21);
 		derniere_partie_pan.add(btn_supprimer3);
 
+		
+		affichePartieSauvegarder(lbl_partie_sauvegarder1,lbl_partie_sauvegarder2,lbl_partie_sauvegarder3);
+		
+		
 		JPanel meilleur_joueur_pan = new JPanel();
 		meilleur_joueur_pan.setBounds(374, 61, 343, 216);
 		pan_selected_game.add(meilleur_joueur_pan);
@@ -362,8 +402,14 @@ public class MainVue extends JPanel {
 		
 		this.setVisible(true);
 		updateUIMV();
-		
 	}
+	
+	
+	/*
+	 * 
+	 * PARTIE MISE A JOUR VUE PRINCIPALE
+	 * 
+	 */
 	
 	private void affichePartie(JLabel lbl1,JLabel lbl2,JLabel lbl3) { 
 		joueur1.chargeProgressionJoueur();
@@ -397,17 +443,68 @@ public class MainVue extends JPanel {
 		}
 	}
 	
+	/**
+	 * 
+	 * 	PARTIES SAUVEGARDEE
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 */
+	
+	private void affichePartieSauvegarder() { 
+		  joueur1.chargeProgressionJoueur();
+		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
+		  TicTacToe partie1,partie2,partie3;
+		  
+		  if(partiesSauvegarder != null) { 
+			   switch(partiesSauvegarder.size()) { 
+			   	
+			   case 0:
+				   return;
+			   case 1:
+				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				   lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+
+				   break;
+				   
+			   case 2:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+				   
+				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
+				    lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+				   break;
+				   
+			   default:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+					   
+					partie2 = (TicTacToe)partiesSauvegarder.get(1);
+					lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+					   
+					partie3 = (TicTacToe)partiesSauvegarder.get(2);
+					lbl_partie_sauvegarder3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
+	   
+				   break;
+			   }
+		  }
+		
+	}
+	
+	/*
+	 * affichage des meilleurs joueurs 
+	 * 
+	 */
+	
 	private void afficheMeilleursJoueurs(JLabel p1,JLabel p2,JLabel p3,JLabel p4,JLabel p5,
 			JLabel s1,JLabel s2,JLabel s3,JLabel s4,JLabel s5) { 
-		
 		List<Joueur> joueurs = model.topCinqJoueurs();
 		for(Joueur j : joueurs) { 
 			j.chargeProgressionJoueur();
 		}
 		if(joueurs != null) {
 			
-		//if(joueurs.size() >= 5) { 
-			switch(joueurs.size()) { 
+		switch(joueurs.size()) { 
 			case 0:
 				return;
 				
@@ -445,8 +542,6 @@ public class MainVue extends JPanel {
 				p5.setText(joueurs.get(4).getPseudonyme());
 				break;
 			}
-		//}
-		
 		}
 	}
 	
@@ -458,8 +553,88 @@ public class MainVue extends JPanel {
 			 lbl_partie_egalites.setText("Egalit\u00E9s:"+joueur1.getProgression().getNbE());
 			 lbl_parties_perdues.setText("Perdues: "+joueur1.getProgression().getNbP());
 		 }
+		 updateAffichePartieSauvegarder();
 	}
 	
+	
+	
+	private void updateAffichePartieSauvegarder() { 
+		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
+		  TicTacToe partie1,partie2,partie3;
+		  
+		  if(partiesSauvegarder != null) { 
+			   switch(partiesSauvegarder.size()) { 
+			   	
+			   case 0:
+				   return;
+			   case 1:
+				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				   lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+
+				   break;
+				   
+			   case 2:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+				   
+				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
+				    lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+				   break;
+				   
+			   default:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+					   
+					partie2 = (TicTacToe)partiesSauvegarder.get(1);
+					lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+					   
+					partie3 = (TicTacToe)partiesSauvegarder.get(2);
+					lbl_partie_sauvegarder3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
+	   
+				   break;
+			   }
+		  }
+		
+	}
+	
+	private void affichePartieSauvegarder(JLabel p1,JLabel p2,JLabel p3) { 
+		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
+		  TicTacToe partie1,partie2,partie3;
+		  
+		  if(partiesSauvegarder != null) { 
+			   switch(partiesSauvegarder.size()) { 
+			   	
+			   case 0:
+				   return;
+			   case 1:
+				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				   p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+
+				   break;
+				   
+			   case 2:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+				   
+				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
+				    p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+				   break;
+				   
+			   default:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+					   
+					partie2 = (TicTacToe)partiesSauvegarder.get(1);
+					p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+					   
+					partie3 = (TicTacToe)partiesSauvegarder.get(2);
+				    p3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
+	   
+				   break;
+			   }
+		  }
+		
+	}
     private void onClickChess() {
 		jeu_selectionner = Partie.Jeu.CHESS;
 	    titre_jeu_selectionner = "Chess";
@@ -507,7 +682,6 @@ public class MainVue extends JPanel {
 				chess.Game.main(null);
 			}
 			else {
-				
 				application.switchToTicTacToe(joueur1, joueur2);
 			}
 		}

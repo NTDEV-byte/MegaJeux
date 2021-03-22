@@ -10,9 +10,12 @@ import tictactoe.TicTacToe;
 
 public class Joueur implements Serializable{
 
+	
+	
 	public static final String progressionSavePath = "progressions/progression_joueurs#ID";
 	public static final String partiesSauvegarderPathTTT = "parties/ttt/partiesSauvergarderJoueur#ID";
 	private int id;
+	private int totalPartiesSV = 0;
 	private String pseudonyme;
 	private String motDePasse;
 	private Progression progression;
@@ -42,12 +45,33 @@ public class Joueur implements Serializable{
 			}
 		}
 		
-		
 		public void sauvegardePartieJeuEnCours(InterfaceJeu game) { 
-				partiesSauvegarders.add(game);
-				Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+			 	int temp = totalPartiesSV;
+					if(!partiesSauvegarders.contains(game)) { 
+						partiesSauvegarders.add(game);
+						totalPartiesSV++;
+						//System.out.println("Total après incrémentation " +TOTAL_PARTIES_SAUVEGARDER);
+					}
+					else {
+						temp = temp - 1;
+					//	System.out.println("total - 1 =  "+temp);
+						partiesSauvegarders.set(temp , game);
+					}
+					Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+					//System.out.println("taille liste: "+partiesSauvegarders.size());
+			}
+		
+		public void supprimePartieSauvegardee(int index) { 
+			  if(partiesSauvegarders.size() >=  index) {
+				  partiesSauvegarders.remove(index);
+				  totalPartiesSV--;
+				  Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+			  	}
+			 }
+		
+		public boolean canSave() { 
+			return partiesSauvegarders.size() < 3;
 		}
-			
 		
 		public void chargePartiesJeuSauvegarder() { 
 			if(Utils.FileExists(partiesSauvegarderPathTTT+id)) { 
@@ -66,10 +90,6 @@ public class Joueur implements Serializable{
 			else {
 					System.err.println("Aucune Partie Sauvergardé trouvé !");
 				}
-			
-			
-			
-			
 			}
 		
 			public void chargeProgressionJoueur() {
@@ -98,6 +118,8 @@ public class Joueur implements Serializable{
 					return null;
 				}
 			}
+			
+			
 			
 			public Partie getPartie(int index) { 
 				return progression.getHistorique().get(index);

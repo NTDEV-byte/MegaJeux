@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -18,7 +19,6 @@ import mega.main.Application;
 import mega.main.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
-import mega.utils.Utils;
 
 public class TicTacToe extends JPanel implements ActionListener,Serializable,InterfaceJeu{
 	
@@ -34,8 +34,11 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	JButton[] buttons = new JButton[9];
 	boolean player1_turn;
 	String pseudoj1,pseudoj2;
+	Date date;
+	JButton btn_sauvegarder,btn_quitter;
 	transient Application app;
-	transient Joueur j1,j2;
+	Joueur j1,j2;
+	JLabel lblSavedStatus;
 
 	public TicTacToe(Application app,Joueur j1,Joueur j2){
 		this.j1 = j1;
@@ -43,6 +46,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		this.pseudoj1 = j1.getPseudonyme();
 		this.pseudoj2 = j2.getPseudonyme();
 		this.app = app;
+		this.date = new Date();
 		
 		textfield.setBackground(new Color(25,25,25));
 		textfield.setForeground(new Color(25,255,0));
@@ -70,53 +74,46 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		this.setLayout(new BorderLayout());
 		this.add(title_panel,BorderLayout.NORTH);
 		this.add(button_panel);
+		
+		
 		uiPanel();
 		
 	//	frame.add(title_panel,BorderLayout.NORTH);
 	//	frame.add(button_panel);
-		
+		lblSavedStatus = new JLabel("");
+		uiPanel.add(lblSavedStatus);
 		firstTurn();
+		
 		
 		TOTAL_PARTIE_TTT++;
 	}
 
 	
-	private void uiPanel() { 
+	public void uiPanel() { 
 		uiPanel = new JPanel();
 		uiPanel.setPreferredSize(new Dimension(200,800));
 		uiPanel.setBackground(Color.YELLOW);
 		uiPanel.setLayout(null);
 		
-		JButton btnNewButton_1 = new JButton("Charger");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btn_sauvegarder = new JButton("Sauvegarder");
+		btn_sauvegarder.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btn_sauvegarder.addActionListener(new SauvegardeButton());
+		/*
+		 * new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 
 				
 			}
 		});
-		btnNewButton_1.setBounds(42, 327, 118, 21);
-		uiPanel.add(btnNewButton_1);
+		 */
+		btn_sauvegarder.setBounds(42, 286, 118, 21);
+		uiPanel.add(btn_sauvegarder);
 		
-		JButton btnNewButton_2 = new JButton("Sauvegarder");
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				   j1.sauvegardePartieJeuEnCours(TicTacToe.this);
-				   j2.sauvegardePartieJeuEnCours(TicTacToe.this);
-			}
-		});
-		btnNewButton_2.setBounds(42, 286, 118, 21);
-		uiPanel.add(btnNewButton_2);
-		
-		JButton quitter = new JButton("Quitter");
-		quitter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { 
-				 app.switchToMainPanel();
-			}
-		});
-		quitter.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		quitter.setBounds(55, 364, 85, 21);
-		uiPanel.add(quitter);
+	    btn_quitter = new JButton("Quitter");
+		btn_quitter.addActionListener(new QuitteButton());
+		btn_quitter.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btn_quitter.setBounds(55, 364, 85, 21);
+		uiPanel.add(btn_quitter);
 		
 		JLabel lbl_title = new JLabel("TicTacToe");
 		lbl_title.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -138,13 +135,14 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		lbl_j2.setBounds(136, 63, 54, 13);
 		uiPanel.add(lbl_j2);
 		
+		
 		this.add(uiPanel,BorderLayout.EAST);
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		lblSavedStatus.setText("");
 		for(int i=0;i<9;i++) {
 			if(e.getSource()==buttons[i]) {
 				if(player1_turn) {
@@ -382,8 +380,48 @@ public void setApp(Application app) {
 	this.app = app;
 }
 
-	
+
+public Date getDate() {
+	return date;
 }
+
+
+public void setDate(Date date) {
+	this.date = date;
+}
+
+
+private class SauvegardeButton implements ActionListener,Serializable{
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		   if(j1.canSave()) { 
+			   System.out.println("sauvegarder !!!");
+			   lblSavedStatus.setBounds(50, 310, 180, 30);
+			   lblSavedStatus.setText("Partie Sauvegardé !");
+			   lblSavedStatus.setForeground(Color.green);
+			   j1.sauvegardePartieJeuEnCours(TicTacToe.this);
+		   }
+		   else {
+			   lblSavedStatus.setBounds(25, 310, 180, 30);
+			   lblSavedStatus.setText("Tout les slots sont remplis  !");
+			   lblSavedStatus.setForeground(Color.red);
+			   System.out.println("tout les slot sont remplies !");
+		   }
+	} 
+}
+
+private class QuitteButton implements ActionListener,Serializable{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		 System.out.println("Quitter !!!");
+		 app.switchToMainPanel();
+	} 
+}
+
+}
+
+
 
 
 

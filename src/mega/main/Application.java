@@ -82,26 +82,24 @@ public class Application extends JFrame{
 						this.setContentPane(vuePrincipale);
 						this.revalidate();
 					}
-				
 		}
-		
 		
 		public void switchToTicTacToe(Joueur j1,Joueur j2) { 
 			this.setContentPane(new TicTacToe(this,j1,j2));
 			this.revalidate();
 		}
-		
-		
+
 		
 		public void reprendrePartie(InterfaceJeu j) { 
 			if(j instanceof TicTacToe) { 
 				TicTacToe partie = (TicTacToe) j;
-			//	partie.setApp(this);
+				partie.setApp(this);
+				System.out.println("Application passed: "+partie.getApp());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
 			else {
-				// jeu d'echec !
+				
 			}
 		}
 	
