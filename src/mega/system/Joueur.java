@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mega.main.InterfaceJeu;
+import mega.system.Partie.Etat;
 import mega.utils.Utils;
 import tictactoe.TicTacToe;
 
@@ -69,8 +70,20 @@ public class Joueur implements Serializable{
 			  	}
 			 }
 		
-		public boolean canSave() { 
-			return partiesSauvegarders.size() < 3;
+		public int supprimePartieSauvegardeeEtTerminee() { 
+			for(int i=0;i<partiesSauvegarders.size();i++) {
+				  if(partiesSauvegarders.get(i) instanceof TicTacToe) { 
+					   TicTacToe partie = (TicTacToe)partiesSauvegarders.get(i);
+					   if(partie.getEtat() != Etat.DEFAULT) {
+						   partiesSauvegarders.remove(i);
+						   totalPartiesSV--;
+						   Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+						   return i;
+					   }
+				  }
+			}
+			   Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+			return -1;
 		}
 		
 		public void chargePartiesJeuSauvegarder() { 
@@ -84,7 +97,6 @@ public class Joueur implements Serializable{
 					 TicTacToe x = (TicTacToe) partiesSauvegarders.get(i);
 					 System.out.println("PS"+i+" J1: "+x.getJoueur1()+" J2: "+x.getJoueur2());
 				}
-				
 				
 			}
 			else {
@@ -104,6 +116,10 @@ public class Joueur implements Serializable{
 				chargePartiesJeuSauvegarder();
 			}
 			
+			public boolean canSave() { 
+				return partiesSauvegarders.size() <= 3;
+			}
+			
 			public int calculeScore() {
 				 return progression.scoreCumule();
 			}
@@ -118,8 +134,6 @@ public class Joueur implements Serializable{
 					return null;
 				}
 			}
-			
-			
 			
 			public Partie getPartie(int index) { 
 				return progression.getHistorique().get(index);

@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 //***************************************
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
@@ -31,14 +33,15 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	JPanel button_panel = new JPanel();
 	JPanel uiPanel;
 	JLabel textfield = new JLabel();
-	JButton[] buttons = new JButton[9];
+	JButton[] buttons;
 	boolean player1_turn;
 	String pseudoj1,pseudoj2;
 	Date date;
 	JButton btn_sauvegarder,btn_quitter;
-	transient Application app;
 	Joueur j1,j2;
 	JLabel lblSavedStatus;
+	Etat etat;
+	transient Application app;
 
 	public TicTacToe(Application app,Joueur j1,Joueur j2){
 		this.j1 = j1;
@@ -47,7 +50,8 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		this.pseudoj2 = j2.getPseudonyme();
 		this.app = app;
 		this.date = new Date();
-		
+		this.etat = Etat.DEFAULT;
+		buttons = new JButton[9];
 		textfield.setBackground(new Color(25,25,25));
 		textfield.setForeground(new Color(25,255,0));
 		textfield.setFont(new Font("Ink Free",Font.BOLD,75));
@@ -189,146 +193,159 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	}
 	
 	public void check() {
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) { 
+				System.out.println("x = "+j+" y= "+i+"  "+buttons[j + i * 3].getText());
+			}
+		}
 		boolean win = false;
 		//check X win conditions
 		if(
-				(buttons[0].getText()=="X") &&
-				(buttons[1].getText()=="X") &&
-				(buttons[2].getText()=="X")
+				(buttons[0].getText().equalsIgnoreCase("X")) &&
+				(buttons[1].getText().equalsIgnoreCase("X")) &&
+				(buttons[2].getText().equalsIgnoreCase("X"))
 				) {
+			
 			xWins(0,1,2);
 			win = true;
 			
 		}
 		if(
-				(buttons[3].getText()=="X") &&
-				(buttons[4].getText()=="X") &&
-				(buttons[5].getText()=="X")
+				(buttons[3].getText().equalsIgnoreCase("X")) &&
+				(buttons[4].getText().equalsIgnoreCase("X")) &&
+				(buttons[5].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(3,4,5);
 			win = true;
 		}
 		if(
-				(buttons[6].getText()=="X") &&
-				(buttons[7].getText()=="X") &&
-				(buttons[8].getText()=="X")
+				(buttons[6].getText().equalsIgnoreCase("X")) &&
+				(buttons[7].getText().equalsIgnoreCase("X")) &&
+				(buttons[8].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(6,7,8);
 			win = true;
 		}
 		if(
-				(buttons[0].getText()=="X") &&
-				(buttons[3].getText()=="X") &&
-				(buttons[6].getText()=="X")
+				(buttons[0].getText().equalsIgnoreCase("X")) &&
+				(buttons[3].getText().equalsIgnoreCase("X")) &&
+				(buttons[6].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(0,3,6);
 			win = true;
 		}
 		if(
-				(buttons[1].getText()=="X") &&
-				(buttons[4].getText()=="X") &&
-				(buttons[7].getText()=="X")
+				(buttons[1].getText().equalsIgnoreCase("X")) &&
+				(buttons[4].getText().equalsIgnoreCase("X")) &&
+				(buttons[7].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(1,4,7);
 			win = true;
 		}
 		if(
-				(buttons[2].getText()=="X") &&
-				(buttons[5].getText()=="X") &&
-				(buttons[8].getText()=="X")
+				(buttons[2].getText().equalsIgnoreCase("X")) &&
+				(buttons[5].getText().equalsIgnoreCase("X")) &&
+				(buttons[8].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(2,5,8);
 			win = true;
 		}
 		if(
-				(buttons[0].getText()=="X") &&
-				(buttons[4].getText()=="X") &&
-				(buttons[8].getText()=="X")
+				(buttons[0].getText().equalsIgnoreCase("X")) &&
+				(buttons[4].getText().equalsIgnoreCase("X")) &&
+				(buttons[8].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(0,4,8);
 			win = true;
 		}
 		if(
-				(buttons[2].getText()=="X") &&
-				(buttons[4].getText()=="X") &&
-				(buttons[6].getText()=="X")
+				(buttons[2].getText().equalsIgnoreCase("X")) &&
+				(buttons[4].getText().equalsIgnoreCase("X")) &&
+				(buttons[6].getText().equalsIgnoreCase("X"))
 				) {
 			xWins(2,4,6);
 			win = true;
 		}
 		//check O win conditions
 		if(
-				(buttons[0].getText()=="O") &&
-				(buttons[1].getText()=="O") &&
-				(buttons[2].getText()=="O")
+				(buttons[0].getText().equalsIgnoreCase("O")) &&
+				(buttons[1].getText().equalsIgnoreCase("O")) &&
+				(buttons[2].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(0,1,2);
 			win = true;
 		}
 		if(
-				(buttons[3].getText()=="O") &&
-				(buttons[4].getText()=="O") &&
-				(buttons[5].getText()=="O")
+				(buttons[3].getText().equalsIgnoreCase("O")) &&
+				(buttons[4].getText().equalsIgnoreCase("O")) &&
+				(buttons[5].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(3,4,5);
 			win = true;
 		}
 		if(
-				(buttons[6].getText()=="O") &&
-				(buttons[7].getText()=="O") &&
-				(buttons[8].getText()=="O")
+				(buttons[6].getText().equalsIgnoreCase("O")) &&
+				(buttons[7].getText().equalsIgnoreCase("O")) &&
+				(buttons[8].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(6,7,8);
 			win = true;
 		}
 		if(
-				(buttons[0].getText()=="O") &&
-				(buttons[3].getText()=="O") &&
-				(buttons[6].getText()=="O")
+				(buttons[0].getText().equalsIgnoreCase("O")) &&
+				(buttons[3].getText().equalsIgnoreCase("O")) &&
+				(buttons[6].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(0,3,6);
 			win = true;
 		}
 		if(
-				(buttons[1].getText()=="O") &&
-				(buttons[4].getText()=="O") &&
-				(buttons[7].getText()=="O")
+				(buttons[1].getText().equalsIgnoreCase("O")) &&
+				(buttons[4].getText().equalsIgnoreCase("O")) &&
+				(buttons[7].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(1,4,7);
 			win = true;
 		}
 		if(
-				(buttons[2].getText()=="O") &&
-				(buttons[5].getText()=="O") &&
-				(buttons[8].getText()=="O")
+				(buttons[2].getText().equalsIgnoreCase("O")) &&
+				(buttons[5].getText().equalsIgnoreCase("O")) &&
+				(buttons[8].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(2,5,8);
 			win = true;
 		}
 		if(
-				(buttons[0].getText()=="O") &&
-				(buttons[4].getText()=="O") &&
-				(buttons[8].getText()=="O")
+				(buttons[0].getText().equalsIgnoreCase("O")) &&
+				(buttons[4].getText().equalsIgnoreCase("O")) &&
+				(buttons[8].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(0,4,8);
 			win = true;
 		}
 		if(
-				(buttons[2].getText()=="O") &&
-				(buttons[4].getText()=="O") &&
-				(buttons[6].getText()=="O")
+				(buttons[2].getText().equalsIgnoreCase("O")) &&
+				(buttons[4].getText().equalsIgnoreCase("O")) &&
+				(buttons[6].getText().equalsIgnoreCase("O"))
 				) {
 			oWins(2,4,6);
 			win = true;
 		}
+		
 		else {
 			if(draw() && !win) { 
 				j1.getPartieEncours().setEtat(Etat.EGALITE);
 				j1.enregisterStatPartieCourante();
 				j2.getPartieEncours().setEtat(Etat.EGALITE);
 				j2.enregisterStatPartieCourante();
+				etat = Etat.GAGNEE;
 			}
 		}
+		
+		if(win) { 
+			etat = Etat.GAGNEE;
+		}
+		
 	}
 	
 	public void xWins(int a,int b,int c) {
@@ -345,6 +362,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		j2.getPartieEncours().setEtat(Etat.PERDUE);
 		j2.enregisterStatPartieCourante();
 		
+		
 	}
 	public void oWins(int a,int b,int c) {
 		buttons[a].setBackground(Color.GREEN);
@@ -359,6 +377,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		j2.enregisterStatPartieCourante();
 		j1.getPartieEncours().setEtat(Etat.PERDUE);
 		j1.enregisterStatPartieCourante();
+		System.out.println("Check O !!!!");
 	}
 
 	
@@ -415,13 +434,17 @@ private class QuitteButton implements ActionListener,Serializable{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		 System.out.println("Quitter !!!");
+		 app.getVuePrincipale().updateUIMV();
 		 app.switchToMainPanel();
 	} 
 }
 
+public Etat getEtat() {
+	return etat;
 }
 
 
+}
 
 
 

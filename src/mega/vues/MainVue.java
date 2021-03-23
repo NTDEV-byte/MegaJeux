@@ -34,7 +34,7 @@ public class MainVue extends JPanel {
 	private Application application;
 	
 	/**
-	 * VOTRE_PROGRESSION_UI
+	 * UI_VOTRE_PROGRESSION
 	 * 
 	 */
 	private JLabel lb_progression;
@@ -52,6 +52,34 @@ public class MainVue extends JPanel {
 	private JLabel lbl_partie_sauvegarder1;
 	private JLabel lbl_partie_sauvegarder2;
 	private JLabel lbl_partie_sauvegarder3;
+	
+	
+	/**
+	 * UI_MEILLEURS_JOUEURS
+	 * 
+	 * 
+	 */
+	private JLabel lbl_j1;
+	private JLabel lbl_j2;
+	private JLabel lbl_j3;
+	private JLabel lbl_j4;
+	private JLabel lbl_j5;
+	
+	private JLabel lbl_sc1;
+	private JLabel lbl_sc2;
+	private JLabel lbl_sc3;
+	private JLabel lbl_sc4;
+	private JLabel lbl_sc5;
+	
+	/*
+	 * UI_TROIS_DERNIERE_PARTIES_JOUER
+	 * 
+	 * 
+	 */
+	private JLabel lbl_score_et_resultat;
+	private JLabel lbl_partie1;
+	private JLabel lbl_partie2;
+	private JLabel lbl_partie3;
 	/**
 	 * Create the Frame.
 	 */
@@ -191,8 +219,11 @@ public class MainVue extends JPanel {
 		JButton btn_supprimer1 = new JButton("supprimer");
 		btn_supprimer1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 joueur1.supprimePartieSauvegardee(0);
-				 lbl_partie_sauvegarder1.setText("Partie 1 Vide");
+				if(joueur1.getPartiesSauvegarders().size() > 0) {
+					 joueur1.supprimePartieSauvegardee(0);
+					 lbl_partie_sauvegarder1.setText("Partie 1 Vide");
+				}
+				
 			}
 		});
 		btn_supprimer1.setBounds(243, 52, 92, 21);
@@ -221,9 +252,11 @@ public class MainVue extends JPanel {
 		btn_supprimer2.setBounds(243, 95, 92, 21);
 		btn_supprimer2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(joueur1.getPartiesSauvegarders().size() > 1) {
 				 joueur1.supprimePartieSauvegardee(1);
 				 lbl_partie_sauvegarder2.setText("Partie 2 Vide");
 			}
+		}
 		});
 		derniere_partie_pan.add(btn_supprimer2);
 		
@@ -248,15 +281,17 @@ public class MainVue extends JPanel {
 		JButton btn_supprimer3 = new JButton("supprimer");
 		btn_supprimer3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(joueur1.getPartiesSauvegarders().size() > 2) {
 				joueur1.supprimePartieSauvegardee(2);
 				lbl_partie_sauvegarder3.setText("Partie 3 Vide");
 			}
+		}
 		});
 		btn_supprimer3.setBounds(243, 135, 92, 21);
 		derniere_partie_pan.add(btn_supprimer3);
 
 		
-		affichePartieSauvegarder(lbl_partie_sauvegarder1,lbl_partie_sauvegarder2,lbl_partie_sauvegarder3);
+		affichePartieSauvegarder();
 		
 		
 		JPanel meilleur_joueur_pan = new JPanel();
@@ -271,23 +306,23 @@ public class MainVue extends JPanel {
 		meilleur_joueur_pan.add(lblNewLabel_1);
 		
 		
-		JLabel lbl_j1 = new JLabel("Joueur1");
+		lbl_j1 = new JLabel("Joueur1");
 		lbl_j1.setBounds(10, 79, 100, 13);
 		meilleur_joueur_pan.add(lbl_j1);
 		
-		JLabel lbl_j2 = new JLabel("Joueur2");
+	    lbl_j2 = new JLabel("Joueur2");
 		lbl_j2.setBounds(10, 102, 100, 13);
 		meilleur_joueur_pan.add(lbl_j2);
 		
-		JLabel lbl_j3 = new JLabel("Joueur3");
+	    lbl_j3 = new JLabel("Joueur3");
 		lbl_j3.setBounds(10, 125, 100, 13);
 		meilleur_joueur_pan.add(lbl_j3);
 		
-		JLabel lbl_j4 = new JLabel("Joueur4");
+		lbl_j4 = new JLabel("Joueur4");
 		lbl_j4.setBounds(10, 148, 88, 13);
 		meilleur_joueur_pan.add(lbl_j4);
 		
-		JLabel lbl_j5 = new JLabel("Joueur5");
+		lbl_j5 = new JLabel("Joueur5");
 		lbl_j5.setBounds(10, 171, 100, 13);
 		meilleur_joueur_pan.add(lbl_j5);
 		
@@ -299,23 +334,23 @@ public class MainVue extends JPanel {
 		lbl_score.setBounds(200, 46, 64, 13);
 		meilleur_joueur_pan.add(lbl_score);
 		
-		JLabel lbl_sc1 = new JLabel("Score 1");
+		lbl_sc1 = new JLabel("Score 1");
 		lbl_sc1.setBounds(200, 79, 77, 13);
 		meilleur_joueur_pan.add(lbl_sc1);
 		
-		JLabel lbl_sc2 = new JLabel("Score 2");
+		lbl_sc2 = new JLabel("Score 2");
 		lbl_sc2.setBounds(200, 102, 77, 13);
 		meilleur_joueur_pan.add(lbl_sc2);
 		
-		JLabel lbl_sc3 = new JLabel("Score 3");
+		lbl_sc3 = new JLabel("Score 3");
 		lbl_sc3.setBounds(200, 125, 77, 13);
 		meilleur_joueur_pan.add(lbl_sc3);
 		
-		JLabel lbl_sc4 = new JLabel("Score 4");
+		lbl_sc4 = new JLabel("Score 4");
 		lbl_sc4.setBounds(200, 148, 77, 13);
 		meilleur_joueur_pan.add(lbl_sc4);
 		
-		JLabel lbl_sc5 = new JLabel("Score 5");
+		lbl_sc5 = new JLabel("Score 5");
 		lbl_sc5.setBounds(200, 171, 88, 13);
 		meilleur_joueur_pan.add(lbl_sc5);
 		
@@ -338,27 +373,27 @@ public class MainVue extends JPanel {
 		score_pan.setBackground(new Color(10, 200, 100));
 		score_pan.setLayout(null);
 		
-		afficheMeilleursJoueurs(lbl_j1,lbl_j2,lbl_j3,lbl_j4,lbl_j5,lbl_sc1,lbl_sc2,lbl_sc3,lbl_sc4,lbl_sc5);
+		afficheMeilleursJoueurs();
 		
 		
-		JLabel lbl_score_et_resultat = new JLabel("Score et R\u00E9sultats");
+		lbl_score_et_resultat = new JLabel("Score et R\u00E9sultats");
 		lbl_score_et_resultat.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbl_score_et_resultat.setBounds(0, 10, 141, 13);
 		score_pan.add(lbl_score_et_resultat);
 		
-		JLabel lbl_partie1 = new JLabel("Partie 1 indisponible");
+		lbl_partie1 = new JLabel("Partie 1 indisponible");
 		lbl_partie1.setBounds(0, 47, 335, 13);
 		score_pan.add(lbl_partie1);
 		
-		JLabel lbl_partie2 = new JLabel("Partie 2 indisponible");
+		lbl_partie2 = new JLabel("Partie 2 indisponible");
 		lbl_partie2.setBounds(0, 88, 335, 13);
 		score_pan.add(lbl_partie2);
 		
-		JLabel lbl_partie3 = new JLabel("Partie 3 indisponible");
+		lbl_partie3 = new JLabel("Partie 3 indisponible");
 		lbl_partie3.setBounds(0, 125, 335, 13);
 		score_pan.add(lbl_partie3);
 		
-		affichePartie(lbl_partie1,lbl_partie2,lbl_partie3);
+		afficheTroisDernierePartieJouee();
 		
 		
 		JPanel progession_pan = new JPanel();
@@ -407,11 +442,11 @@ public class MainVue extends JPanel {
 	
 	/*
 	 * 
-	 * PARTIE MISE A JOUR VUE PRINCIPALE
+	 * PARTIE MISE A JOUR VUE PRINCIPALE 
 	 * 
 	 */
 	
-	private void affichePartie(JLabel lbl1,JLabel lbl2,JLabel lbl3) { 
+	private void afficheTroisDernierePartieJouee() { 
 		joueur1.chargeProgressionJoueur();
 		Progression p = joueur1.getProgression();
 		if(p != null) { 
@@ -424,24 +459,25 @@ public class MainVue extends JPanel {
 				
 			case 1:
 				
-				lbl1.setText(p.getHistorique().get(0).statPartie());
+				lbl_partie1.setText(p.getHistorique().get(0).statPartie());
 				break;
 			case 2: 
 
-				lbl1.setText(p.getHistorique().get(0).statPartie());
-				lbl2.setText(p.getHistorique().get(1).statPartie());
+				lbl_partie1.setText(p.getHistorique().get(0).statPartie());
+				lbl_partie2.setText(p.getHistorique().get(1).statPartie());
 				break;
 				
 			default:
 				if(troisDerniereParties != null) {
-					lbl1.setText(troisDerniereParties.get(0).statPartie());
-					lbl2.setText(troisDerniereParties.get(1).statPartie());
-					lbl3.setText(troisDerniereParties.get(2).statPartie());
+					lbl_partie1.setText(troisDerniereParties.get(0).statPartie());
+					lbl_partie2.setText(troisDerniereParties.get(1).statPartie());
+					lbl_partie3.setText(troisDerniereParties.get(2).statPartie());
 				}
 				break;
 			}
 		}
 	}
+	
 	
 	/**
 	 * 
@@ -496,50 +532,65 @@ public class MainVue extends JPanel {
 	 * 
 	 */
 	
-	private void afficheMeilleursJoueurs(JLabel p1,JLabel p2,JLabel p3,JLabel p4,JLabel p5,
-			JLabel s1,JLabel s2,JLabel s3,JLabel s4,JLabel s5) { 
+	private void afficheMeilleursJoueurs() { 
 		List<Joueur> joueurs = model.topCinqJoueurs();
 		for(Joueur j : joueurs) { 
 			j.chargeProgressionJoueur();
 		}
 		if(joueurs != null) {
-			
+		
 		switch(joueurs.size()) { 
 			case 0:
 				return;
 				
 			case 1:
 					
-				p1.setText(joueurs.get(0).getPseudonyme());
-				s1.setText(joueurs.get(0).calculeScore()+"");
+				lbl_j1.setText(joueurs.get(0).getPseudonyme());
+				lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
 				break;
 			case 2:
-				p1.setText(joueurs.get(0).getPseudonyme());
-				s1.setText(joueurs.get(0).calculeScore()+"");
-				p2.setText(joueurs.get(1).getPseudonyme());
-				s2.setText(joueurs.get(1).calculeScore()+"");
+				lbl_j1.setText(joueurs.get(0).getPseudonyme());
+				lbl_j2.setText(joueurs.get(1).getPseudonyme());
+				lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
+				lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
 				
 				break;
 			case 3:
-				p1.setText(joueurs.get(0).getPseudonyme());
-				p2.setText(joueurs.get(1).getPseudonyme());
-				p3.setText(joueurs.get(2).getPseudonyme());
+				lbl_j1.setText(joueurs.get(0).getPseudonyme());
+				lbl_j2.setText(joueurs.get(1).getPseudonyme());
+				lbl_j3.setText(joueurs.get(2).getPseudonyme());
+				
+				lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
+				lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
+				lbl_sc3.setText(joueurs.get(2).calculeScore()+"");
 				break;
 				
 			case 4:
-				p1.setText(joueurs.get(0).getPseudonyme());
-				p2.setText(joueurs.get(1).getPseudonyme());
-				p3.setText(joueurs.get(2).getPseudonyme());
-				p4.setText(joueurs.get(3).getPseudonyme());
+				lbl_j1.setText(joueurs.get(0).getPseudonyme());
+				lbl_j2.setText(joueurs.get(1).getPseudonyme());
+				lbl_j3.setText(joueurs.get(2).getPseudonyme());
+				lbl_j4.setText(joueurs.get(3).getPseudonyme());
+				
+				lbl_sc1.setText(joueurs.get(0).getPseudonyme());
+				lbl_sc2.setText(joueurs.get(1).getPseudonyme());
+				lbl_sc3.setText(joueurs.get(2).getPseudonyme());
+				lbl_sc4.setText(joueurs.get(3).getPseudonyme());
 				break;
 
 				default:
+					lbl_j1.setText(joueurs.get(0).getPseudonyme());
+					lbl_j2.setText(joueurs.get(1).getPseudonyme());
+					lbl_j3.setText(joueurs.get(2).getPseudonyme());
+					lbl_j4.setText(joueurs.get(3).getPseudonyme());
+					lbl_j5.setText(joueurs.get(4).getPseudonyme());
 					
-				p1.setText(joueurs.get(0).getPseudonyme());
-				p2.setText(joueurs.get(1).getPseudonyme());
-				p3.setText(joueurs.get(2).getPseudonyme());
-				p4.setText(joueurs.get(3).getPseudonyme());
-				p5.setText(joueurs.get(4).getPseudonyme());
+					lbl_sc1.setText(joueurs.get(0).getPseudonyme());
+					lbl_sc2.setText(joueurs.get(1).getPseudonyme());
+					lbl_sc3.setText(joueurs.get(2).getPseudonyme());
+					lbl_sc4.setText(joueurs.get(3).getPseudonyme());
+					lbl_sc5.setText(joueurs.get(4).getPseudonyme());
+					
+					
 				break;
 			}
 		}
@@ -553,12 +604,75 @@ public class MainVue extends JPanel {
 			 lbl_partie_egalites.setText("Egalit\u00E9s:"+joueur1.getProgression().getNbE());
 			 lbl_parties_perdues.setText("Perdues: "+joueur1.getProgression().getNbP());
 		 }
-		 updateAffichePartieSauvegarder();
+		 afficheMeilleursJoueurs();
+		 affichePartieSauvegarder();
+		 afficheTroisDernierePartieJouee();
+		 int indexSupprimer = joueur1.supprimePartieSauvegardeeEtTerminee();
+		 updatePartiesSauvegarderLBLApresSuppression(indexSupprimer);
 	}
 	
-	
-	
-	private void updateAffichePartieSauvegarder() { 
+	private void updatePartiesSauvegarderLBLApresSuppression(int index) { 
+		 if(index != -1) { 
+			 switch(index) { 
+			 case 0:
+				 
+				 lbl_partie_sauvegarder1.setText("Partie 1 Vide");
+				 
+				 break;
+				 
+			 case 1:
+				 lbl_partie_sauvegarder2.setText("Partie 2 Vide");
+				 break;
+				 
+			 case 2:
+				 lbl_partie_sauvegarder3.setText("Partie 3 Vide");
+				 
+				 break;
+			 }
+		 }
+	}
+	/*
+	 * 	private void affichePartieSauvegarder(JLabel p1,JLabel p2,JLabel p3) { 
+		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
+		  TicTacToe partie1,partie2,partie3;
+		  
+		  if(partiesSauvegarder != null) { 
+			   switch(partiesSauvegarder.size()) { 
+			   	
+			   case 0:
+				   return;
+			   case 1:
+				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				   p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+
+				   break;
+				   
+			   case 2:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+				   
+				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
+				    p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+				   break;
+				   
+			   default:
+				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
+				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+					   
+					partie2 = (TicTacToe)partiesSauvegarder.get(1);
+					p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+					   
+					partie3 = (TicTacToe)partiesSauvegarder.get(2);
+				    p3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
+	   
+				   break;
+			   }
+		  }
+		
+	}
+	 */
+	/*
+	private void affichePartieSauvegarder() { 
 		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
 		  TicTacToe partie1,partie2,partie3;
 		  
@@ -597,44 +711,7 @@ public class MainVue extends JPanel {
 		
 	}
 	
-	private void affichePartieSauvegarder(JLabel p1,JLabel p2,JLabel p3) { 
-		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
-		  TicTacToe partie1,partie2,partie3;
-		  
-		  if(partiesSauvegarder != null) { 
-			   switch(partiesSauvegarder.size()) { 
-			   	
-			   case 0:
-				   return;
-			   case 1:
-				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				   p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-
-				   break;
-				   
-			   case 2:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-				   
-				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
-				    p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-				   break;
-				   
-			   default:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-					   
-					partie2 = (TicTacToe)partiesSauvegarder.get(1);
-					p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-					   
-					partie3 = (TicTacToe)partiesSauvegarder.get(2);
-				    p3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
-	   
-				   break;
-			   }
-		  }
-		
-	}
+*/
     private void onClickChess() {
 		jeu_selectionner = Partie.Jeu.CHESS;
 	    titre_jeu_selectionner = "Chess";

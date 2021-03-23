@@ -2,6 +2,8 @@ package mega.main;
 
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
@@ -13,8 +15,23 @@ import mega.vues.ListeDesJoueursVue;
 import mega.vues.MainVue;
 import tictactoe.TicTacToe;
 
-public class Application extends JFrame{
+public class Application extends JFrame implements WindowListener{
 	
+	/******************
+	 * Objectifs
+	 ******************
+	 * Detection des états des parties lorsque on quitte la partie et on reprend XXX 
+	 * suppression des parties finis sauvegardés XX 
+	 * reste quand on clique sur quitter on doit supprimer les parties terminer sauvegarder
+	 * affichage de progression doit synchrone avec le reste de l'interface
+	 * Mise à jour de l'interface principale 
+	 * Amélioration de la présentation
+	 * 
+	 *******************************
+	 *Implémentation du jeu d'échec
+	 *******************************
+	 * redo
+	 */
 	
 	
 	private int width,height;
@@ -30,6 +47,7 @@ public class Application extends JFrame{
 			this.setResizable(false);
 			this.setLocationRelativeTo(this);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.addWindowListener(this);
 			this.setContentPane(connexion);
 		}
 		
@@ -43,6 +61,7 @@ public class Application extends JFrame{
 			this.setLocationRelativeTo(this);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setContentPane(connexion);
+			this.addWindowListener(this);
 			this.setSize(new Dimension(width,height));
 		}
 
@@ -183,6 +202,54 @@ public class Application extends JFrame{
 
 		public void setHeight(int height) {
 			this.height = height;
+		}
+
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO Auto-generated method stub
+			if(vuePrincipale != null)	vuePrincipale.updateUIMV();
+		}
+
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("iconified !");
+		}
+
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			System.out.println("Activated !");
+			if(vuePrincipale != null)vuePrincipale.updateUIMV();
+		}
+
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			
 		}
 
 
