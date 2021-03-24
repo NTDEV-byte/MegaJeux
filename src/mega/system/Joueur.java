@@ -15,13 +15,13 @@ public class Joueur implements Serializable{
 	
 	public static final String progressionSavePath = "progressions/progression_joueurs#ID";
 	public static final String partiesSauvegarderPathTTT = "parties/ttt/partiesSauvergarderJoueur#ID";
+	public static final String partiesSauvegarderPathCHESS = "parties/chess/partiesSauvergarderJoueur#ID";
 	private int id;
 	private int totalPartiesSV = 0;
 	private String pseudonyme;
 	private String motDePasse;
 	private Progression progression;
 	private List<InterfaceJeu> partiesSauvegarders;  
-	
 	
 		public Joueur(String pseudonyme,String motDePasse) { 
 				 this.pseudonyme = pseudonyme;
@@ -32,13 +32,11 @@ public class Joueur implements Serializable{
 				 partiesSauvegarders = new ArrayList<InterfaceJeu>();
 			}
 		
-		
 		public void addNouvellePartie(Partie p) { 
 			progression.ajoutePartie(p);
 			Utils.serialize(progressionSavePath+id, progression);
 			System.out.println("Progression du joueur: ID: "+id+" pseudonyme: "+pseudonyme+" est sauvegard� !");
 		}
-		
 		
 		public void enregisterStatPartieCourante() { 
 			if(Utils.FileExists(progressionSavePath+id)) {
@@ -48,24 +46,66 @@ public class Joueur implements Serializable{
 		
 		public void sauvegardePartieJeuEnCours(InterfaceJeu game) { 
 			 	int temp = totalPartiesSV;
-					if(!partiesSauvegarders.contains(game)) { 
+				clearListParties();
+			 		if(partiesSauvegarders.size() == 0) { 
+			 			partiesSauvegarders.add(game);
+						totalPartiesSV++;
+						System.out.println("TotalPartiesSV: "+totalPartiesSV);
+			 		}
+			 		else
+			 			if(!partiesSauvegarders.contains(game)) { 
 						partiesSauvegarders.add(game);
 						totalPartiesSV++;
+						System.out.println("TotalPartiesSV: "+totalPartiesSV);
 						//System.out.println("Total après incrémentation " +TOTAL_PARTIES_SAUVEGARDER);
 					}
 					else {
 						temp = temp - 1;
+						System.out.println("temp: "+temp);
 					//	System.out.println("total - 1 =  "+temp);
 						partiesSauvegarders.set(temp , game);
 					}
-					Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+					if(game instanceof TicTacToe) {
+						Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+					}
+					else {
+						Utils.serialize(partiesSauvegarderPathCHESS+id,partiesSauvegarders);
+					}
 					//System.out.println("taille liste: "+partiesSauvegarders.size());
 			}
 		
+		
+		private void clearListParties() { 
+			for(int i=0;i<partiesSauvegarders.size();i++) {
+				 if(partiesSauvegarders.get(i) != null) { 
+					 return;
+				 }
+			}
+			partiesSauvegarders.clear();
+		}
+		
+		public void sauvegardePartieJeuEnCours(InterfaceJeu game,int index) {
+				clearListParties();
+	 				if(partiesSauvegarders.size() >= index) { 
+						partiesSauvegarders.set(index , game);
+						if(game instanceof TicTacToe) {
+							Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
+						  }
+						else {
+							Utils.serialize(partiesSauvegarderPathCHESS+id,partiesSauvegarders);
+						}
+					}
+					else {
+						System.err.println("Index Invalide la taille de la liste est de: "+partiesSauvegarders.size()+ "il doit être entre 0 - "+partiesSauvegarders.size());
+					}
+	 		}
+		
+		
 		public void supprimePartieSauvegardee(int index) { 
 			  if(partiesSauvegarders.size() >=  index) {
-				  partiesSauvegarders.remove(index);
-				  totalPartiesSV--;
+				  partiesSauvegarders.set(index, null);
+				  totalPartiesSV = (totalPartiesSV <= 0) ? 0 : (totalPartiesSV = totalPartiesSV - 1);
+				   System.out.println("total: "+totalPartiesSV);
 				  Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
 			  	}
 			 }
@@ -74,9 +114,10 @@ public class Joueur implements Serializable{
 			for(int i=0;i<partiesSauvegarders.size();i++) {
 				  if(partiesSauvegarders.get(i) instanceof TicTacToe) { 
 					   TicTacToe partie = (TicTacToe)partiesSauvegarders.get(i);
-					   if(partie.getEtat() != Etat.DEFAULT) {
+					   if(partie.getIntegrateur().getEtatPartie() != Etat.DEFAULT) {
 						   partiesSauvegarders.remove(i);
-						   totalPartiesSV--;
+						   totalPartiesSV = (totalPartiesSV <= 0) ? 0 : (totalPartiesSV = totalPartiesSV - 1);
+						   System.out.println("total: "+totalPartiesSV);
 						   Utils.serialize(partiesSauvegarderPathTTT+id,partiesSauvegarders);
 						   return i;
 					   }
@@ -92,10 +133,11 @@ public class Joueur implements Serializable{
 				if(obj instanceof List) {
 					partiesSauvegarders = (List<InterfaceJeu>)(obj);
 				}
-				
 				for(int i=0;i<partiesSauvegarders.size();i++) {
 					 TicTacToe x = (TicTacToe) partiesSauvegarders.get(i);
-					 System.out.println("PS"+i+" J1: "+x.getJoueur1()+" J2: "+x.getJoueur2());
+					 if(x != null) { 
+						 System.out.println("PS"+i+" J1: "+x.getIntegrateur().getPseudoj1()+" J2: "+x.getIntegrateur().getPseudoj2());
+					 }
 				}
 				
 			}
@@ -123,6 +165,8 @@ public class Joueur implements Serializable{
 			public int calculeScore() {
 				 return progression.scoreCumule();
 			}
+			
+			
 			
 			
 			public Partie getPartieEncours() { 
@@ -174,7 +218,11 @@ public class Joueur implements Serializable{
 				this.id = id;
 			}
 
-
+			public boolean fullSlotsSave() { 
+				return partiesSauvegarders.size() == 3;
+			}
+			
+			
 			public List<InterfaceJeu> getPartiesSauvegarders() {
 				return partiesSauvegarders;
 			}

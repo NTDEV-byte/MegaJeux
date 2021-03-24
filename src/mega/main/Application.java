@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+import chess.GUIBoard;
+import chess.Pieces;
 import mega.system.Joueur;
 import mega.system.MegaJeuModel;
 import mega.vues.ConnexionVue;
@@ -21,9 +23,9 @@ public class Application extends JFrame implements WindowListener{
 	 * Objectifs
 	 ******************
 	 * Detection des états des parties lorsque on quitte la partie et on reprend XXX 
-	 * suppression des parties finis sauvegardés XX 
+	 * suppression des parties finis sauvegardés XXX
 	 * reste quand on clique sur quitter on doit supprimer les parties terminer sauvegarder
-	 * affichage de progression doit synchrone avec le reste de l'interface
+	 * affichage de progression et score doit être synchrone avec le reste de l'interface
 	 * Mise à jour de l'interface principale 
 	 * Amélioration de la présentation
 	 * 
@@ -109,11 +111,21 @@ public class Application extends JFrame implements WindowListener{
 		}
 
 		
+		public void switchToChess(Joueur j1,Joueur j2) { 
+	        Pieces pieces = new Pieces();
+	        pieces.setGUIGame(true);
+			this.setContentPane(new GUIBoard(pieces));
+			this.revalidate();
+		}
+
+		
 		public void reprendrePartie(InterfaceJeu j) { 
 			if(j instanceof TicTacToe) { 
 				TicTacToe partie = (TicTacToe) j;
-				partie.setApp(this);
-				System.out.println("Application passed: "+partie.getApp());
+				partie.getIntegrateur().setApplication(this);
+				partie.getIntegrateur().setJoueur1(vuePrincipale.getJoueur1());
+				partie.getIntegrateur().setJoueur2(vuePrincipale.getJoueur2());
+				System.out.println("Application passed: "+partie.getIntegrateur().getApplication());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
@@ -131,7 +143,8 @@ public class Application extends JFrame implements WindowListener{
 		}
 		
 		public static void main(String[] args) {
-			 new Application(800,600);
+			//800 600
+			 new Application(1000,800);
 		}
 
 

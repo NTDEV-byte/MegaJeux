@@ -1,42 +1,60 @@
 package chess;
+import javax.swing.*;
+import java.util.ArrayList;
 
+/*
+1) Class Constructors
+2) Overridden Methods
+*/
 
-import java.util.LinkedList;
-import java.util.List;
+public class Knight extends Piece{
 
-import chess.Board;
-import chess.Piece;
-import chess.Square;
+    private ImageIcon icon;
 
-public class Knight extends Piece {
+    //________________________________________________Class Constructors________________________________________________
 
-    public Knight(int color, Square initSq, String img_file) {
-        super(color, initSq, img_file);
+    public Knight(COLOUR colour, Coordinate OGcoord) {
+        super(ID.KNIGHT, colour, OGcoord);
+        if (getColour() == COLOUR.B)
+            icon = new ImageIcon("./resources/BKnight.png");
+        else if (getColour() == COLOUR.W)
+            icon = new ImageIcon("./resources/WKnight.png");
+    }
+
+    public Knight(Knight original) {
+        super(original);
+    }
+
+    //________________________________________________Overridden Methods________________________________________________
+
+    @Override
+    public Knight makeCopy() {
+        return new Knight(this);
+    }
+
+    /**
+     * Produces an ArrayList containing all the raw moves available to a Knight within a given board
+     * @param pieces the board being played in
+     * @return an ArrayList containing all the coordinates produced from the Move class (all the Knight moves)
+     */
+
+    @Override
+    public ArrayList<Coordinate> getRawMoves(Pieces pieces) {
+        ArrayList<Coordinate> front = Move.frontKnight(pieces,this);
+        ArrayList<Coordinate> right = Move.backKnight(pieces,this);
+        ArrayList<Coordinate> back = Move.rightKnight(pieces,this);
+        ArrayList<Coordinate> left = Move.leftKnight(pieces,this);
+
+        front.addAll(right);
+        back.addAll(left);
+        front.addAll(back);
+
+        return front;
     }
 
     @Override
-    public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] board = b.getSquareArray();
-        
-        int x = this.getPosition().getXNum();
-        int y = this.getPosition().getYNum();
-        
-        for (int i = 2; i > -3; i--) {
-            for (int k = 2; k > -3; k--) {
-                if(Math.abs(i) == 2 ^ Math.abs(k) == 2) {
-                    if (k != 0 && i != 0) {
-                        try {
-                            legalMoves.add(board[y + k][x + i]);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-        
-        return legalMoves;
+    public ImageIcon getImageIcon() {
+        return icon;
     }
 
 }

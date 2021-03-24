@@ -1,42 +1,73 @@
 package chess;
+import javax.swing.*;
+import java.util.ArrayList;
 
+/*
+1) Class Constructors
+2) Overridden Methods
+*/
 
-import java.util.LinkedList;
-import java.util.List;
+public class Queen extends Piece{
 
-import chess.Board;
-import chess.Piece;
-import chess.Square;
+    private ImageIcon icon;
 
-public class Queen extends Piece {
+    //________________________________________________Class Constructors________________________________________________
 
-    public Queen(int color, Square initSq, String img_file) {
-        super(color, initSq, img_file);
+    public Queen(COLOUR colour, Coordinate OGcoord) {
+        super(ID.QUEEN, colour, OGcoord);
+        if (getColour() == COLOUR.B)
+            icon = new ImageIcon("./resources/BQueen.png");
+        else if (getColour() == COLOUR.W)
+            icon = new ImageIcon("./resources/WQueen.png");
+    }
+
+    public Queen(Queen original) {
+        super(original);
+    }
+
+    //________________________________________________Overridden Methods________________________________________________
+
+    @Override
+    public Queen makeCopy() {
+        return new Queen(this);
+    }
+
+    /**
+     * Produces an ArrayList containing all the raw moves available to a Queen within a given board
+     * @param pieces the board being played in
+     * @return an ArrayList containing all the coordinates produced from the Move class
+     * (all the diagonals, all verticals and all horizontals)
+     */
+
+    @Override
+    public ArrayList<Coordinate> getRawMoves(Pieces pieces) {
+
+        ArrayList<Coordinate> front = Move.frontFree(pieces,this,dimension);
+        ArrayList<Coordinate> right = Move.rightFree(pieces,this,dimension);
+        ArrayList<Coordinate> back = Move.backFree(pieces,this,dimension);
+        ArrayList<Coordinate> left = Move.leftFree(pieces,this,dimension);
+        ArrayList<Coordinate> frontRDig = Move.frontRDigFree(pieces, this,dimension);
+        ArrayList<Coordinate> backRDig = Move.backRDigFree(pieces, this, dimension);
+        ArrayList<Coordinate> backLDig = Move.backLDigFree(pieces, this,dimension);
+        ArrayList<Coordinate> frontLDig = Move.frontLDigFree(pieces, this, dimension);
+
+        front.addAll(right);
+        back.addAll(left);
+        front.addAll(back);
+
+        frontRDig.addAll(backRDig);
+        backLDig.addAll(frontLDig);
+        frontRDig.addAll(backLDig);
+
+        front.addAll(frontRDig);
+
+        return front;
+
     }
 
     @Override
-    public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] board = b.getSquareArray();
-        
-        int x = this.getPosition().getXNum();
-        int y = this.getPosition().getYNum();
-        
-        int[] occups = getLinearOccupations(board, x, y);
-        
-        for (int i = occups[0]; i <= occups[1]; i++) {
-            if (i != y) legalMoves.add(board[i][x]);
-        }
-        
-        for (int i = occups[2]; i <= occups[3]; i++) {
-            if (i != x) legalMoves.add(board[y][i]);
-        }
-        
-        List<Square> bMoves = getDiagonalOccupations(board, x, y);
-        
-        legalMoves.addAll(bMoves);
-        
-        return legalMoves;
+    public ImageIcon getImageIcon() {
+        return icon;
     }
-    
+
 }

@@ -26,6 +26,8 @@ import tictactoe.TicTacToe;
 
 public class MainVue extends JPanel {
 	
+	public static int index_partie;
+	
 	private Partie.Jeu jeu_selectionner = Partie.Jeu.CHESS;
 	private String titre_jeu_selectionner = "Chess";
 	private JLabel lb_title_jeu_selectionner;
@@ -499,32 +501,37 @@ public class MainVue extends JPanel {
 				   return;
 			   case 1:
 				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				   lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
+				   checkPartieDisponibleTTT(partie1,lbl_partie_sauvegarder1,1);
 
 				   break;
 				   
 			   case 2:
 				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-				   
+				    checkPartieDisponibleTTT(partie1,lbl_partie_sauvegarder1,1);
 				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
-				    lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
+				    checkPartieDisponibleTTT(partie2,lbl_partie_sauvegarder2,2);
 				   break;
 				   
 			   default:
 				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-					   
+				    checkPartieDisponibleTTT(partie1,lbl_partie_sauvegarder1,1);					   
 					partie2 = (TicTacToe)partiesSauvegarder.get(1);
-					lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-					   
+					checkPartieDisponibleTTT(partie2,lbl_partie_sauvegarder2,2);		
 					partie3 = (TicTacToe)partiesSauvegarder.get(2);
-					lbl_partie_sauvegarder3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
-	   
+					checkPartieDisponibleTTT(partie3,lbl_partie_sauvegarder3,3);
 				   break;
 			   }
 		  }
-		
+	}
+	
+	
+	private void checkPartieDisponibleTTT(TicTacToe partie1,JLabel label,int index) { 
+			if(partie1 != null) {
+				 label.setText("Vs "+partie1.getIntegrateur().getPseudoj2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getIntegrateur().getDate()));
+			}
+			else {
+				label.setText("Partie "+index+" Vide");
+			}
 	}
 	
 	/*
@@ -631,87 +638,6 @@ public class MainVue extends JPanel {
 			 }
 		 }
 	}
-	/*
-	 * 	private void affichePartieSauvegarder(JLabel p1,JLabel p2,JLabel p3) { 
-		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
-		  TicTacToe partie1,partie2,partie3;
-		  
-		  if(partiesSauvegarder != null) { 
-			   switch(partiesSauvegarder.size()) { 
-			   	
-			   case 0:
-				   return;
-			   case 1:
-				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				   p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-
-				   break;
-				   
-			   case 2:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-				   
-				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
-				    p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-				   break;
-				   
-			   default:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    p1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-					   
-					partie2 = (TicTacToe)partiesSauvegarder.get(1);
-					p2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-					   
-					partie3 = (TicTacToe)partiesSauvegarder.get(2);
-				    p3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
-	   
-				   break;
-			   }
-		  }
-		
-	}
-	 */
-	/*
-	private void affichePartieSauvegarder() { 
-		  List<InterfaceJeu> partiesSauvegarder = joueur1.getPartiesSauvegarders();
-		  TicTacToe partie1,partie2,partie3;
-		  
-		  if(partiesSauvegarder != null) { 
-			   switch(partiesSauvegarder.size()) { 
-			   	
-			   case 0:
-				   return;
-			   case 1:
-				   partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				   lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-
-				   break;
-				   
-			   case 2:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-				   
-				    partie2 = (TicTacToe)partiesSauvegarder.get(1);
-				    lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-				   break;
-				   
-			   default:
-				    partie1 = (TicTacToe)partiesSauvegarder.get(0);
-				    lbl_partie_sauvegarder1.setText("Vs "+partie1.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie1.getDate()));
-					   
-					partie2 = (TicTacToe)partiesSauvegarder.get(1);
-					lbl_partie_sauvegarder2.setText("Vs "+partie2.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie2.getDate()));
-					   
-					partie3 = (TicTacToe)partiesSauvegarder.get(2);
-					lbl_partie_sauvegarder3.setText("Vs "+partie3.getJoueur2()+" "+Utils.dateToString("YYYY-MM-dd",partie3.getDate()));
-	   
-				   break;
-			   }
-		  }
-		
-	}
-	
-*/
     private void onClickChess() {
 		jeu_selectionner = Partie.Jeu.CHESS;
 	    titre_jeu_selectionner = "Chess";
@@ -756,7 +682,9 @@ public class MainVue extends JPanel {
 			joueur2.addNouvellePartie(p2);
 			
 			if(jeu == Jeu.CHESS) { 
-				chess.Game.main(null);
+
+		
+				application.switchToChess(joueur1, joueur2);
 			}
 			else {
 				application.switchToTicTacToe(joueur1, joueur2);
