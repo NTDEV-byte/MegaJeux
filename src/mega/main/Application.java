@@ -110,14 +110,12 @@ public class Application extends JFrame implements WindowListener{
 			this.revalidate();
 		}
 
-		
 		public void switchToChess(Joueur j1,Joueur j2) { 
 	        Pieces pieces = new Pieces();
 	        pieces.setGUIGame(true);
-			this.setContentPane(new GUIBoard(pieces));
+			this.setContentPane(new GUIBoard(pieces,this,j1,j2));
 			this.revalidate();
 		}
-
 		
 		public void reprendrePartie(InterfaceJeu j) { 
 			if(j instanceof TicTacToe) { 
@@ -133,13 +131,10 @@ public class Application extends JFrame implements WindowListener{
 				
 			}
 		}
-	
-	
 		
 		public void switchToChoisirAdversaire() { 
 			this.setContentPane(listesJoueurs);
 			this.revalidate();
-			
 		}
 		
 		public static void main(String[] args) {

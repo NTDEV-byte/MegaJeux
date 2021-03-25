@@ -140,7 +140,7 @@ public class MainVue extends JPanel {
 				onClickTicTacToe();
 			}
 		} );
-		
+		  
 		/*
 		 * Lorsque le joueur clique sur le button lancer c'est en ce moment 
 		 * qu'on lance l'interface qui demande au joueur de choisir un adversaire
@@ -683,7 +683,6 @@ public class MainVue extends JPanel {
 			
 			if(jeu == Jeu.CHESS) { 
 
-		
 				application.switchToChess(joueur1, joueur2);
 			}
 			else {

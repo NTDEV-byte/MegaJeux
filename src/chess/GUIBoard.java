@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.HashSet;
 
@@ -24,6 +25,11 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import mega.main.Application;
+import mega.main.InterfaceJeu;
+import mega.main.integrateur.IntegrateurMegaJeu;
+import mega.main.integrateur.QuitteListener;
+import mega.main.integrateur.SauvegardeListener;
 import mega.system.Joueur;
 
 
@@ -45,7 +51,7 @@ import mega.system.Joueur;
  * The GUIBoard class contains all the methods and classes used to display the game of chess
  */
 
-public class GUIBoard extends JPanel{
+public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
 
     // the pieces used for the game
     private final Pieces pieces;
@@ -77,7 +83,7 @@ public class GUIBoard extends JPanel{
     private static final int tileSize = 88;
 
     // icon for squares without pieces
-    private final BufferedImage invisible = new BufferedImage(80, 80, BufferedImage.TYPE_INT_ARGB);
+    private transient final BufferedImage invisible = new BufferedImage(80, 80, BufferedImage.TYPE_INT_ARGB);
     private final ImageIcon invisibleIcon = new ImageIcon(invisible);
 
     // used to determine number of clicks
@@ -96,6 +102,7 @@ public class GUIBoard extends JPanel{
     ButtonHandle gameClick = new ButtonHandle();
 
     private JPanel boardPanel;
+    private IntegrateurMegaJeu integrateur;
     //________________________________________________Class Constructor________________________________________________
 
     /**
@@ -106,7 +113,7 @@ public class GUIBoard extends JPanel{
      * @param p the pieces HashMap used for the game
      */
 
-    public GUIBoard(Pieces p) {
+   /* public GUIBoard(Pieces p) {
         setBackground(Color.black);
         pieces = p;
 
@@ -127,13 +134,14 @@ public class GUIBoard extends JPanel{
         this.add(boardPanel, BorderLayout.CENTER);
         this.add(createRankLabelsRight(),BorderLayout.EAST);
         this.add(createFileLabelsBottom(), BorderLayout.SOUTH);
+        this.add(integrateur.getUI(),BorderLayout.EAST);
         this.add(createInfoPanel(), BorderLayout.EAST);
     }
-
-    public GUIBoard(Pieces p,Joueur j1,Joueur j2) {
+*/
+    public GUIBoard(Pieces p,Application application,Joueur j1,Joueur j2) {
         setBackground(Color.black);
         pieces = p;
-
+        integrateur = new IntegrateurMegaJeu(application,j1,j2);
         boardPanel = new JPanel(new GridLayout(dimension, dimension));
         for (int rank = dimension; rank >= firstRank; rank--) {
             for (int file = 1; file <= dimension; file++) {
@@ -151,7 +159,10 @@ public class GUIBoard extends JPanel{
         this.add(boardPanel, BorderLayout.CENTER);
         this.add(createRankLabelsRight(),BorderLayout.EAST);
         this.add(createFileLabelsBottom(), BorderLayout.SOUTH);
-        this.add(createInfoPanel(), BorderLayout.EAST);
+        this.add(integrateur.getUI(),BorderLayout.EAST);
+        
+        integrateur.setActionForSauvegarde(new SauvegardeListener(this,integrateur));
+        integrateur.setActionForQuitte(new QuitteListener(this,integrateur));
     }
 
    
@@ -471,7 +482,7 @@ public class GUIBoard extends JPanel{
      * This class is used to handle the game logic for the GUI.
      */
 
-    private class ButtonHandle implements ActionListener {
+    private class ButtonHandle implements ActionListener,Serializable {
 
         /**
          * Displays the potential moves, increases counter and sets the movingPiece to the piece selected
@@ -643,7 +654,7 @@ public class GUIBoard extends JPanel{
     public static void main (String[]args){
         Pieces pieces = new Pieces();
         pieces.setGUIGame(true);
-        new GUIBoard(pieces);
+     //   new GUIBoard(pieces);
     }
 
 }

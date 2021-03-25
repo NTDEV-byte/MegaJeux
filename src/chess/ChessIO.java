@@ -2,6 +2,7 @@ package chess;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 2) Game Saving Method
 */
 
-public class ChessIO {
+public class ChessIO implements Serializable{
 
     private static final String errorSave = "$$$";
 

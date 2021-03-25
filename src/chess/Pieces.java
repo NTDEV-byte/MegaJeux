@@ -1,5 +1,9 @@
 package chess;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
 
 /*
 1) Class Constructors
@@ -18,7 +22,7 @@ import java.util.*;
  * such as checking when a game ends or handling the movement of a piece.
  */
 
-public class Pieces {
+public class Pieces implements Serializable{
 
     /**
      * pieces is a HashMap which uses a Coordinate-Piece key-value pair,

@@ -1,4 +1,5 @@
 package chess;
+import java.io.Serializable;
 import java.util.Objects;
 
 /*
@@ -14,7 +15,7 @@ import java.util.Objects;
  * and its rank (row), represented as a number from 1 to 8.
  */
 
-public class Coordinate {
+public class Coordinate implements Serializable{
 
     public char file; //column or letter
     public int rank; //row or number

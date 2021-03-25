@@ -14,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mega.main.Application;
-import mega.main.IntegrateurMegaJeu;
 import mega.main.InterfaceJeu;
+import mega.main.integrateur.IntegrateurMegaJeu;
+import mega.main.integrateur.QuitteListener;
+import mega.main.integrateur.SauvegardeListener;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
 
@@ -71,8 +73,8 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		 * integrateur modification
 		 */
 		this.add(integrateur.getUI(),BorderLayout.EAST);
-		integrateur.setActionForSauvegarde(new SauvegardeButton());
-		integrateur.setActionForQuitte(new QuitteButton());
+		integrateur.setActionForSauvegarde(new SauvegardeListener(this,integrateur));
+		integrateur.setActionForQuitte(new QuitteListener(this,integrateur));
 		
 		firstTurn();
 		
@@ -302,19 +304,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	}
 
 	
-private class SauvegardeButton implements ActionListener,Serializable{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		integrateur.sauvegardePartieAction(TicTacToe.this);
-	} 
-}
 
-private class QuitteButton implements ActionListener,Serializable{
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		integrateur.quittePartieAction();
-	} 
-}
 
 private void logTerminal() { 
 	for(int i=0;i<3;i++) {

@@ -1,6 +1,11 @@
 package chess;
-import javax.swing.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
+
+import javax.swing.ImageIcon;
 
 /*
 1) Class Constructors
@@ -16,7 +21,7 @@ import java.util.*;
  * The Piece class is also used to determine all the moves that a given piece can make within a given board.
  */
 
-public abstract class Piece{
+public abstract class Piece implements Serializable{
 
     /**
      * name is the ID of the piece. Determines whether it is a pawn, knight, bishop, rook, queen or king.

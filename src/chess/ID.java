@@ -4,7 +4,7 @@ package chess;
  * Each has 2 toString methods
  */
 
-public enum ID {
+public enum ID{
     KING {
         @Override
         public String toString() {

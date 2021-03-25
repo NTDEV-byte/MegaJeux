@@ -1,8 +1,9 @@
-package mega.main;
+package mega.main.integrateur;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import mega.main.Application;
+import mega.main.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
 
@@ -39,17 +42,31 @@ public class IntegrateurMegaJeu implements Serializable{
 	public JPanel getUI() { 
 		JPanel uiPanel = new JPanel();
 		uiPanel.setPreferredSize(new Dimension(200,800));
-		uiPanel.setBackground(Color.YELLOW);
+		uiPanel.setBackground(new Color(51,51,51));
 		uiPanel.setLayout(null);
+		
+	
 		
 		btn_sauvegarder = new JButton("Sauvegarder");
 		btn_sauvegarder.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btn_sauvegarder.setBounds(42, 286, 118, 21);
+		System.out.println("Height:" +application.getHeight());
+		btn_sauvegarder.setBounds(42,  540, 118, 21);
+		btn_sauvegarder.setBackground(Color.orange);
+		btn_sauvegarder.setForeground(Color.white);
+		btn_sauvegarder.setOpaque(true);
+		btn_sauvegarder.setContentAreaFilled(true);
+		btn_sauvegarder.setBorderPainted(false);
 		uiPanel.add(btn_sauvegarder);
 		
 	    btn_quitter = new JButton("Quitter");
 		btn_quitter.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btn_quitter.setBounds(55, 364, 85, 21);
+		btn_quitter.setBounds(55, 620, 85, 21);
+		btn_quitter.setBackground(Color.orange);
+		btn_quitter.setForeground(Color.white);
+		btn_quitter.setOpaque(true);
+		btn_quitter.setContentAreaFilled(true);
+		btn_quitter.setBorderPainted(false);
+		
 		uiPanel.add(btn_quitter);
 		
 		JLabel lbl_title = new JLabel("TicTacToe");
@@ -122,10 +139,8 @@ public class IntegrateurMegaJeu implements Serializable{
 	}
 	
 	public void setActionForQuitte(ActionListener listener) {
-		btn_quitter.addActionListener(listener);;
+		btn_quitter.addActionListener(listener);
 	}
-	
-	
 	
 	public Application getApplication() {
 		return application;

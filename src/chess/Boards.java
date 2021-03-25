@@ -1,8 +1,8 @@
 package chess;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Boards {
+public class Boards implements Serializable{
 
     public static HashMap<Coordinate, Piece> getChessBoard() {
 
