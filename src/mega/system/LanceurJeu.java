@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import mega.main.Application;
 import mega.system.Partie.Jeu;
-import mega.vues.MainVue;
+import mega.ui.UiMainVue;
 
 public class LanceurJeu implements Serializable{
 
@@ -13,7 +13,7 @@ public class LanceurJeu implements Serializable{
 		private Application application;
 		private Joueur joueur1,joueur2;
 				
-				public LanceurJeu(MainVue vuePrincipale,Jeu jeu) { 
+				public LanceurJeu(UiMainVue vuePrincipale,Jeu jeu) { 
 					this.jeu = jeu;
 					this.application = vuePrincipale.getApplication();
 					this.joueur1 = vuePrincipale.getJoueur1();

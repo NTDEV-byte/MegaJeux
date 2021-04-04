@@ -286,6 +286,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		}
 		textfield.setText("X wins");
 		integrateur.setWinnerAndLoserOrDraw(Etat.GAGNEE, Etat.PERDUE);
+	
 	}
 	
 	public void oWins(int a,int b,int c) {
@@ -297,10 +298,8 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 			buttons[i].setEnabled(false);
 		}
 		textfield.setText("O wins");
-		
-		//modif
 		integrateur.setWinnerAndLoserOrDraw(Etat.PERDUE, Etat.GAGNEE);
-		System.out.println("Check O !!!!");
+		//modif
 	}
 
 

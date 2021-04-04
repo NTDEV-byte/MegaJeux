@@ -76,7 +76,9 @@ public class Progression implements Serializable{
 			List<Partie> parties = new ArrayList<Partie>();
 			for(int i=0;i<historique.size();i++) { 
 				if(historique.get(i).getJeu() == Jeu.TICTACTOE) { 
-					parties.add(historique.get(historique.size() -1 - i));
+					if(historique.get(i).getEtat() != Etat.DEFAULT) {
+						parties.add(historique.get(historique.size() -1 - i));
+					}
 				}
 			}
 			return parties;
@@ -86,7 +88,9 @@ public class Progression implements Serializable{
 			List<Partie> parties = new ArrayList<Partie>();
 			for(int i=0;i<historique.size();i++) { 
 				if(historique.get(i).getJeu() == Jeu.CHESS) { 
-					parties.add(historique.get(historique.size() -1 - i));
+					if(historique.get(i).getEtat() != Etat.DEFAULT) {
+						parties.add(historique.get(historique.size() -1 - i));
+					}
 				}
 		}		
 			return parties;

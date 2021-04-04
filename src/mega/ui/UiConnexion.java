@@ -1,10 +1,14 @@
-package mega.vues;
+package mega.ui;
+
+import static mega.main.Application.image;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -15,48 +19,54 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import static mega.main.Application.*;
+
 import mega.main.Application;
 import mega.system.Joueur;
-import mega.system.MegaJeuModel;
+import mega.system.MegaJeuBD;
 
-public class ConnexionVue extends JPanel {
+public class UiConnexion extends JPanel {
 
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField tf_pseudo;
+	private JPasswordField pf_motdepasse;
 	private Application application;
-	private MegaJeuModel model;
+	private MegaJeuBD model;
 	private Joueur jConnecter;
 	/**
 	 * Create the frame.
 	 */
-	public ConnexionVue(Application app) {
+	public UiConnexion(Application app) {
 		setBackground(new Color(51, 102, 0));
 		this.model = app.getModel();
 		this.application = app;
 		initialize();
 	}
 	
-	private void connexion() { 
+	private void connexion(JLabel label_info) { 
 		String pseudo;
 		String mot_de_passe;
-		HashMap<String,Joueur> joueurs = (HashMap<String, Joueur>) model.getJoueurs();
+		HashMap<String,Joueur> joueurs = (HashMap<String, Joueur>) model.getListeJoueurs();
 		
-		pseudo = textField.getText();
-		mot_de_passe = passwordField.getText();
+		pseudo = tf_pseudo.getText();
+		mot_de_passe = pf_motdepasse.getText();
 		
 		if(joueurs.containsKey(pseudo)) { 
 			jConnecter = joueurs.get(pseudo);
 				if(jConnecter.getMotDePasse().equals(mot_de_passe)) { 
-					 System.out.println("connexion r�ussi !");
+					label_info.setForeground(Color.green);
+					label_info.setText("Connexion Réussi !");
+					// System.out.println("connexion r�ussi !");
 					 	 application.switchToMainPanel();
 					}
 				else {
-					System.out.println("Mot de passe �rron�e");
+					label_info.setForeground(Color.red);
+					label_info.setText("Mot de passe incorrect !");
+					//System.out.println("Mot de passe �rron�e");
 				}
 			}
 		else {
-			System.out.println("Vous n'�tes pas inscrit !");
+			label_info.setForeground(Color.red);
+			label_info.setText("Vous n'êtes pas inscrit !");
+			//System.out.println("Vous n'�tes pas inscrit !");
 		}
 	}
 	/*
@@ -70,36 +80,43 @@ public class ConnexionVue extends JPanel {
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Connectez-vous");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 35));
-		lblNewLabel.setBounds(431, 41, 262, 33);
-		this.add(lblNewLabel);
+		JLabel lbl_connexion = new JLabel("Connectez-vous");
+		lbl_connexion.setForeground(Color.WHITE);
+		lbl_connexion.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 35));
+		lbl_connexion.setBounds(431, 41, 262, 33);
+		this.add(lbl_connexion);
 		
-		textField = new JTextField();
-		textField.setBackground(new Color(0xffd09f));
-		textField.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		textField.setBounds(379, 208, 367, 33);
-		this.add(textField);
-		textField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Pseudonyme");
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 30));
-		lblNewLabel_1.setBounds(473, 144, 179, 39);
-		this.add(lblNewLabel_1);
+		JLabel lbl_pseudonyme = new JLabel("Pseudonyme");
+		lbl_pseudonyme.setForeground(Color.WHITE);
+		lbl_pseudonyme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 30));
+		lbl_pseudonyme.setBounds(473, 144, 179, 39);
+		this.add(lbl_pseudonyme);
 		
-		JLabel lblNewLabel_2 = new JLabel("Mot de passe");
-		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 30));
-		lblNewLabel_2.setBounds(470, 335, 185, 33);
-		this.add(lblNewLabel_2);
+		JLabel lbl_mdp = new JLabel("Mot de passe");
+		lbl_mdp.setForeground(Color.WHITE);
+		lbl_mdp.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 30));
+		lbl_mdp.setBounds(470, 335, 185, 33);
+		this.add(lbl_mdp);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBackground(new Color(0xffd09f));
 		
-		passwordField.setBounds(379, 389, 367, 33);
-		this.add(passwordField);
+		JLabel lbl_info = new JLabel("");
+		lbl_info.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 16));
+		lbl_info.setBounds(10, 679, 432, 24);
+		add(lbl_info);
+		tf_pseudo = new JTextField();
+		tf_pseudo.setBackground(new Color(0xffd09f));
+		tf_pseudo.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
+		tf_pseudo.setBounds(379, 208, 367, 33);
+		this.add(tf_pseudo);
+		tf_pseudo.setColumns(10);
+		
+
+		pf_motdepasse = new JPasswordField();
+		pf_motdepasse.setBackground(new Color(0xffd09f));
+		
+		pf_motdepasse.setBounds(379, 389, 367, 33);
+		this.add(pf_motdepasse);
 		
 		JButton btnNewButton = new JButton("Se Connecter");
 		btnNewButton.setForeground(Color.WHITE);
@@ -107,7 +124,7 @@ public class ConnexionVue extends JPanel {
 		btnNewButton.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				connexion();
+				connexion(lbl_info);
 			}
 		});
 		btnNewButton.setBounds(473, 482, 179, 45);
@@ -171,6 +188,12 @@ public class ConnexionVue extends JPanel {
 		super.paintComponents(g);
 	}
 	
+	
+	private void reset(JLabel info,JTextField lbl_pseudo,JPasswordField lbl_mdp) { 
+		info.setText("");
+		lbl_pseudo.setText("");
+		lbl_mdp.setText("");
+	}
 	
 	public Joueur getJoueurConnecter() { 
 			return jConnecter;

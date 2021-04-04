@@ -1,4 +1,4 @@
-package mega.vues;
+package mega.ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,25 +20,25 @@ import javax.swing.event.ListSelectionListener;
 import mega.main.Application;
 import mega.system.Joueur;
 import mega.system.LanceurJeu;
-import mega.system.MegaJeuModel;
+import mega.system.MegaJeuBD;
 import mega.system.Partie.Jeu;
 import mega.utils.Utils;
 
-public class ListeDesJoueursVue extends JPanel {
+public class UiListeDesJoueursVue extends JPanel {
 
 	/**
 	 */
-	private MegaJeuModel model;
+	private MegaJeuBD model;
 	private BufferedImage fond;
 	private Joueur adversaire;
 	private boolean lancer;
-	private MainVue main;
+	private UiMainVue main;
 	private Application application;
 	private String pseudo_adv = null;
 	/**
 	 * Create the frame.
 	 */
-	public ListeDesJoueursVue(Application app) {
+	public UiListeDesJoueursVue(Application app) {
 		this.application = app;
 		this.model = app.getModel();
 		this.main = app.getVuePrincipale();
@@ -138,7 +138,7 @@ public class ListeDesJoueursVue extends JPanel {
 	
 	
 	private String[] chargerJoueurs() {
-		Collection<Joueur> adversaire = (Collection<Joueur>) model.getJoueurs().values();
+		Collection<Joueur> adversaire = (Collection<Joueur>) model.getListeJoueurs().values();
 		String joueurs_pseudos[] = new String[adversaire.size()];
 		int numero =0;
 		for(Joueur j : adversaire) {  
@@ -161,7 +161,7 @@ public class ListeDesJoueursVue extends JPanel {
 	}
 	
 	private Joueur choisirAdversaire() { 
-		HashMap<String,Joueur> joueurs = model.getJoueurs();
+		HashMap<String,Joueur> joueurs = model.getListeJoueurs();
 		if(joueurs != null) {
 			if(joueurs.containsKey(pseudo_adv)) { 
 				return joueurs.get(pseudo_adv);

@@ -12,56 +12,29 @@ import mega.jeux.chess.Pieces;
 import mega.jeux.tictactoe.TicTacToe;
 import mega.system.InterfaceJeu;
 import mega.system.Joueur;
-import mega.system.MegaJeuModel;
+import mega.system.MegaJeuBD;
+import mega.ui.UiConnexion;
+import mega.ui.UiInscriptionVue;
+import mega.ui.UiListeDesJoueursVue;
+import mega.ui.UiMainVue;
 import mega.utils.Utils;
-import mega.vues.ConnexionVue;
-import mega.vues.InscriptionVue;
-import mega.vues.ListeDesJoueursVue;
-import mega.vues.MainVue;
 
 public class Application extends JFrame{
 	
-	/******************
-	 * Objectifs
-	 ******************
-	 * mainvue fixe 
-	 * intégrateur button les commentaires 
-	 * slots remplie joueur1 vs joueur 2
-	 * message erreur connexion inscription (mot de passe incorrect pseudo)
-	 * password vide pas autorisé 
-	 * remove joptionpane
-	 * sauvegarde + label ajour + rapport + test fonctionnel + soutenance 
-	 *******************************
-	 *Implémentation du jeu d'échec
-	 *******************************
-	 * redo
-	 */
 	
 	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");;
 	public static final String TITLE = "MegaJeux";
-	public static int width,height;
-	private MegaJeuModel model;
-	private ConnexionVue connexion;
-	private InscriptionVue inscription;
-	private MainVue vuePrincipale;
-	private ListeDesJoueursVue listesJoueurs;
+	public static int width = 1073; //1073
+	public static int height = 800; //800
+	
+	private MegaJeuBD model;
+	private UiConnexion connexion;
+	private UiInscriptionVue inscription;
+	private UiMainVue vuePrincipale;
+	private UiListeDesJoueursVue listesJoueurs;
 	
 		public Application() { 
 			init();
-			this.setTitle(TITLE);
-			this.setVisible(true);
-			this.setResizable(false);
-			this.setLocationRelativeTo(this);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setContentPane(connexion);
-			this.setSize(new Dimension(WIDTH,HEIGHT));
-		}
-		
-		public Application(int width,int height) { 
-			init();
-			Application.width = width;
-			Application.height = height;
-			SwingUtilities.updateComponentTreeUI(this);
 			this.setTitle(TITLE);
 			this.setVisible(true);
 			this.setResizable(false);
@@ -72,13 +45,13 @@ public class Application extends JFrame{
 		}
 
 		private void init() { 
-			model = new MegaJeuModel();
-			connexion = new ConnexionVue(this);
+			model = new MegaJeuBD();
+			connexion = new UiConnexion(this);
 		}
 		
 		public void switchToInscriptionPanel() { 
 			if(inscription == null) { 
-				inscription = new InscriptionVue(this);
+				inscription = new UiInscriptionVue(this);
 				this.setContentPane(inscription);
 				this.revalidate();
 			}else {
@@ -95,9 +68,8 @@ public class Application extends JFrame{
 		}
 	
 		public void switchToMainPanel() { 
-					System.out.println(connexion.getJoueurConnecter().getPseudonyme());
 					if(vuePrincipale == null) { 
-						vuePrincipale = new MainVue(connexion.getJoueurConnecter(),this);
+						vuePrincipale = new UiMainVue(connexion.getJoueurConnecter(),this);
 						this.setContentPane(vuePrincipale);
 						this.revalidate();
 					}
@@ -122,17 +94,13 @@ public class Application extends JFrame{
 		public void reprendrePartie(InterfaceJeu j) { 
 			if(j instanceof TicTacToe) { 
 				TicTacToe partie = (TicTacToe) j;
-				partie.getIntegrateur().setApplication(this);
-				partie.getIntegrateur().setJoueur1(vuePrincipale.getJoueur1());
-				partie.getIntegrateur().setJoueur2(vuePrincipale.getJoueur2());
+				partie.getIntegrateur().setInformationPourPartieReprise(this, vuePrincipale.getJoueur1(), vuePrincipale.getJoueur2());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
 			else {
 				Chess partie = (Chess) j;
-				partie.getIntegrateur().setApplication(this);
-				partie.getIntegrateur().setJoueur1(vuePrincipale.getJoueur1());
-				partie.getIntegrateur().setJoueur2(vuePrincipale.getJoueur2());
+				partie.getIntegrateur().setInformationPourPartieReprise(this, vuePrincipale.getJoueur1(), vuePrincipale.getJoueur2());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
@@ -146,48 +114,48 @@ public class Application extends JFrame{
 		public static void main(String[] args) {
 				SwingUtilities.invokeLater(new Runnable() {
 						public void run() { 
-							new Application(1073,800);
+							new Application();
 						}
 				} );
 		}
 
-		public MegaJeuModel getModel() {
+		public MegaJeuBD getModel() {
 			return model;
 		}
 
-		public void setModel(MegaJeuModel model) {
+		public void setModel(MegaJeuBD model) {
 			this.model = model;
 		}
 
-		public ConnexionVue getConnexion() {
+		public UiConnexion getConnexion() {
 			return connexion;
 		}
 
-		public void setConnexion(ConnexionVue connexion) {
+		public void setConnexion(UiConnexion connexion) {
 			this.connexion = connexion;
 		}
 
-		public InscriptionVue getInscription() {
+		public UiInscriptionVue getInscription() {
 			return inscription;
 		}
 
-		public void setInscription(InscriptionVue inscription) {
+		public void setInscription(UiInscriptionVue inscription) {
 			this.inscription = inscription;
 		}
 
-		public ListeDesJoueursVue getListesJoueurs() {
+		public UiListeDesJoueursVue getListesJoueurs() {
 			return listesJoueurs;
 		}
 
-		public void setListesJoueurs(ListeDesJoueursVue listesJoueurs) {
+		public void setListesJoueurs(UiListeDesJoueursVue listesJoueurs) {
 			this.listesJoueurs = listesJoueurs;
 		}
 
-		public MainVue getVuePrincipale() {
+		public UiMainVue getVuePrincipale() {
 			return vuePrincipale;
 		}
 
-		public void setVuePrincipale(MainVue vuePrincipale) {
+		public void setVuePrincipale(UiMainVue vuePrincipale) {
 			this.vuePrincipale = vuePrincipale;
 		}
 }

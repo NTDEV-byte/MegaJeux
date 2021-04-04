@@ -46,8 +46,6 @@ public class IntegrateurMegaJeu implements Serializable{
 		uiPanel.setBackground(new Color(51,51,51));
 		uiPanel.setLayout(null);
 		
-	
-		
 		btn_sauvegarder = new JButton("Sauvegarder");
 		btn_sauvegarder.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		System.out.println("Height:" +application.getHeight());
@@ -61,7 +59,7 @@ public class IntegrateurMegaJeu implements Serializable{
 		
 	    btn_quitter = new JButton("Quitter");
 		btn_quitter.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btn_quitter.setBounds(55, 620, 85, 21);
+		btn_quitter.setBounds(58, 620, 85, 21);
 		btn_quitter.setBackground(Color.orange);
 		btn_quitter.setForeground(Color.white);
 		btn_quitter.setOpaque(true);
@@ -70,26 +68,31 @@ public class IntegrateurMegaJeu implements Serializable{
 		
 		uiPanel.add(btn_quitter);
 		
-		JLabel lbl_title = new JLabel("TicTacToe");
-		lbl_title.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_title.setBounds(66, 10, 85, 13);
+		JLabel lbl_title = new JLabel(application.getVuePrincipale().getJeu_selectionner().toString());
+		lbl_title.setForeground(Color.green);
+		lbl_title.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbl_title.setBounds(55, 10, 130, 20);
 		uiPanel.add(lbl_title);
 		
 		JLabel lbl_j1 = new JLabel(pseudoj1);
-		lbl_j1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbl_j1.setForeground(Color.green);
+		lbl_j1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbl_j1.setBounds(10, 63, 62, 13);
 		uiPanel.add(lbl_j1);
 		
 		JLabel lbl_vs = new JLabel("VS");
-		lbl_vs.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbl_vs.setForeground(Color.green);
+		lbl_vs.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbl_vs.setBounds(91, 63, 35, 13);
 		uiPanel.add(lbl_vs);
 		
 		JLabel lbl_j2 = new JLabel(pseudoj2);
-		lbl_j2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbl_j2.setForeground(Color.green);
+		lbl_j2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbl_j2.setBounds(136, 63, 54, 13);
 		uiPanel.add(lbl_j2);
 		
+		adapteLabelsUI(lbl_j1,lbl_j2);
 		lblSavedStatus = new JLabel("");
 		lblSavedStatus.setBounds(50, 310, 180, 30);
 		uiPanel.add(lblSavedStatus);
@@ -99,10 +102,9 @@ public class IntegrateurMegaJeu implements Serializable{
 	
 	public void setWinnerAndLoserOrDraw(Etat e1,Etat e2) { 
 		joueur1.getPartieEncours().setEtat(e1);
-		joueur1.enregisterStatPartieCourante();
+		joueur1.enregistreProgression();
 		joueur2.getPartieEncours().setEtat(e2);
-		joueur2.enregisterStatPartieCourante();
-		//joueur1.supprimerPartieFinie();
+		joueur2.enregistreProgression();
 	}
 
 	public void sauvegardePartieAction(InterfaceJeu jeu) {
@@ -121,10 +123,12 @@ public class IntegrateurMegaJeu implements Serializable{
 		}
 		else
 			if(application.getVuePrincipale().getJeu_selectionner() == Jeu.CHESS){
-			   lblSavedStatus.setBounds(50, 310, 180, 30);
-			   lblSavedStatus.setText("Partie Sauvegardé !");
-			   lblSavedStatus.setForeground(Color.green);
-			   joueur1.sauvegardePartieJeuEnCours(jeu);
+				if(joueur1.canSaveChess()) {
+					 lblSavedStatus.setBounds(50, 310, 180, 30);
+					   lblSavedStatus.setText("Partie Sauvegardé !");
+					   lblSavedStatus.setForeground(Color.green);
+					   joueur1.sauvegardePartieJeuEnCours(jeu);
+				}
 		   }
 		   else {
 			   lblSavedStatus.setBounds(25, 310, 180, 30);
@@ -134,9 +138,22 @@ public class IntegrateurMegaJeu implements Serializable{
 		}
 	
 	public void quittePartieAction() { 
+		 joueur1.supprimeAutoPartiesTerminee();
 		 application.getVuePrincipale().updateUIMV();
 		 application.switchToMainPanel();
 	}
+	
+	private void adapteLabelsUI(JLabel p1,JLabel p2) { 
+		if(application.getVuePrincipale().getJeu_selectionner() == Jeu.TICTACTOE) {
+				 p1.setForeground(Color.red);
+				 p2.setForeground(Color.blue);
+		}
+		else {
+			p1.setForeground(Color.white);
+			p2.setForeground(Color.black);
+		}
+	}
+
 
 	public void clearLBLSavedStatus() { 
 		lblSavedStatus.setText("");
@@ -215,28 +232,11 @@ public class IntegrateurMegaJeu implements Serializable{
 	}
 	
 	
-	/*
-	
-	public void sauvegardePartieAuto(InterfaceJeu jeu) { 
-		   if(j1.canSave() && !j1.fullSlotsSave()) 
-		   	{ 
-			   System.out.println("sauvegarder !!!");
-			   lblSavedStatus.setText("Partie Sauvegardé !");
-			   lblSavedStatus.setForeground(Color.green);
-			   j1.sauvegardePartieJeuEnCours(jeu);
-		   	}
-		   
-		   else 
-			   if(j1.fullSlotsSave()) { 
-				   j1.sauvegardePartieJeuEnCours(jeu,MainVue.index_partie);
-			   }
-		   
-		   else {
-			   lblSavedStatus.setText("Tout les slots sont remplis  !");
-			   lblSavedStatus.setForeground(Color.red);
-			   System.out.println("tout les slot sont remplies !");
-		   }
-	}*/
+	public void setInformationPourPartieReprise(Application application,Joueur j1,Joueur j2) { 
+			this.application = application;
+			this.joueur1 = j1;
+			this.joueur2 = j2;
+	}
 	
 	
 }

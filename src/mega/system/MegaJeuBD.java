@@ -6,20 +6,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import mega.ui.UiConnexion;
 import mega.utils.TrieuseJoueur;
 import mega.utils.Utils;
-import mega.vues.ConnexionVue;
 
-public class MegaJeuModel{
+public class MegaJeuBD{
 		
 		public static int TOTAL_JOUEURS = 1;
-	
-		private ConnexionVue connexion;
-		private HashMap<String,Joueur> joueurs;
+		private HashMap<String,Joueur> liste_joueurs;
 			
-				public MegaJeuModel() { 
+				public MegaJeuBD() { 
 					chargementBaseDonnee();
-					showPlayers();
+				//	showPlayers();
 				}
 				
 				private void chargementBaseDonnee() {
@@ -27,23 +25,22 @@ public class MegaJeuModel{
 					if(file.exists()) { 
 						Object o = Utils.deserialize("joueurs");
 						if(o instanceof HashMap) { 
-							joueurs = (HashMap)(o);
-							TOTAL_JOUEURS = joueurs.size();
+							liste_joueurs = (HashMap)(o);
+							TOTAL_JOUEURS = liste_joueurs.size();
 						}
 					}
 					else {
-						joueurs = new HashMap<String,Joueur>();
+						liste_joueurs = new HashMap<String,Joueur>();
 						TOTAL_JOUEURS = 1; 
 					}
 				}
 				
 				public List<Joueur> topCinqJoueurs(){ 
 					 TrieuseJoueur trieuse_joueur = new TrieuseJoueur();
-					 Collection<Joueur> joueursC =  (joueurs.values());
+					 Collection<Joueur> joueursC =  (liste_joueurs.values());
 					 ArrayList<Joueur> liste_joueurs = new ArrayList<>(joueursC);
 					 Collections.sort(liste_joueurs,trieuse_joueur);
 					 showList(liste_joueurs);
-					// System.out.println("Ok !XXXXXXXXXXXXXXXX");
 					 return liste_joueurs;
 				}
 
@@ -53,19 +50,17 @@ public class MegaJeuModel{
 					}
 				}
 				
+				
 				private void showPlayers() {
 					//System.out.println("Liste des joueurs: ");
-					Collection<Joueur> liste = joueurs.values();
+					Collection<Joueur> liste = liste_joueurs.values();
 					for(Joueur j : liste) {  
 						System.out.println(j.toString());
 					}
 				}
-
-				public HashMap<String, Joueur> getJoueurs() {
-					return joueurs;
+				
+				public HashMap<String, Joueur> getListeJoueurs() {
+					return liste_joueurs;
 				}
 
-				public void setJoueurs(HashMap<String, Joueur> joueurs) {
-					this.joueurs = joueurs;
-				}
 }

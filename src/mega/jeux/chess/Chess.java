@@ -144,9 +144,9 @@ public class Chess extends JPanel implements Serializable,InterfaceJeu{
         matePane.setEditable(false);
         matePane.setForeground(Color.white);
         matePane.setBackground(infoColour);
-        matePane.setFont(new Font("Arial", Font.BOLD, 20));
+        matePane.setFont(new Font("Arial", Font.BOLD, 15));
         matePane.setText("MOMOU");
-        matePane.setBounds(15, 15, 150, 150);
+        matePane.setBounds(15, 250, 150, 150);
         pane.add(matePane);
         this.add(pane,BorderLayout.EAST);
    
@@ -563,15 +563,18 @@ public class Chess extends JPanel implements Serializable,InterfaceJeu{
                         	
                             matePane.setText(COLOUR.not(turn).toString() + " won by checkmate.");
                             integrateur.setWinnerAndLoserOrDraw(Etat.GAGNEE, Etat.PERDUE);
+                            integrateur.setEtatPartie(Etat.TERMINEE);
                             disableBoardButtons();
                         } else if (pieces.isStalemate(COLOUR.not(turn))) {
                             matePane.setText("Draw by stalemate.");
                             integrateur.setWinnerAndLoserOrDraw(Etat.EGALITE, Etat.EGALITE);
+                            integrateur.setEtatPartie(Etat.TERMINEE);
                             disableBoardButtons();
                         } else if (pieces.isDraw()) {
                         	
                             matePane.setText("It's a draw.");
                             integrateur.setWinnerAndLoserOrDraw(Etat.EGALITE, Etat.EGALITE);
+                            integrateur.setEtatPartie(Etat.TERMINEE);
                             disableBoardButtons();
                         }
                     } else {

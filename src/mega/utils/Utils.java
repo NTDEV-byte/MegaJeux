@@ -32,6 +32,7 @@ public class Utils implements Serializable{
 	private Utils() { 
 		
 	}
+
 	
 	
 	public static void serialize(String name,Object obj) { 
@@ -45,7 +46,6 @@ public class Utils implements Serializable{
 					
 					serializer.close();
 
-					//System.out.println("Joueur Enregistr� !");
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -74,8 +74,6 @@ public class Utils implements Serializable{
 						return o;
 					}
 					
-					//System.out.println("Joueurs Charg�s !");
-					
 					return o;
 					
 			} catch (IOException e) {
@@ -101,6 +99,7 @@ public class Utils implements Serializable{
 		window.add(panel);
 		window.pack();
 	}
+
 	
 	
 	public static String dateToString(String format,Date date) { 
@@ -121,6 +120,8 @@ public class Utils implements Serializable{
 		GraphicsConfiguration gcc = gc.getDefaultConfiguration();
 		gc.setFullScreenWindow(window);
 	}
+	
+	
 	
 	public static void debugConsole(String location,String message) { 
 		 System.out.println(location);
@@ -145,8 +146,6 @@ public class Utils implements Serializable{
 		}
 		return null;
 	}
-	
-	
 	
 	public static boolean FileExists(String path) { 
 		return new File(DATA_PATH+"/"+path).exists();

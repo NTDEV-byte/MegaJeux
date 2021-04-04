@@ -8,16 +8,16 @@ import javax.swing.JLabel;
 import mega.jeux.chess.Chess;
 import mega.jeux.tictactoe.TicTacToe;
 import mega.system.Partie.Jeu;
+import mega.ui.UiMainVue;
 import mega.utils.Utils;
-import mega.vues.MainVue;
 
-public class Statistique implements Serializable{
+public class GuiUpdate implements Serializable{
 	
-		private MainVue vuePrincipale;
+		private UiMainVue vuePrincipale;
 		private Joueur joueur1;
-		private MegaJeuModel model;
+		private MegaJeuBD model;
 		
-					public Statistique(MainVue vuePrincipale) { 
+					public GuiUpdate(UiMainVue vuePrincipale) { 
 							this.vuePrincipale = vuePrincipale;
 							this.joueur1 = vuePrincipale.getJoueur1();
 							this.model = vuePrincipale.getModel();
@@ -148,7 +148,17 @@ public class Statistique implements Serializable{
 						
 						switch(joueurs.size()) { 
 							case 0:
+								lbl_j1.setText("Joueur 1");
+								lbl_j2.setText("Joueur 2");
+								lbl_j3.setText("Joueur 3");
+								lbl_j4.setText("Joueur 4");
+								lbl_j5.setText("Joueur 5");
 								
+								lbl_sc1.setText("Score 1");
+								lbl_sc2.setText("Score 2");
+								lbl_sc3.setText("Score 3");
+								lbl_sc4.setText("Score 4");
+								lbl_sc5.setText("Score 5");
 								
 								return;
 								
@@ -156,12 +166,37 @@ public class Statistique implements Serializable{
 									
 								lbl_j1.setText(joueurs.get(0).getPseudonyme());
 								lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
+								
+								
+								
+								lbl_j2.setText("Joueur 2");
+								lbl_j3.setText("Joueur 3");
+								lbl_j4.setText("Joueur 4");
+								lbl_j5.setText("Joueur 5");
+								
+								lbl_sc2.setText("Score 2");
+								lbl_sc3.setText("Score 3");
+								lbl_sc4.setText("Score 4");
+								lbl_sc5.setText("Score 5");
+								
 								break;
 							case 2:
+								
 								lbl_j1.setText(joueurs.get(0).getPseudonyme());
 								lbl_j2.setText(joueurs.get(1).getPseudonyme());
+								
+								
+								
 								lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
 								lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
+								
+								lbl_j3.setText("Joueur 3");
+								lbl_j4.setText("Joueur 4");
+								lbl_j5.setText("Joueur 5");
+								
+								lbl_sc3.setText("Score 3");
+								lbl_sc4.setText("Score 4");
+								lbl_sc5.setText("Score 5");
 								
 								break;
 							case 3:
@@ -172,6 +207,14 @@ public class Statistique implements Serializable{
 								lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
 								lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
 								lbl_sc3.setText(joueurs.get(2).calculeScore()+"");
+								
+								
+								lbl_j4.setText("Joueur 4");
+								lbl_j5.setText("Joueur 5");
+								
+								
+								lbl_sc4.setText("Score 4");
+								lbl_sc5.setText("Score 5");
 								break;
 								
 							case 4:
@@ -180,10 +223,14 @@ public class Statistique implements Serializable{
 								lbl_j3.setText(joueurs.get(2).getPseudonyme());
 								lbl_j4.setText(joueurs.get(3).getPseudonyme());
 								
-								lbl_sc1.setText(joueurs.get(0).getPseudonyme());
-								lbl_sc2.setText(joueurs.get(1).getPseudonyme());
-								lbl_sc3.setText(joueurs.get(2).getPseudonyme());
-								lbl_sc4.setText(joueurs.get(3).getPseudonyme());
+								lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
+								lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
+								lbl_sc3.setText(joueurs.get(2).calculeScore()+"");
+								lbl_sc4.setText(joueurs.get(3).calculeScore()+"");
+								
+								lbl_j5.setText("Joueur 5");
+								
+								lbl_sc5.setText("Score 5");
 								break;
 
 								default:
@@ -193,11 +240,11 @@ public class Statistique implements Serializable{
 									lbl_j4.setText(joueurs.get(3).getPseudonyme());
 									lbl_j5.setText(joueurs.get(4).getPseudonyme());
 									
-									lbl_sc1.setText(joueurs.get(0).getPseudonyme());
-									lbl_sc2.setText(joueurs.get(1).getPseudonyme());
-									lbl_sc3.setText(joueurs.get(2).getPseudonyme());
-									lbl_sc4.setText(joueurs.get(3).getPseudonyme());
-									lbl_sc5.setText(joueurs.get(4).getPseudonyme());
+									lbl_sc1.setText(joueurs.get(0).calculeScore()+"");
+									lbl_sc2.setText(joueurs.get(1).calculeScore()+"");
+									lbl_sc3.setText(joueurs.get(2).calculeScore()+"");
+									lbl_sc4.setText(joueurs.get(3).calculeScore()+"");
+									lbl_sc5.setText(joueurs.get(4).calculeScore()+"");
 									
 									
 								break;
@@ -212,7 +259,7 @@ public class Statistique implements Serializable{
 					/*
 					 * 
 					 * 
-					 *  TROIS DERNIERES PARTIES
+					 *  TROIS DERNIERES PARTIES(Score et résultats)
 					 *  PANEL 3
 					 * 	
 					 */
@@ -226,7 +273,6 @@ public class Statistique implements Serializable{
 						if(jeu_selectionner == Jeu.CHESS) {
 						
 							 List<Partie> troisDerniereParties = p.troisDernierePartiesChess();
-									//System.out.println("Chess: "+troisDerniereParties.toString());
 								switch(troisDerniereParties.size()) { 
 									
 								case 0:
@@ -260,7 +306,6 @@ public class Statistique implements Serializable{
 						else 
 							if(jeu_selectionner == Jeu.TICTACTOE){
 								 List<Partie> troisDerniereParties = p.troisDernierePartiesTTT();
-							//		System.out.println("Chess: "+troisDerniereParties.toString());
 									switch(troisDerniereParties.size()) { 
 										
 									case 0:
@@ -315,10 +360,10 @@ public class Statistique implements Serializable{
 					
 					public void progressionTotal(JLabel lb_total_score,JLabel lb_parties_gagnees,JLabel lbl_partie_egalites,JLabel lbl_parties_perdues) { 
 						 if(joueur1.getProgression() != null) { 
-							 lb_total_score.setText("Votre Score: "+joueur1.getProgression().getScore());
-							 lb_parties_gagnees.setText("Partie Gagn\u00E9es:"+joueur1.getProgression().getNbG());
-							 lbl_partie_egalites.setText("Egalit\u00E9s:"+joueur1.getProgression().getNbE());
-							 lbl_parties_perdues.setText("Perdues: "+joueur1.getProgression().getNbP());
+							 lb_total_score.setText("Votre Score "+joueur1.getProgression().getScore());
+							 lb_parties_gagnees.setText("Partie Gagn\u00E9es "+joueur1.getProgression().getNbG());
+							 lbl_partie_egalites.setText("Egalit\u00E9s "+joueur1.getProgression().getNbE());
+							 lbl_parties_perdues.setText("Perdues "+joueur1.getProgression().getNbP());
 						 }
 					}
 				

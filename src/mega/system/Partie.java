@@ -8,7 +8,7 @@ import mega.utils.Utils;
 public class Partie implements Serializable{
 	
 	public enum Jeu {CHESS,TICTACTOE};
-	public enum Etat {GAGNEE, PERDUE, EGALITE, DEFAULT};
+	public enum Etat {GAGNEE, PERDUE, EGALITE, DEFAULT,TERMINEE};
 
 		private String joueur1;
 		private String joueur2;
