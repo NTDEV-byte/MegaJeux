@@ -24,7 +24,7 @@ import mega.system.MegaJeuBD;
 import mega.system.Partie.Jeu;
 import mega.utils.Utils;
 
-public class UiListeDesJoueursVue extends JPanel {
+public class UiListeDesJoueurs extends JPanel {
 
 	/**
 	 */
@@ -32,13 +32,13 @@ public class UiListeDesJoueursVue extends JPanel {
 	private BufferedImage fond;
 	private Joueur adversaire;
 	private boolean lancer;
-	private UiMainVue main;
+	private UiMain main;
 	private Application application;
 	private String pseudo_adv = null;
 	/**
 	 * Create the frame.
 	 */
-	public UiListeDesJoueursVue(Application app) {
+	public UiListeDesJoueurs(Application app) {
 		this.application = app;
 		this.model = app.getModel();
 		this.main = app.getVuePrincipale();

@@ -145,7 +145,7 @@ public class Chess extends JPanel implements Serializable,InterfaceJeu{
         matePane.setForeground(Color.white);
         matePane.setBackground(infoColour);
         matePane.setFont(new Font("Arial", Font.BOLD, 15));
-        matePane.setText("MOMOU");
+        matePane.setText("");
         matePane.setBounds(15, 250, 150, 150);
         pane.add(matePane);
         this.add(pane,BorderLayout.EAST);

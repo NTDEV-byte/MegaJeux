@@ -14,13 +14,19 @@ import mega.system.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.MegaJeuBD;
 import mega.ui.UiConnexion;
-import mega.ui.UiInscriptionVue;
-import mega.ui.UiListeDesJoueursVue;
-import mega.ui.UiMainVue;
+import mega.ui.UiInscription;
+import mega.ui.UiListeDesJoueurs;
+import mega.ui.UiMain;
 import mega.utils.Utils;
 
 public class Application extends JFrame{
 	
+	/******************
+	 *Objectifs Atteints
+	 ******************
+	 * 
+	 *
+	 */
 	
 	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");;
 	public static final String TITLE = "MegaJeux";
@@ -29,9 +35,9 @@ public class Application extends JFrame{
 	
 	private MegaJeuBD model;
 	private UiConnexion connexion;
-	private UiInscriptionVue inscription;
-	private UiMainVue vuePrincipale;
-	private UiListeDesJoueursVue listesJoueurs;
+	private UiInscription inscription;
+	private UiMain vuePrincipale;
+	private UiListeDesJoueurs listesJoueurs;
 	
 		public Application() { 
 			init();
@@ -51,7 +57,7 @@ public class Application extends JFrame{
 		
 		public void switchToInscriptionPanel() { 
 			if(inscription == null) { 
-				inscription = new UiInscriptionVue(this);
+				inscription = new UiInscription(this);
 				this.setContentPane(inscription);
 				this.revalidate();
 			}else {
@@ -69,7 +75,7 @@ public class Application extends JFrame{
 	
 		public void switchToMainPanel() { 
 					if(vuePrincipale == null) { 
-						vuePrincipale = new UiMainVue(connexion.getJoueurConnecter(),this);
+						vuePrincipale = new UiMain(connexion.getJoueurConnecter(),this);
 						this.setContentPane(vuePrincipale);
 						this.revalidate();
 					}
@@ -135,27 +141,27 @@ public class Application extends JFrame{
 			this.connexion = connexion;
 		}
 
-		public UiInscriptionVue getInscription() {
+		public UiInscription getInscription() {
 			return inscription;
 		}
 
-		public void setInscription(UiInscriptionVue inscription) {
+		public void setInscription(UiInscription inscription) {
 			this.inscription = inscription;
 		}
 
-		public UiListeDesJoueursVue getListesJoueurs() {
+		public UiListeDesJoueurs getListesJoueurs() {
 			return listesJoueurs;
 		}
 
-		public void setListesJoueurs(UiListeDesJoueursVue listesJoueurs) {
+		public void setListesJoueurs(UiListeDesJoueurs listesJoueurs) {
 			this.listesJoueurs = listesJoueurs;
 		}
 
-		public UiMainVue getVuePrincipale() {
+		public UiMain getVuePrincipale() {
 			return vuePrincipale;
 		}
 
-		public void setVuePrincipale(UiMainVue vuePrincipale) {
+		public void setVuePrincipale(UiMain vuePrincipale) {
 			this.vuePrincipale = vuePrincipale;
 		}
 }

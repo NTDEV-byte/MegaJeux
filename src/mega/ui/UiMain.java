@@ -22,7 +22,7 @@ import mega.system.GuiUpdate;
 
 
 
-public class UiMainVue extends JPanel {
+public class UiMain extends JPanel {
 	
 	public static int index_partie;
 	public static final int colorlibrary = 0x30110d;
@@ -92,7 +92,7 @@ public class UiMainVue extends JPanel {
 	/**
 	 * Create the Frame.
 	 */
-	public UiMainVue(Joueur joueur,Application app) {
+	public UiMain(Joueur joueur,Application app) {
 		this.joueur1 = joueur;
 		this.model = app.getModel();
 		this.application = app;
@@ -562,7 +562,7 @@ public class UiMainVue extends JPanel {
 	}
 	
 	private void choisirJoueurAdversaire() { 
-		UiListeDesJoueursVue listes =  new UiListeDesJoueursVue(application);
+		UiListeDesJoueurs listes =  new UiListeDesJoueurs(application);
 		application.switchToChoisirAdversaire();
 		if(listes.getAdversaireSelectionner()!= null) { 
 			 joueur2 = listes.getAdversaireSelectionner();

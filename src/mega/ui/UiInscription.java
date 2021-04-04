@@ -24,7 +24,7 @@ import mega.system.MegaJeuBD;
 import mega.utils.Utils;
 
 
-public class UiInscriptionVue extends JPanel{
+public class UiInscription extends JPanel{
 
 	private JTextField tf_pseudo;
 	private JPasswordField pf_creationMDP;
@@ -36,7 +36,7 @@ public class UiInscriptionVue extends JPanel{
 	/**
 	 * Create the application.
 	 */
-	public UiInscriptionVue(Application application) {
+	public UiInscription(Application application) {
 		setBackground(new Color(0, 128, 0));
 		setForeground(new Color(0, 153, 102));
 		this.model = application.getModel();

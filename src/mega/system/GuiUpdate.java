@@ -8,16 +8,16 @@ import javax.swing.JLabel;
 import mega.jeux.chess.Chess;
 import mega.jeux.tictactoe.TicTacToe;
 import mega.system.Partie.Jeu;
-import mega.ui.UiMainVue;
+import mega.ui.UiMain;
 import mega.utils.Utils;
 
 public class GuiUpdate implements Serializable{
 	
-		private UiMainVue vuePrincipale;
+		private UiMain vuePrincipale;
 		private Joueur joueur1;
 		private MegaJeuBD model;
 		
-					public GuiUpdate(UiMainVue vuePrincipale) { 
+					public GuiUpdate(UiMain vuePrincipale) { 
 							this.vuePrincipale = vuePrincipale;
 							this.joueur1 = vuePrincipale.getJoueur1();
 							this.model = vuePrincipale.getModel();
