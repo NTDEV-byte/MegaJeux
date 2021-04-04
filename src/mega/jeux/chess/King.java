@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 import javax.swing.*;
 import java.util.*;
 

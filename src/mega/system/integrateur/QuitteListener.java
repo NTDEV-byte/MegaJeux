@@ -1,8 +1,8 @@
-package mega.main.integrateur;
+package mega.system.integrateur;
 
 import java.awt.event.ActionEvent;
 
-import mega.main.InterfaceJeu;
+import mega.system.InterfaceJeu;
 
 public class QuitteListener extends MegaJeuListener{
 

@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 /**
  * The BOARD enum class contains information abou tthe "limiting" constants of a chess board
  * These are the first file ('a'), the last file ('h), the first rank (1) and the last rank (8)

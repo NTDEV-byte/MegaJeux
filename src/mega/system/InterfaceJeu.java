@@ -1,4 +1,4 @@
-package mega.main;
+package mega.system;
 
 public interface InterfaceJeu {
 		

@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,11 +26,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import mega.main.Application;
-import mega.main.InterfaceJeu;
-import mega.main.integrateur.IntegrateurMegaJeu;
-import mega.main.integrateur.QuitteListener;
-import mega.main.integrateur.SauvegardeListener;
+import mega.system.InterfaceJeu;
 import mega.system.Joueur;
+import mega.system.Partie.Etat;
+import mega.system.integrateur.IntegrateurMegaJeu;
+import mega.system.integrateur.QuitteListener;
+import mega.system.integrateur.SauvegardeListener;
 
 
 // https://www.youtube.com/watch?v=SNYFjgz4bU4
@@ -51,9 +52,10 @@ import mega.system.Joueur;
  * The GUIBoard class contains all the methods and classes used to display the game of chess
  */
 
-public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
+public class Chess extends JPanel implements Serializable,InterfaceJeu{
 
     // the pieces used for the game
+	public static int parties = 0;
     private final Pieces pieces;
     private final int dimension = BOARD.LAST_RANK.getRankVal();
     private final int firstRank = BOARD.FIRST_RANK.getRankVal();
@@ -103,6 +105,8 @@ public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
 
     private JPanel boardPanel;
     private IntegrateurMegaJeu integrateur;
+    
+    private int id;
     //________________________________________________Class Constructor________________________________________________
 
     /**
@@ -113,34 +117,11 @@ public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
      * @param p the pieces HashMap used for the game
      */
 
-   /* public GUIBoard(Pieces p) {
+    public Chess(Pieces p,Application application,Joueur j1,Joueur j2) {
         setBackground(Color.black);
         pieces = p;
-
-        boardPanel = new JPanel(new GridLayout(dimension, dimension));
-        for (int rank = dimension; rank >= firstRank; rank--) {
-            for (int file = 1; file <= dimension; file++) {
-                char fileChar = (char) (charFile + file);
-                Coordinate tileCoord = new Coordinate(fileChar, rank);
-                board[rank - 1][file - 1] = setButton(tileCoord, p);
-                board[rank - 1][file - 1].addActionListener(gameClick);
-                boardPanel.add(board[rank - 1][file - 1]);
-            }
-        }
-
-        this.setLayout(new BorderLayout());
-        this.add(createFileLabelsTop(),BorderLayout.NORTH);
-        this.add(createRankLabelsLeft(),BorderLayout.WEST);
-        this.add(boardPanel, BorderLayout.CENTER);
-        this.add(createRankLabelsRight(),BorderLayout.EAST);
-        this.add(createFileLabelsBottom(), BorderLayout.SOUTH);
-        this.add(integrateur.getUI(),BorderLayout.EAST);
-        this.add(createInfoPanel(), BorderLayout.EAST);
-    }
-*/
-    public GUIBoard(Pieces p,Application application,Joueur j1,Joueur j2) {
-        setBackground(Color.black);
-        pieces = p;
+        this.id  = parties;
+        parties++;
         integrateur = new IntegrateurMegaJeu(application,j1,j2);
         boardPanel = new JPanel(new GridLayout(dimension, dimension));
         for (int rank = dimension; rank >= firstRank; rank--) {
@@ -159,7 +140,17 @@ public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
         this.add(boardPanel, BorderLayout.CENTER);
         this.add(createRankLabelsRight(),BorderLayout.EAST);
         this.add(createFileLabelsBottom(), BorderLayout.SOUTH);
-        this.add(integrateur.getUI(),BorderLayout.EAST);
+        JPanel pane = integrateur.getUI();
+        matePane.setEditable(false);
+        matePane.setForeground(Color.white);
+        matePane.setBackground(infoColour);
+        matePane.setFont(new Font("Arial", Font.BOLD, 20));
+        matePane.setText("MOMOU");
+        matePane.setBounds(15, 15, 150, 150);
+        pane.add(matePane);
+        this.add(pane,BorderLayout.EAST);
+   
+        
         
         integrateur.setActionForSauvegarde(new SauvegardeListener(this,integrateur));
         integrateur.setActionForQuitte(new QuitteListener(this,integrateur));
@@ -571,14 +562,16 @@ public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
                         if (pieces.isMate(turn)) {
                         	
                             matePane.setText(COLOUR.not(turn).toString() + " won by checkmate.");
+                            integrateur.setWinnerAndLoserOrDraw(Etat.GAGNEE, Etat.PERDUE);
                             disableBoardButtons();
                         } else if (pieces.isStalemate(COLOUR.not(turn))) {
                             matePane.setText("Draw by stalemate.");
-                            
+                            integrateur.setWinnerAndLoserOrDraw(Etat.EGALITE, Etat.EGALITE);
                             disableBoardButtons();
                         } else if (pieces.isDraw()) {
                         	
                             matePane.setText("It's a draw.");
+                            integrateur.setWinnerAndLoserOrDraw(Etat.EGALITE, Etat.EGALITE);
                             disableBoardButtons();
                         }
                     } else {
@@ -651,10 +644,22 @@ public class GUIBoard extends JPanel implements Serializable,InterfaceJeu{
     }
 
 
+    	public IntegrateurMegaJeu getIntegrateur() { 
+    		return integrateur;
+    	}
     public static void main (String[]args){
         Pieces pieces = new Pieces();
         pieces.setGUIGame(true);
-     //   new GUIBoard(pieces);
     }
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }

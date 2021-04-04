@@ -3,6 +3,7 @@ package mega.utils;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +17,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Utils implements Serializable{
 	
@@ -42,7 +45,7 @@ public class Utils implements Serializable{
 					
 					serializer.close();
 
-					System.out.println("Joueur Enregistré !");
+					//System.out.println("Joueur Enregistrï¿½ !");
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -71,7 +74,7 @@ public class Utils implements Serializable{
 						return o;
 					}
 					
-					System.out.println("Joueurs Chargés !");
+					//System.out.println("Joueurs Chargï¿½s !");
 					
 					return o;
 					
@@ -87,6 +90,18 @@ public class Utils implements Serializable{
 		
 		return null;
 }
+	
+	
+	public static void vueTester(JPanel panel) { 
+		JFrame window = new JFrame();
+		window.setVisible(true);
+		window.setResizable(false);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setLocationRelativeTo(null);
+		window.add(panel);
+		window.pack();
+	}
+	
 	
 	public static String dateToString(String format,Date date) { 
 		SimpleDateFormat sdf;
@@ -111,6 +126,27 @@ public class Utils implements Serializable{
 		 System.out.println(location);
 		 System.out.println(message);
 	}
+	
+	
+	public static BufferedImage loadIMGTest(String path) { 
+		try {
+			return ImageIO.read(new FileInputStream(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static BufferedImage loadIMG(String path) { 
+		try {
+			return ImageIO.read(Utils.class.getResource(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 	public static boolean FileExists(String path) { 
 		return new File(DATA_PATH+"/"+path).exists();

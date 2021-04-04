@@ -2,41 +2,44 @@ package mega.main;
 
 
 import java.awt.Dimension;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
-import chess.GUIBoard;
-import chess.Pieces;
+import mega.jeux.chess.Chess;
+import mega.jeux.chess.Pieces;
+import mega.jeux.tictactoe.TicTacToe;
+import mega.system.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.MegaJeuModel;
+import mega.utils.Utils;
 import mega.vues.ConnexionVue;
 import mega.vues.InscriptionVue;
 import mega.vues.ListeDesJoueursVue;
 import mega.vues.MainVue;
-import tictactoe.TicTacToe;
 
-public class Application extends JFrame implements WindowListener{
+public class Application extends JFrame{
 	
 	/******************
 	 * Objectifs
 	 ******************
-	 * Detection des états des parties lorsque on quitte la partie et on reprend XXX 
-	 * suppression des parties finis sauvegardés XXX
-	 * reste quand on clique sur quitter on doit supprimer les parties terminer sauvegarder
-	 * affichage de progression et score doit être synchrone avec le reste de l'interface
-	 * Mise à jour de l'interface principale 
-	 * Amélioration de la présentation
-	 * 
+	 * mainvue fixe 
+	 * intégrateur button les commentaires 
+	 * slots remplie joueur1 vs joueur 2
+	 * message erreur connexion inscription (mot de passe incorrect pseudo)
+	 * password vide pas autorisé 
+	 * remove joptionpane
+	 * sauvegarde + label ajour + rapport + test fonctionnel + soutenance 
 	 *******************************
 	 *Implémentation du jeu d'échec
 	 *******************************
 	 * redo
 	 */
 	
-	
-	private int width,height;
+	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");;
+	public static final String TITLE = "MegaJeux";
+	public static int width,height;
 	private MegaJeuModel model;
 	private ConnexionVue connexion;
 	private InscriptionVue inscription;
@@ -45,25 +48,26 @@ public class Application extends JFrame implements WindowListener{
 	
 		public Application() { 
 			init();
+			this.setTitle(TITLE);
 			this.setVisible(true);
 			this.setResizable(false);
 			this.setLocationRelativeTo(this);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.addWindowListener(this);
 			this.setContentPane(connexion);
+			this.setSize(new Dimension(WIDTH,HEIGHT));
 		}
-		
 		
 		public Application(int width,int height) { 
 			init();
-			this.width = width;
-			this.height = height;
+			Application.width = width;
+			Application.height = height;
+			SwingUtilities.updateComponentTreeUI(this);
+			this.setTitle(TITLE);
 			this.setVisible(true);
 			this.setResizable(false);
 			this.setLocationRelativeTo(this);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setContentPane(connexion);
-			this.addWindowListener(this);
 			this.setSize(new Dimension(width,height));
 		}
 
@@ -71,7 +75,6 @@ public class Application extends JFrame implements WindowListener{
 			model = new MegaJeuModel();
 			connexion = new ConnexionVue(this);
 		}
-		
 		
 		public void switchToInscriptionPanel() { 
 			if(inscription == null) { 
@@ -82,7 +85,6 @@ public class Application extends JFrame implements WindowListener{
 				this.setContentPane(inscription);
 				this.revalidate();
 			}
-			
 		}
 		
 		public void switchToConnexionPanel() { 
@@ -113,7 +115,7 @@ public class Application extends JFrame implements WindowListener{
 		public void switchToChess(Joueur j1,Joueur j2) { 
 	        Pieces pieces = new Pieces();
 	        pieces.setGUIGame(true);
-			this.setContentPane(new GUIBoard(pieces,this,j1,j2));
+			this.setContentPane(new Chess(pieces,this,j1,j2));
 			this.revalidate();
 		}
 		
@@ -123,12 +125,16 @@ public class Application extends JFrame implements WindowListener{
 				partie.getIntegrateur().setApplication(this);
 				partie.getIntegrateur().setJoueur1(vuePrincipale.getJoueur1());
 				partie.getIntegrateur().setJoueur2(vuePrincipale.getJoueur2());
-				System.out.println("Application passed: "+partie.getIntegrateur().getApplication());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
 			else {
-				
+				Chess partie = (Chess) j;
+				partie.getIntegrateur().setApplication(this);
+				partie.getIntegrateur().setJoueur1(vuePrincipale.getJoueur1());
+				partie.getIntegrateur().setJoueur2(vuePrincipale.getJoueur2());
+				this.setContentPane(partie);
+				this.revalidate();
 			}
 		}
 		
@@ -138,128 +144,50 @@ public class Application extends JFrame implements WindowListener{
 		}
 		
 		public static void main(String[] args) {
-			//800 600
-			 new Application(1000,800);
+				SwingUtilities.invokeLater(new Runnable() {
+						public void run() { 
+							new Application(1073,800);
+						}
+				} );
 		}
-
 
 		public MegaJeuModel getModel() {
 			return model;
 		}
 
-
 		public void setModel(MegaJeuModel model) {
 			this.model = model;
 		}
-
 
 		public ConnexionVue getConnexion() {
 			return connexion;
 		}
 
-
 		public void setConnexion(ConnexionVue connexion) {
 			this.connexion = connexion;
 		}
-
 
 		public InscriptionVue getInscription() {
 			return inscription;
 		}
 
-
 		public void setInscription(InscriptionVue inscription) {
 			this.inscription = inscription;
 		}
-
 
 		public ListeDesJoueursVue getListesJoueurs() {
 			return listesJoueurs;
 		}
 
-
 		public void setListesJoueurs(ListeDesJoueursVue listesJoueurs) {
 			this.listesJoueurs = listesJoueurs;
 		}
-
 
 		public MainVue getVuePrincipale() {
 			return vuePrincipale;
 		}
 
-
 		public void setVuePrincipale(MainVue vuePrincipale) {
 			this.vuePrincipale = vuePrincipale;
 		}
-
-
-		public int getWidth() {
-			return width;
-		}
-
-
-		public void setWidth(int width) {
-			this.width = width;
-		}
-
-
-		public int getHeight() {
-			return height;
-		}
-
-
-		public void setHeight(int height) {
-			this.height = height;
-		}
-
-
-		@Override
-		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public void windowClosing(WindowEvent e) {
-			// TODO Auto-generated method stub
-			if(vuePrincipale != null)	vuePrincipale.updateUIMV();
-		}
-
-
-		@Override
-		public void windowClosed(WindowEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
-		@Override
-		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("iconified !");
-		}
-
-
-		@Override
-		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public void windowActivated(WindowEvent e) {
-			System.out.println("Activated !");
-			if(vuePrincipale != null)vuePrincipale.updateUIMV();
-		}
-
-
-		@Override
-		public void windowDeactivated(WindowEvent e) {
-			
-		}
-
-
-
 }

@@ -1,4 +1,4 @@
-package tictactoe;
+package mega.jeux.tictactoe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,16 +14,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mega.main.Application;
-import mega.main.InterfaceJeu;
-import mega.main.integrateur.IntegrateurMegaJeu;
-import mega.main.integrateur.QuitteListener;
-import mega.main.integrateur.SauvegardeListener;
+import mega.system.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
+import mega.system.integrateur.IntegrateurMegaJeu;
+import mega.system.integrateur.QuitteListener;
+import mega.system.integrateur.SauvegardeListener;
 
 public class TicTacToe extends JPanel implements ActionListener,Serializable,InterfaceJeu{
 	
-
+    
+	public static int parties = 0;
 	Random random = new Random();
 	JPanel title_panel = new JPanel();
 	JPanel button_panel = new JPanel();
@@ -35,8 +36,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	 * MODIFICATION
 	 */
 	private IntegrateurMegaJeu integrateur;
-	
-	
+	private int id;
 	
 
 	public TicTacToe(Application app,Joueur j1,Joueur j2){
@@ -48,7 +48,8 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		textfield.setHorizontalAlignment(JLabel.CENTER);
 		textfield.setText("Tic-Tac-Toe");
 		textfield.setOpaque(true);
-		
+		this.id = parties;
+		parties++;
 		title_panel.setLayout(new BorderLayout());
 		title_panel.setBounds(0,0,800,100);
 		
@@ -77,7 +78,6 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		integrateur.setActionForQuitte(new QuitteListener(this,integrateur));
 		
 		firstTurn();
-		
 		
 	}
 
@@ -303,8 +303,6 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		System.out.println("Check O !!!!");
 	}
 
-	
-
 
 private void logTerminal() { 
 	for(int i=0;i<3;i++) {
@@ -320,6 +318,14 @@ public IntegrateurMegaJeu getIntegrateur() {
 
 public void setIntegrateur(IntegrateurMegaJeu integrateur) {
 	this.integrateur = integrateur;
+}
+
+public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
 }
 
 }

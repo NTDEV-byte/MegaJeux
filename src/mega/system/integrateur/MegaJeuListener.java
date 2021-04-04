@@ -1,9 +1,9 @@
-package mega.main.integrateur;
+package mega.system.integrateur;
 
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-import mega.main.InterfaceJeu;
+import mega.system.InterfaceJeu;
 
 public abstract class MegaJeuListener implements ActionListener,Serializable{
 

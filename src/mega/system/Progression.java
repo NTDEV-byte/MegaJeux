@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mega.system.Partie.Etat;
+import mega.system.Partie.Jeu;
 
 public class Progression implements Serializable{
 	
@@ -16,7 +17,7 @@ public class Progression implements Serializable{
 	private int score;
 	private ArrayList<Partie> historique;
 	private int nbG,nbE,nbP;
-	
+	private int totalPartiesSV;
 	
 	public Progression() {
 		historique = new ArrayList<Partie>();	
@@ -53,7 +54,6 @@ public class Progression implements Serializable{
 				tNBP++;
 			}
 		}
-		
 		nbG = tNBG;
 		nbE = tNBE;
 		nbP = tNBP;
@@ -70,6 +70,26 @@ public class Progression implements Serializable{
 			return parties;
 		}
 		return null;
+	}
+	
+	public List<Partie> troisDernierePartiesTTT(){ 
+			List<Partie> parties = new ArrayList<Partie>();
+			for(int i=0;i<historique.size();i++) { 
+				if(historique.get(i).getJeu() == Jeu.TICTACTOE) { 
+					parties.add(historique.get(historique.size() -1 - i));
+				}
+			}
+			return parties;
+	}
+	
+	public List<Partie> troisDernierePartiesChess(){ 
+			List<Partie> parties = new ArrayList<Partie>();
+			for(int i=0;i<historique.size();i++) { 
+				if(historique.get(i).getJeu() == Jeu.CHESS) { 
+					parties.add(historique.get(historique.size() -1 - i));
+				}
+		}		
+			return parties;
 	}
 	
 	public ArrayList<Partie> getHistorique() {
@@ -110,6 +130,14 @@ public class Progression implements Serializable{
 
 	public void setNbP(int nbP) {
 		this.nbP = nbP;
+	}
+
+	public int getTotalPartiesSV() {
+		return totalPartiesSV;
+	}
+
+	public void setTotalPartiesSV(int totalPartiesSV) {
+		this.totalPartiesSV = totalPartiesSV;
 	}
 	
 	

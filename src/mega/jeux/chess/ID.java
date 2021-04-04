@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 /**
  * The ID enum class is used to identify the "type" of a piece (King, Queen, Rook, Bishop, Knight, and Pawn)
  * Each has 2 toString methods

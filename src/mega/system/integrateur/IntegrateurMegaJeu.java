@@ -1,4 +1,4 @@
-package mega.main.integrateur;
+package mega.system.integrateur;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,9 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mega.main.Application;
-import mega.main.InterfaceJeu;
+import mega.system.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
+import mega.system.Partie.Jeu;
 
 public class IntegrateurMegaJeu implements Serializable{
 		
@@ -101,11 +102,25 @@ public class IntegrateurMegaJeu implements Serializable{
 		joueur1.enregisterStatPartieCourante();
 		joueur2.getPartieEncours().setEtat(e2);
 		joueur2.enregisterStatPartieCourante();
+		//joueur1.supprimerPartieFinie();
 	}
-	
+
 	public void sauvegardePartieAction(InterfaceJeu jeu) {
-		  if(joueur1.canSave()) { 
-			   System.out.println("sauvegarder !!!");
+		if(application.getVuePrincipale().getJeu_selectionner() == Jeu.TICTACTOE) {
+			 if(joueur1.canSaveTicTacToe()) { 
+				   lblSavedStatus.setBounds(50, 310, 180, 30);
+				   lblSavedStatus.setText("Partie Sauvegardé !");
+				   lblSavedStatus.setForeground(Color.green);
+				   joueur1.sauvegardePartieJeuEnCours(jeu);
+			   }
+			   else {
+				   lblSavedStatus.setBounds(25, 310, 180, 30);
+				   lblSavedStatus.setText("Tout les slots sont remplis  !");
+				   lblSavedStatus.setForeground(Color.red);
+			   }
+		}
+		else
+			if(application.getVuePrincipale().getJeu_selectionner() == Jeu.CHESS){
 			   lblSavedStatus.setBounds(50, 310, 180, 30);
 			   lblSavedStatus.setText("Partie Sauvegardé !");
 			   lblSavedStatus.setForeground(Color.green);
@@ -115,14 +130,12 @@ public class IntegrateurMegaJeu implements Serializable{
 			   lblSavedStatus.setBounds(25, 310, 180, 30);
 			   lblSavedStatus.setText("Tout les slots sont remplis  !");
 			   lblSavedStatus.setForeground(Color.red);
-			   System.out.println("tout les slot sont remplies !");
 		   }
-	}
+		}
 	
 	public void quittePartieAction() { 
 		 application.getVuePrincipale().updateUIMV();
 		 application.switchToMainPanel();
-		 System.out.println("Quitter !!!");
 	}
 
 	public void clearLBLSavedStatus() { 
@@ -202,8 +215,6 @@ public class IntegrateurMegaJeu implements Serializable{
 	}
 	
 	
-	
-
 	/*
 	
 	public void sauvegardePartieAuto(InterfaceJeu jeu) { 

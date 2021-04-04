@@ -54,7 +54,7 @@ public class MegaJeuModel{
 				}
 				
 				private void showPlayers() {
-					System.out.println("Liste des joueurs: ");
+					//System.out.println("Liste des joueurs: ");
 					Collection<Joueur> liste = joueurs.values();
 					for(Joueur j : liste) {  
 						System.out.println(j.toString());

@@ -47,4 +47,12 @@ public class Partie implements Serializable{
 			if(etat == Etat.EGALITE) return 5;
 			return 0;
 		}
+
+		public Jeu getJeu() {
+			return jeu;
+		}
+
+		public void setJeu(Jeu jeu) {
+			this.jeu = jeu;
+		}
 }

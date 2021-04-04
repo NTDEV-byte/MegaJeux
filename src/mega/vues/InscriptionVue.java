@@ -2,6 +2,7 @@ package mega.vues;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -17,6 +19,8 @@ import mega.main.Application;
 import mega.system.Joueur;
 import mega.system.MegaJeuModel;
 import mega.utils.Utils;
+import static mega.main.Application.*;
+
 
 public class InscriptionVue extends JPanel{
 
@@ -31,6 +35,8 @@ public class InscriptionVue extends JPanel{
 	 * Create the application.
 	 */
 	public InscriptionVue(Application application) {
+		setBackground(new Color(0, 128, 0));
+		setForeground(new Color(0, 153, 102));
 		this.model = application.getModel();
 		this.application = application;
 		initialize();
@@ -39,64 +45,88 @@ public class InscriptionVue extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		this.setBounds(0, 10, 900, 600);
+		this.setBounds(0, 10, 1073, 800);
 		this.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Cr\u00E9er votre pseudo");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblNewLabel.setBounds(345, 26, 247, 31);
+		JLabel lblNewLabel = new JLabel("CrÃ©er votre pseudonyme");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 24));
+		lblNewLabel.setBounds(412, 90, 300, 31);
 		this.add(lblNewLabel);
 		
 		error_label = new JLabel("");
 		error_label.setForeground(Color.RED);
-		error_label.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		error_label.setBounds(334, 126, 200, 25);
+		error_label.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 16));
+		error_label.setBounds(397, 206, 332, 25);
 		this.add(error_label);
 		
 		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField.setBounds(334, 83, 195, 19);
+		textField.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 22));
+		textField.setBounds(397, 158, 332, 31);
+		textField.setBackground(new Color(0xffd09f));
 		this.add(textField);
 		textField.setColumns(10);
 		
 		textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 22));
-		textArea.setBounds(296, 169, 262, 161);
+		textArea.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 22));
+		textArea.setBounds(266, 241, 586, 215);
+		textArea.setBackground(new Color(0xffd09f));
+		textArea.setEditable(false);
 		this.add(textArea);
 		
 		JLabel lblNewLabel_2 = new JLabel("Cr\u00E9er votre mot de passe");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblNewLabel_2.setBounds(316, 361, 262, 33);
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 22));
+		lblNewLabel_2.setBounds(428, 509, 262, 33);
 		this.add(lblNewLabel_2);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(316, 417, 241, 34);
+		passwordField.setBackground(new Color(0xffd09f));
+		passwordField.setBounds(397, 552, 332, 34);
 		this.add(passwordField);
 		
-		JButton btnNewButton = new JButton("s'incrire");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JButton btnNewButton = new JButton("S'incrire");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
+		btnNewButton.setBackground(new Color(0x673824));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				        if(ajouteJoueur()) { 
 				        	JOptionPane.showMessageDialog(null,"Vous venez de vous inscrire sur MegaJeux \n\t Bienvenue parmi nous !");
 				        }else {
-				        		error_label.setText("Ce Pseudo est déja pris !");
-				        	  System.out.println("Ce pseudo est déja pris !");
+				        		error_label.setText("Ce Pseudo est dï¿½ja pris !");
+				        	  System.out.println("Ce pseudo est dï¿½ja pris !");
 				        }
 			}
 		});
-		btnNewButton.setBounds(371, 481, 158, 31);
+		btnNewButton.setBounds(467, 633, 185, 46);
 		this.add(btnNewButton);
 		
 		JButton connexion = new JButton("Connexion");
-		connexion.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		connexion.setForeground(new Color(255, 255, 255));
+		connexion.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 15));
+		connexion.setBackground(new Color(0x673824));
 		connexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				application.switchToConnexionPanel();
 			}
 		});
-		connexion.setBounds(10, 530, 109, 21);
+		connexion.setBounds(479, 724, 161, 38);
 		add(connexion);
+		
+		JLabel lblNewLabel_1 = new JLabel("Bienvenue sur MegaJeux");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 30));
+		lblNewLabel_1.setBounds(398, 30, 351, 31);
+		add(lblNewLabel_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(388, 10, 341, 12);
+		add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(388, 71, 341, 12);
+		add(separator_1);
 	}
 	
 	public boolean ajouteJoueur() { 
@@ -105,7 +135,7 @@ public class InscriptionVue extends JPanel{
 		pseudo = textField.getText();
 		mdp = passwordField.getText();
 		
-		if(model.getJoueurs().containsKey(pseudo)) { // conflict dans le cas où le pseudo est déja pris
+		if(model.getJoueurs().containsKey(pseudo)) { // conflict dans le cas oï¿½ le pseudo est dï¿½ja pris
 			  generateValidePseudos(pseudo);
 			  return false;
 		}
@@ -137,6 +167,16 @@ public class InscriptionVue extends JPanel{
 	}
 	
 
+	public void paint(Graphics g) { 
+		g.drawImage(image, 0, 0, image.getWidth() / 4, image.getHeight() / 4,null);
+		g.setColor(new Color(0,0,0,80));
+		g.fillRect(388, 10, 341, 61); //bienvenue sur megaJeux (fond)
+		g.fillRect(412, 90, 300, 31);// pseudo (fond)
+		g.fillRect(428, 509, 262, 33);// mdp (fond)
+		super.paintComponents(g);
+	}
+	
+	
 	public JTextField getTextField() {
 		return textField;
 	}

@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 /**
  * The COLOUR enum class is used to assign a certain colour to a given piece.
  * The 2 possibilities are B (black) or W (white)

@@ -1,4 +1,4 @@
-package chess;
+package mega.jeux.chess;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -310,10 +310,10 @@ public class Pawn extends Piece {
             icon = new ImageIcon("WPawn.png");
         }
 
-        GUIBoard.formatInvisibleButton(queenOption);
-        GUIBoard.formatInvisibleButton(rookOption);
-        GUIBoard.formatInvisibleButton(bishopOption);
-        GUIBoard.formatInvisibleButton(knightOption);
+        Chess.formatInvisibleButton(queenOption);
+        Chess.formatInvisibleButton(rookOption);
+        Chess.formatInvisibleButton(bishopOption);
+        Chess.formatInvisibleButton(knightOption);
 
         Object[] options = {"OK",knightOption,bishopOption,rookOption,queenOption};
 
@@ -325,8 +325,8 @@ public class Pawn extends Piece {
 
         knightOption.addActionListener(actionEvent -> promotedPiece = new Knight(getColour(),promotionSquare));
 
-        UIManager.put("OptionPane.background", GUIBoard.infoColour);
-        UIManager.put("Panel.background", GUIBoard.infoColour);
+        UIManager.put("OptionPane.background", Chess.infoColour);
+        UIManager.put("Panel.background", Chess.infoColour);
         UIManager.put("OptionPane.messageForeground", Color.white);
 
         JOptionPane.showOptionDialog(null,
