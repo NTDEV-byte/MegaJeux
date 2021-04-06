@@ -2,6 +2,8 @@ package mega.main;
 
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -19,13 +21,24 @@ import mega.ui.UiListeDesJoueurs;
 import mega.ui.UiMain;
 import mega.utils.Utils;
 
-public class Application extends JFrame{
+public class Application extends JFrame implements WindowListener{
 	
+	/*
+	 * ***********
+	 * problemes
+	 * ***********
+	 * enregistrement et quit application une fois revenu les parties sauvegarders disparaissent
+	 * suppression automatique des parties la dernière partie donne pas de points
+	 */
 	/******************
 	 *Objectifs Atteints
 	 ******************
+	 * suppression d'une partie vide exception XXX   
+	 * Panel 4 BUG FIXED XXX
+	 * inscription avec temps différents bug XXX
 	 * 
-	 *
+	 * 
+	 * 
 	 */
 	
 	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");;
@@ -42,6 +55,7 @@ public class Application extends JFrame{
 		public Application() { 
 			init();
 			this.setTitle(TITLE);
+			this.addWindowListener(this);
 			this.setVisible(true);
 			this.setResizable(false);
 			this.setLocationRelativeTo(this);
@@ -76,10 +90,12 @@ public class Application extends JFrame{
 		public void switchToMainPanel() { 
 					if(vuePrincipale == null) { 
 						vuePrincipale = new UiMain(connexion.getJoueurConnecter(),this);
+						vuePrincipale.updateUIMV();
 						this.setContentPane(vuePrincipale);
 						this.revalidate();
 					}
 					else { 
+						 vuePrincipale.updateUIMV();
 						this.setContentPane(vuePrincipale);
 						this.revalidate();
 					}
@@ -100,12 +116,24 @@ public class Application extends JFrame{
 		public void reprendrePartie(InterfaceJeu j) { 
 			if(j instanceof TicTacToe) { 
 				TicTacToe partie = (TicTacToe) j;
+				Joueur joueur2 = model.getListeJoueurs().get(partie.getIntegrateur().getPseudoj2());
+				if(joueur2 != null) { 
+					joueur2.chargePartiesJeuSauvegarder();
+					joueur2.chargeProgressionJoueur();
+					vuePrincipale.setJoueur2(joueur2);
+				}
 				partie.getIntegrateur().setInformationPourPartieReprise(this, vuePrincipale.getJoueur1(), vuePrincipale.getJoueur2());
 				this.setContentPane(partie);
 				this.revalidate();
 			}
 			else {
 				Chess partie = (Chess) j;
+				Joueur joueur2 = model.getListeJoueurs().get(partie.getIntegrateur().getPseudoj2());
+				if(joueur2 != null) { 
+					joueur2.chargePartiesJeuSauvegarder();
+					joueur2.chargeProgressionJoueur();
+					vuePrincipale.setJoueur2(joueur2);
+				}
 				partie.getIntegrateur().setInformationPourPartieReprise(this, vuePrincipale.getJoueur1(), vuePrincipale.getJoueur2());
 				this.setContentPane(partie);
 				this.revalidate();
@@ -164,4 +192,50 @@ public class Application extends JFrame{
 		public void setVuePrincipale(UiMain vuePrincipale) {
 			this.vuePrincipale = vuePrincipale;
 		}
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			if(vuePrincipale!=null) { 
+				Joueur j1 = vuePrincipale.getJoueur1();
+				if(j1 != null)j1.forceSaveAll();
+			}
+			System.out.println("Application Exited !");
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
 }

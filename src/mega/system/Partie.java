@@ -25,6 +25,25 @@ public class Partie implements Serializable{
 			this.etat = Etat.DEFAULT;//Etat.values()[Utils.RANDOM.nextInt(Etat.values().length - 1)];
 		}
 		
+	
+		
+		public String statPartie() {
+			return Utils.dateToString(null, date) + " Versus " +joueur2+ " " + etat.toString()+" score "+getScorePartie(); 
+		}
+		
+		
+		private int getScorePartie() { 
+			if(etat == Etat.GAGNEE) return 15;
+			if(etat == Etat.EGALITE) return 5;
+			return 0;
+		}
+
+		
+		public String toString() { 
+			return "Joueur 1 : "+joueur1+" vs Joueur 2 : "+joueur2+//
+					" Date: "+Utils.dateToString(null, date) + " Jeu : "+jeu.toString()+" Etat: "+etat.toString();//
+		}
+		
 		public Etat getEtat() { 
 			return etat;
 		}
@@ -33,20 +52,7 @@ public class Partie implements Serializable{
 			etat = e;
 		}
 		
-		public String statPartie() {
-			return Utils.dateToString(null, date) + " Versus " +joueur2+ " " + etat.toString()+" score "+getScorePartie(); 
-		}
 		
-		public String toString() { 
-			return "Joueur 1 : "+joueur1+" vs Joueur 2 : "+joueur2+//
-					" Date: "+Utils.dateToString(null, date) + " Jeu : "+jeu.toString()+" Etat: "+etat.toString();//
-		}
-		
-		private int getScorePartie() { 
-			if(etat == Etat.GAGNEE) return 15;
-			if(etat == Etat.EGALITE) return 5;
-			return 0;
-		}
 
 		public Jeu getJeu() {
 			return jeu;

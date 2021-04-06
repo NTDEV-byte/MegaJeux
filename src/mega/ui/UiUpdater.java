@@ -1,4 +1,4 @@
-package mega.system;
+package mega.ui;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,17 +7,20 @@ import javax.swing.JLabel;
 
 import mega.jeux.chess.Chess;
 import mega.jeux.tictactoe.TicTacToe;
+import mega.system.Joueur;
+import mega.system.MegaJeuBD;
+import mega.system.Partie;
+import mega.system.Progression;
 import mega.system.Partie.Jeu;
-import mega.ui.UiMain;
 import mega.utils.Utils;
 
-public class GuiUpdate implements Serializable{
+public class UiUpdater implements Serializable{
 	
 		private UiMain vuePrincipale;
 		private Joueur joueur1;
 		private MegaJeuBD model;
 		
-					public GuiUpdate(UiMain vuePrincipale) { 
+					public UiUpdater(UiMain vuePrincipale) { 
 							this.vuePrincipale = vuePrincipale;
 							this.joueur1 = vuePrincipale.getJoueur1();
 							this.model = vuePrincipale.getModel();
@@ -34,7 +37,6 @@ public class GuiUpdate implements Serializable{
 					public void updateLabelsSauvegardeTTT(JLabel lbl_partie_sauvegarder1,JLabel lbl_partie_sauvegarder2,JLabel lbl_partie_sauvegarder3) { 
 						  joueur1.chargeProgressionJoueur();
 						  List<TicTacToe> psTTT = joueur1.getPartiesSauvegarderTTT();
-						  System.out.println("Partie Sauvegarder TTT: "+psTTT.toString());
 						  if(vuePrincipale.getJeu_selectionner() == Jeu.TICTACTOE) { 
 							  if(psTTT != null) { 
 								   switch(psTTT.size()) { 
@@ -71,7 +73,7 @@ public class GuiUpdate implements Serializable{
 					public void updateLabelsSauvegardeChess(JLabel lbl_partie_sauvegarder1,JLabel lbl_partie_sauvegarder2,JLabel lbl_partie_sauvegarder3) { 
 						 joueur1.chargeProgressionJoueur();
 						 List<Chess> psChess = joueur1.getPartiesSauvegarderChess();
-						 System.out.println("Partie Sauvegarder Chess: "+psChess.toString());
+					//	 System.out.println("Partie Sauvegarder Chess: "+psChess.toString());
 						 if(vuePrincipale.getJeu_selectionner() == Jeu.CHESS) { 
 						 if(psChess != null) { 
 						   switch(psChess.size()) { 
@@ -105,7 +107,7 @@ public class GuiUpdate implements Serializable{
 					
 					}
 				private void checkPartieDisponibleTTT(List<TicTacToe> tictactoe, JLabel label,int index) { 
-						if(index < tictactoe.size()) {
+						if(index <= (tictactoe.size() - 1)) {
 							TicTacToe partie = tictactoe.get(index);
 							label.setText("Vs "+partie.getIntegrateur().getPseudoj2()+" "+Utils.dateToString("YYYY-MM-dd",partie.getIntegrateur().getDate()));
 						}
@@ -115,7 +117,7 @@ public class GuiUpdate implements Serializable{
 				}
 
 				private void checkPartieDisponibleChess(List<Chess> chess, JLabel label,int index) { 
-					if(index < chess.size()) {
+					if(index <= (chess.size() - 1)) {
 						Chess partie = chess.get(index);
 							 label.setText("Vs "+partie.getIntegrateur().getPseudoj2()+" "+Utils.dateToString("YYYY-MM-dd",partie.getIntegrateur().getDate()));
 					}
@@ -359,16 +361,14 @@ public class GuiUpdate implements Serializable{
 					 */
 					
 					public void progressionTotal(JLabel lb_total_score,JLabel lb_parties_gagnees,JLabel lbl_partie_egalites,JLabel lbl_parties_perdues) { 
-						 if(joueur1.getProgression() != null) { 
+						joueur1.chargeProgressionJoueur();
+						if(joueur1.getProgression() != null) { 
 							 lb_total_score.setText("Votre Score "+joueur1.getProgression().getScore());
 							 lb_parties_gagnees.setText("Partie Gagn\u00E9es "+joueur1.getProgression().getNbG());
 							 lbl_partie_egalites.setText("Egalit\u00E9s "+joueur1.getProgression().getNbE());
 							 lbl_parties_perdues.setText("Perdues "+joueur1.getProgression().getNbP());
 						 }
 					}
-				
-						
-					
 					
 /*______________________________________________________________________________________________________________________________*/
 					

@@ -188,13 +188,6 @@ public class UiConnexion extends JPanel {
 		super.paintComponents(g);
 	}
 	
-	
-	private void reset(JLabel info,JTextField lbl_pseudo,JPasswordField lbl_mdp) { 
-		info.setText("");
-		lbl_pseudo.setText("");
-		lbl_mdp.setText("");
-	}
-	
 	public Joueur getJoueurConnecter() { 
 			return jConnecter;
 	}

@@ -48,32 +48,42 @@ public class Joueur implements Serializable{
 			}
 		}
 		
+		public void forceSaveAll() { 
+			Utils.serialize(progressionSavePath+id, progression);
+			Utils.serialize(partiesSauvegardersPath+id,partiesSauvegarders);
+		}
+		
 		
 		public void sauvegardePartieJeuEnCours(InterfaceJeu game) { 
 			 	int temp = progression.getTotalPartiesSV();
-			 	if(contains(game)) { 
-				    temp = temp - 1;
-					System.out.println("temp: "+temp);
+			 	if(contains(game) && temp > 0) { 
+			 		temp = temp - 1;
+				    System.out.println("Temp: "+temp);
 					partiesSauvegarders.set(temp , game);
 				}
 			 	else { 
 						partiesSauvegarders.add(game);
 						progression.setTotalPartiesSV(progression.getTotalPartiesSV() + 1);
-						System.out.println("TotalPartiesSV: "+progression.getTotalPartiesSV());
+						//System.out.println("TotalPartiesSV: "+progression.getTotalPartiesSV());
 					}
-			 			
 			 		enregistreParties();
 			 		enregistreProgression();
 				}
 		
+		
 		public void supprimeAutoPartiesTerminee() { 
 			List<Chess> chessParties = getPartiesSauvegarderChess();
 			List<TicTacToe> ttt = getPartiesSauvegarderTTT();
+			
+			System.out.println("TTT: "+ttt.toString());
 			for(int i=0;i<chessParties.size();i++) {
 				 if(chessParties.get(i).getIntegrateur().getEtatPartie() != Etat.DEFAULT) {
 					  		Chess partieASupprimer = chessParties.get(i);
 					  		partiesSauvegarders.remove(partieASupprimer);
 					  		progression.setTotalPartiesSV(progression.getTotalPartiesSV() - 1);
+					  		if(partiesSauvegarders.size() == 0) partiesSauvegarders.clear();
+					  		enregistreProgression();
+							enregistreParties();
 				 }
 			}
 			for(int i=0;i<ttt.size();i++) {
@@ -81,14 +91,14 @@ public class Joueur implements Serializable{
 					  		TicTacToe partieASupprimer = ttt.get(i);
 					  		partiesSauvegarders.remove(partieASupprimer);
 					  		progression.setTotalPartiesSV(progression.getTotalPartiesSV() - 1);
+							if(partiesSauvegarders.size() == 0) partiesSauvegarders.clear();
+					  		enregistreProgression();
+							enregistreParties();
 				 }
+				 
 			}
-			
-			System.out.println("Size Parties: "+partiesSauvegarders.size());
-			enregistreProgression();
-			enregistreParties();
+			//System.out.println("Size Parties: "+partiesSauvegarders.size());
 		}
-		
 		
 		
 		private boolean contains(InterfaceJeu j) { 
@@ -98,7 +108,7 @@ public class Joueur implements Serializable{
 					if(partiesSauvegarders.get(i) instanceof TicTacToe) {
 						TicTacToe saved = (TicTacToe)partiesSauvegarders.get(i);
 						TicTacToe x = (TicTacToe)j;
-						System.out.println("Saved: "+saved.getId()+" InstanceR: "+x.getId());
+					//	System.out.println("Saved: "+saved.getId()+" InstanceR: "+x.getId());
 						if(saved.getId() == x.getId()) { 
 							
 							present = true;
@@ -149,7 +159,7 @@ public class Joueur implements Serializable{
 			public void supprimePartie(Jeu jeu_selectionner,int index) { 
 				  if(jeu_selectionner == Jeu.TICTACTOE) { 
 					  	List<TicTacToe> partiesTTT = getPartiesSauvegarderTTT();
-					  	if(partiesTTT.size() >= index && (!partiesTTT.isEmpty())) {
+					  	if(index < partiesTTT.size() && (!partiesTTT.isEmpty())) {
 					  		TicTacToe partie = partiesTTT.get(index);
 					  		if(partiesSauvegarders.contains(partie)) {
 					  			partiesSauvegarders.remove(partie);
@@ -163,7 +173,7 @@ public class Joueur implements Serializable{
 				  else 
 				   if(jeu_selectionner == Jeu.CHESS){
 						List<Chess> partiesChess = getPartiesSauvegarderChess();
-					  	if(partiesChess.size() >= index && (!partiesChess.isEmpty())) {
+					  	if (index < partiesChess.size() && (!partiesChess.isEmpty())) {
 					  		Chess partie = partiesChess.get(index);
 					  		if(partiesSauvegarders.contains(partie)) {
 					  			partiesSauvegarders.remove(partie);
@@ -207,6 +217,7 @@ public class Joueur implements Serializable{
 				 return progression.scoreCumule();
 			}
 			
+			
 			public Partie getPartieEncours() { 
 				if(progression.getHistorique().size() > 0) { 
 					return progression.getHistorique().get(progression.getHistorique().size() - 1);
@@ -241,15 +252,9 @@ public class Joueur implements Serializable{
 				this.motDePasse = motDePasse;
 			}
 	
-			public String toString() { 
-				return "ID: "+id+" pseudo: "+this.pseudonyme+" mot de passe: "+this.motDePasse+ " Score: "+calculeScore();
-			}
-			
 			public Progression getProgression() {
 				return progression;
 			}
-			
-			
 
 			public int getId() {
 				return id;
@@ -276,5 +281,7 @@ public class Joueur implements Serializable{
 				this.partiesSauvegarders = partiesSauvegarders;
 			}
 
-			
+			public String toString() { 
+				return "ID: "+id+" pseudo: "+this.pseudonyme+" mot de passe: "+this.motDePasse+ " Score: "+calculeScore();
+			}
 }

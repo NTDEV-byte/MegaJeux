@@ -33,10 +33,10 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 	boolean player1_turn;
 	
 	/*
-	 * MODIFICATION
+	 * MODIFICATION pour l'integration dans le system
 	 */
 	private IntegrateurMegaJeu integrateur;
-	private int id;
+	private int partieNum;
 	
 
 	public TicTacToe(Application app,Joueur j1,Joueur j2){
@@ -48,7 +48,7 @@ public class TicTacToe extends JPanel implements ActionListener,Serializable,Int
 		textfield.setHorizontalAlignment(JLabel.CENTER);
 		textfield.setText("Tic-Tac-Toe");
 		textfield.setOpaque(true);
-		this.id = parties;
+		this.partieNum = parties;
 		parties++;
 		title_panel.setLayout(new BorderLayout());
 		title_panel.setBounds(0,0,800,100);
@@ -320,11 +320,15 @@ public void setIntegrateur(IntegrateurMegaJeu integrateur) {
 }
 
 public int getId() {
-	return id;
+	return partieNum;
 }
 
 public void setId(int id) {
-	this.id = id;
+	this.partieNum = id;
+}
+
+public String toString() { 
+	return null;
 }
 
 }

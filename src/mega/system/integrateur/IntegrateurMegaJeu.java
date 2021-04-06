@@ -17,6 +17,7 @@ import mega.system.InterfaceJeu;
 import mega.system.Joueur;
 import mega.system.Partie.Etat;
 import mega.system.Partie.Jeu;
+import mega.utils.Utils;
 
 public class IntegrateurMegaJeu implements Serializable{
 		
@@ -48,7 +49,7 @@ public class IntegrateurMegaJeu implements Serializable{
 		
 		btn_sauvegarder = new JButton("Sauvegarder");
 		btn_sauvegarder.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		System.out.println("Height:" +application.getHeight());
+	//	System.out.println("Height:" +application.getHeight());
 		btn_sauvegarder.setBounds(42,  540, 118, 21);
 		btn_sauvegarder.setBackground(Color.orange);
 		btn_sauvegarder.setForeground(Color.white);
@@ -137,9 +138,14 @@ public class IntegrateurMegaJeu implements Serializable{
 		   }
 		}
 	
-	public void quittePartieAction() { 
+	public void quittePartieAction(InterfaceJeu jeu) { 
+		 if(joueur1.canSaveTicTacToe()) {
+			   joueur1.sauvegardePartieJeuEnCours(jeu);
+		 }
+		 if(joueur1.canSaveChess()) {
+			   joueur1.sauvegardePartieJeuEnCours(jeu);
+		 }
 		 joueur1.supprimeAutoPartiesTerminee();
-		 application.getVuePrincipale().updateUIMV();
 		 application.switchToMainPanel();
 	}
 	
@@ -236,6 +242,11 @@ public class IntegrateurMegaJeu implements Serializable{
 			this.application = application;
 			this.joueur1 = j1;
 			this.joueur2 = j2;
+	}
+	
+	
+	public String toString() { 
+		return "Integrateur Partie SVGRD : \n"+"J1: "+joueur1.getPseudonyme()+" J2: "+joueur2.getPseudonyme()+" Date: "+Utils.dateToString(null, date)+" Etat: "+etatPartie.toString();
 	}
 	
 	

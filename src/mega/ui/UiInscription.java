@@ -32,7 +32,6 @@ public class UiInscription extends JPanel{
 	private JLabel lbl_Pseudo_error_label;
 	private MegaJeuBD model;
 	private Application application;
-	private Graphics gG;
 	/**
 	 * Create the application.
 	 */

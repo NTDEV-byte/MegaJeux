@@ -16,7 +16,7 @@ public class QuitteListener extends MegaJeuListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				integrateur.quittePartieAction();
+				integrateur.quittePartieAction(jeu);
 			}
 
 }

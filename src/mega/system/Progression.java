@@ -58,9 +58,17 @@ public class Progression implements Serializable{
 		nbE = tNBE;
 		nbP = tNBP;
 		score = (nbG * POINTS_GAGNE + nbE * POINTS_EGALITE);
-		return (nbG * POINTS_GAGNE + nbE * POINTS_EGALITE);
+		return  score;
 	}
+
 	
+	
+	
+	/*
+	 * 
+	 * Utilisés pour récupéré les trois dernières parties de n'importe quel jeu
+	 * 
+	 */ 
 	public List<Partie> troisDerniereParties(){ 
 		if(historique.size() >= 3) {
 			List<Partie> parties = new ArrayList<Partie>();
@@ -71,6 +79,13 @@ public class Progression implements Serializable{
 		}
 		return null;
 	}
+	
+	/*
+	 * 
+	 * Utilisés pour récupéré les trois dernières parties jouée de TICTACTOE
+	 * et qui sont affichés dans le panel 3(Scores et résultat) de la vue principale 
+	 * 
+	 */
 	
 	public List<Partie> troisDernierePartiesTTT(){ 
 			List<Partie> parties = new ArrayList<Partie>();
@@ -83,7 +98,14 @@ public class Progression implements Serializable{
 			}
 			return parties;
 	}
-	
+
+
+	/*
+	 * 
+	 * Utilisés pour récupéré les trois dernières parties jouée ou terminée après  de CHESS
+	 * et qui sont affichés dans le panel 3(Scores et résultat) de la vue principale 
+	 * 
+	 */
 	public List<Partie> troisDernierePartiesChess(){ 
 			List<Partie> parties = new ArrayList<Partie>();
 			for(int i=0;i<historique.size();i++) { 
@@ -105,10 +127,12 @@ public class Progression implements Serializable{
 	}
 
 	public int getScore() {
+		scoreCumule();
 		return score;
 	}
 
 	public void setScore(int score) {
+	
 		this.score = score;
 	}
 
@@ -144,5 +168,17 @@ public class Progression implements Serializable{
 		this.totalPartiesSV = totalPartiesSV;
 	}
 	
+	
+	public String toString() {
+		return "Score: "+score+" NBG: "+nbG+" NBE: "+nbE+" NBP: "+nbP+" totalPartiesSaved: "+totalPartiesSV; 
+		
+	}
+	
+	public String toString(boolean plusHistorique) {
+		if(plusHistorique) { 
+			return "Score: "+score+" NBG: "+nbG+" NBE: "+nbE+" NBP: "+nbP+" totalPartiesSaved: "+totalPartiesSV+"\n Historique: "+historique.toString(); 
+		}
+		return "Empty !";
+	}
 	
 }

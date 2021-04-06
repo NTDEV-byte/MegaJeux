@@ -18,7 +18,6 @@ import mega.system.LanceurJeu;
 import mega.system.MegaJeuBD;
 import mega.system.Partie;
 import mega.system.Partie.Jeu;
-import mega.system.GuiUpdate;
 
 
 
@@ -34,8 +33,6 @@ public class UiMain extends JPanel {
 	
 	
 	
-	
-	
 	private Partie.Jeu jeu_selectionner = Partie.Jeu.CHESS;
 	private String titre_jeu_selectionner = "Chess";
 	private JLabel lb_title_jeu_selectionner;
@@ -43,7 +40,7 @@ public class UiMain extends JPanel {
 	private MegaJeuBD model;
 	private Application application;
 	private LanceurJeu lanceur;
-	private GuiUpdate statistique;
+	private UiUpdater updater;
 	
 	/**
 	 * UI_VOTRE_PROGRESSION
@@ -97,13 +94,10 @@ public class UiMain extends JPanel {
 		this.model = app.getModel();
 		this.application = app;
 		this.lanceur = new LanceurJeu(this,jeu_selectionner);
-		this.statistique = new GuiUpdate(this);
+		this.updater = new UiUpdater(this);
 		if(joueur1 == null) { 
 			System.err.println("Joueur 1 null !");
 			System.exit(1);
-		}
-		else {
-			System.out.println("Joueur 1 OK !");
 		}
 
 		setBounds(100, 100, 1073, 800);
@@ -224,8 +218,7 @@ public class UiMain extends JPanel {
 	    			InterfaceJeu partie1 = getPartieXXX(0);
 	    			if(partie1 != null) { 
 	    			    application.reprendrePartie(partie1);
-	    			    statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    				statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    				updateUIMV();
 	    			}
 	    		}
 	    	}
@@ -236,8 +229,7 @@ public class UiMain extends JPanel {
 	    btn_supprimer1.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		joueur1.supprimePartie(jeu_selectionner, 0);
-	    		statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    		statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    		updateUIMV();
 	    	}
 	    });
 	    btn_supprimer1.setBounds(271, 68, 120, 21);
@@ -257,8 +249,7 @@ public class UiMain extends JPanel {
 	    			InterfaceJeu partie2 = getPartieXXX(1);
 	    			if(partie2 != null) { 
 	    			     application.reprendrePartie(partie2);
-	    			     statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    				 statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    			     updateUIMV();
 	    			}
 	    		}
 	    	}
@@ -271,8 +262,7 @@ public class UiMain extends JPanel {
 	    btn_supprimer2.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		joueur1.supprimePartie(jeu_selectionner, 1);
-	    		statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    		 statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    		updateUIMV();
 	    }
 	    });
 	    derniere_partie_pan.add(btn_supprimer2);
@@ -290,8 +280,7 @@ public class UiMain extends JPanel {
 	    			InterfaceJeu partie3 = getPartieXXX(2);
 	    		if(partie3 != null) { 
 	    		    application.reprendrePartie(partie3);
-	    		    statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    			 statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    		    updateUIMV();
 	    		}
 	    	}
 	    }
@@ -303,19 +292,12 @@ public class UiMain extends JPanel {
 	    btn_supprimer3.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		joueur1.supprimePartie(jeu_selectionner,2);
-	    		statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    		statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
+	    		updateUIMV();
 	    	}
 	    });
 	    btn_supprimer3.setBounds(271, 170, 120, 21);
 	    derniere_partie_pan.add(btn_supprimer3);
 	    
-	    		
-	    	//	affichePartieSauvegarder();
-	    		
-	    		statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    		statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    		
 	    		JSeparator separator_4 = new JSeparator();
 	    		separator_4.setBounds(10, 36, 145, 2);
 	    		derniere_partie_pan.add(separator_4);
@@ -330,8 +312,6 @@ public class UiMain extends JPanel {
 	    		lbl_meilleurs_joueurs.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	    		lbl_meilleurs_joueurs.setBounds(10, 10, 147, 26);
 	    		meilleur_joueur_pan.add(lbl_meilleurs_joueurs);
-	    		
-	    		
 	    		
 	    		lbl_j1 = new JLabel("Joueur1");
 	    		lbl_j1.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 14));
@@ -420,9 +400,7 @@ public class UiMain extends JPanel {
 	    score_pan.setBackground(new Color(colorPanels));
 	    score_pan.setLayout(null);
 	    
-	    //afficheMeilleursJoueurs();
 	    
-	    statistique.afficheMeilleursJoueurs(lbl_j1, lbl_sc1, lbl_j2, lbl_sc2, lbl_j3, lbl_sc3, lbl_j4, lbl_sc4, lbl_j5, lbl_sc5);
 	    
 	    JSeparator separator_4_1 = new JSeparator();
 	    separator_4_1.setBounds(10, 34, 115, 2);
@@ -451,9 +429,6 @@ public class UiMain extends JPanel {
 	    lbl_partie3.setBounds(20, 163, 391, 43);
 	    score_pan.add(lbl_partie3);
 	    
-	    //afficheTroisDernierePartieJouee();
-	    
-	    statistique.afficheTroisDernierePartieJouee(jeu_selectionner,lbl_partie1, lbl_partie2, lbl_partie3);
 	    
 	    JSeparator separator_4_2 = new JSeparator();
 	    separator_4_2.setBounds(10, 33, 124, 14);
@@ -523,10 +498,17 @@ public class UiMain extends JPanel {
 	
 	private InterfaceJeu getPartieXXX(int index) { 
 		if(jeu_selectionner == Jeu.TICTACTOE) {
-		 return joueur1.getPartiesSauvegarderTTT().get(index);
+			if(index < joueur1.getPartiesSauvegarderTTT().size()) {
+				System.out.println("TTT: "+joueur1.getPartiesSauvegarderTTT());
+				return joueur1.getPartiesSauvegarderTTT().get(index);
+			}
+			return null;
 		}
 		else {
-		return joueur1.getPartiesSauvegarderChess().get(index);	
+			if(index < joueur1.getPartiesSauvegarderChess().size()) {
+				return joueur1.getPartiesSauvegarderChess().get(index);
+			}
+			return null;
 		}
 	}
 	/*
@@ -536,29 +518,27 @@ public class UiMain extends JPanel {
 
 	public void updateUIMV() {
 		 joueur1.chargeProgressionJoueur();
-		 statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);// panel1 mise à jour
-		 statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);// panel1 mise à jour
-		 statistique.afficheMeilleursJoueurs(lbl_j1, lbl_sc1, lbl_j2, lbl_sc2, lbl_j3, lbl_sc3, lbl_j4, lbl_sc4, lbl_j5, lbl_sc5);// panel2 mise à jour
-		 statistique.afficheTroisDernierePartieJouee(jeu_selectionner,lbl_partie1, lbl_partie2, lbl_partie3); // panel2 mise à jour
-		 statistique.progressionTotal(lb_total_score, lb_parties_gagnees, lbl_partie_egalites, lbl_parties_perdues);// panel4 mise à jour
+		 updater.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);// panel1 mise à jour
+		 updater.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);// panel1 mise à jour
+		 updater.afficheMeilleursJoueurs(lbl_j1, lbl_sc1, lbl_j2, lbl_sc2, lbl_j3, lbl_sc3, lbl_j4, lbl_sc4, lbl_j5, lbl_sc5);// panel2 mise à jour
+		 updater.afficheTroisDernierePartieJouee(jeu_selectionner,lbl_partie1, lbl_partie2, lbl_partie3); // panel3 mise à jour
+		 updater.progressionTotal(lb_total_score, lb_parties_gagnees, lbl_partie_egalites, lbl_parties_perdues);// panel4 mise à jour
 	}
 	
     private void onClickChess() {
 		jeu_selectionner = Partie.Jeu.CHESS;
-		lanceur.setJeu(jeu_selectionner);
-	    titre_jeu_selectionner = "Chess";
-	    lb_title_jeu_selectionner.setText(titre_jeu_selectionner);
-	    statistique.updateLabelsSauvegardeChess(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-	    statistique.afficheTroisDernierePartieJouee(jeu_selectionner,lbl_partie1, lbl_partie2, lbl_partie3);
+		titre_jeu_selectionner = "Chess";
+		lb_title_jeu_selectionner.setText(titre_jeu_selectionner);
+		updateUIMV();
+	    lanceur.setJeu(jeu_selectionner);
     }
 	
 	private void onClickTicTacToe() {
 		jeu_selectionner = Partie.Jeu.TICTACTOE;
-		lanceur.setJeu(jeu_selectionner);
 		titre_jeu_selectionner = "TicTacToe";
 		lb_title_jeu_selectionner.setText(titre_jeu_selectionner);
-		statistique.updateLabelsSauvegardeTTT(lbl_partie_sauvegarder1, lbl_partie_sauvegarder2, lbl_partie_sauvegarder3);
-		statistique.afficheTroisDernierePartieJouee(jeu_selectionner,lbl_partie1, lbl_partie2, lbl_partie3);
+		updateUIMV();
+		lanceur.setJeu(jeu_selectionner);
 	}
 	
 	private void choisirJoueurAdversaire() { 
@@ -567,10 +547,10 @@ public class UiMain extends JPanel {
 		if(listes.getAdversaireSelectionner()!= null) { 
 			 joueur2 = listes.getAdversaireSelectionner();
 			 lanceur.setJoueur2(joueur2);
-			 System.out.println("Adversaire Pseudonyme: "+joueur2.getPseudonyme());
+			// System.out.println("Adversaire Pseudonyme: "+joueur2.getPseudonyme());
 			}
 		else {
-			System.out.println("Veuillez choisir un adversaire dans la liste !");
+			//System.out.println("Veuillez choisir un adversaire dans la liste !");
 		}
 	}
 	
