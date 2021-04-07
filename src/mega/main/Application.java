@@ -22,26 +22,9 @@ import mega.ui.UiMain;
 import mega.utils.Utils;
 
 public class Application extends JFrame implements WindowListener{
+
 	
-	/*
-	 * ***********
-	 * problemes
-	 * ***********
-	 * enregistrement et quit application une fois revenu les parties sauvegarders disparaissent
-	 * suppression automatique des parties la dernière partie donne pas de points
-	 */
-	/******************
-	 *Objectifs Atteints
-	 ******************
-	 * suppression d'une partie vide exception XXX   
-	 * Panel 4 BUG FIXED XXX
-	 * inscription avec temps différents bug XXX
-	 * 
-	 * 
-	 * 
-	 */
-	
-	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");;
+	public static final BufferedImage image = Utils.loadIMG("/fond-min.jpg");
 	public static final String TITLE = "MegaJeux";
 	public static int width = 1073; //1073
 	public static int height = 800; //800

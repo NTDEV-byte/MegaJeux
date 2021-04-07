@@ -16,9 +16,9 @@ public class Bishop extends Piece{
     public Bishop(COLOUR colour, Coordinate OGcoord) {
         super(ID.BISHOP, colour, OGcoord);
         if (getColour() == COLOUR.B)
-            icon = new ImageIcon("./resources/BBishop.png");
+            icon = new ImageIcon(Bishop.class.getResource("/BBishop.png"));
         else if (getColour() == COLOUR.W)
-            icon = new ImageIcon("./resources/WBishop.png");
+            icon = new ImageIcon(Bishop.class.getResource("/WBishop.png"));
     }
 
     public Bishop(Bishop original) {

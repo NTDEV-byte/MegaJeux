@@ -16,9 +16,9 @@ public class Queen extends Piece{
     public Queen(COLOUR colour, Coordinate OGcoord) {
         super(ID.QUEEN, colour, OGcoord);
         if (getColour() == COLOUR.B)
-            icon = new ImageIcon("./resources/BQueen.png");
+            icon = new ImageIcon(Queen.class.getResource("/BQueen.png"));
         else if (getColour() == COLOUR.W)
-            icon = new ImageIcon("./resources/WQueen.png");
+            icon = new ImageIcon(Queen.class.getResource("/WQueen.png"));
     }
 
     public Queen(Queen original) {

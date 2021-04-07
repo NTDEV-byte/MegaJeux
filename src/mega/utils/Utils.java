@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 public class Utils implements Serializable{
 	
 	
-	
 	public static String DATA_PATH = "./data";
 	public static boolean SAVE_DIRECTORY_SETTED = false;
 	public static Random RANDOM = new Random();
@@ -33,10 +32,7 @@ public class Utils implements Serializable{
 		
 	}
 
-	
-	
 	public static void serialize(String name,Object obj) { 
-		
 			try {
 				FileOutputStream fos = new FileOutputStream(DATA_PATH+"/"+name);
 				try {

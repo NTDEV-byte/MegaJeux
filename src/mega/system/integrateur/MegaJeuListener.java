@@ -32,6 +32,4 @@ public abstract class MegaJeuListener implements ActionListener,Serializable{
 				public void setIntegrateur(IntegrateurMegaJeu integrateur) {
 					this.integrateur = integrateur;
 				}
-	
-	
 }

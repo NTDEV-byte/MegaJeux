@@ -16,9 +16,9 @@ public class Knight extends Piece{
     public Knight(COLOUR colour, Coordinate OGcoord) {
         super(ID.KNIGHT, colour, OGcoord);
         if (getColour() == COLOUR.B)
-            icon = new ImageIcon("./resources/BKnight.png");
+            icon = new ImageIcon(Knight.class.getResource("/BKnight.png"));
         else if (getColour() == COLOUR.W)
-            icon = new ImageIcon("./resources/WKnight.png");
+            icon = new ImageIcon(Knight.class.getResource("/WKnight.png"));
     }
 
     public Knight(Knight original) {

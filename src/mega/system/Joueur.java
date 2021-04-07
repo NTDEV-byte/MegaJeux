@@ -11,9 +11,9 @@ import mega.system.Partie.Jeu;
 import mega.utils.Utils;
 
 public class Joueur implements Serializable{
-
+	
 	public static final String progressionSavePath = "progressions/progression_joueurs#ID";
-	public static final String partiesSauvegardersPath = "parties/partiesSauvergarderJoueur#ID";
+    public static final String partiesSauvegardersPath = "parties/partiesSauvergarderJoueur#ID";
 	private int id;
 	private String pseudonyme;
 	private String motDePasse;
@@ -58,7 +58,7 @@ public class Joueur implements Serializable{
 			 	int temp = progression.getTotalPartiesSV();
 			 	if(contains(game) && temp > 0) { 
 			 		temp = temp - 1;
-				    System.out.println("Temp: "+temp);
+				//    System.out.println("Temp: "+temp);
 					partiesSauvegarders.set(temp , game);
 				}
 			 	else { 
@@ -75,7 +75,7 @@ public class Joueur implements Serializable{
 			List<Chess> chessParties = getPartiesSauvegarderChess();
 			List<TicTacToe> ttt = getPartiesSauvegarderTTT();
 			
-			System.out.println("TTT: "+ttt.toString());
+			//System.out.println("TTT: "+ttt.toString());
 			for(int i=0;i<chessParties.size();i++) {
 				 if(chessParties.get(i).getIntegrateur().getEtatPartie() != Etat.DEFAULT) {
 					  		Chess partieASupprimer = chessParties.get(i);
